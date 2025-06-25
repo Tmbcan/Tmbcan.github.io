@@ -3,13 +3,13 @@
   <entry>
     <title>P3715 [BJOI2017] 魔法咒语</title>
     <url>/2025/06/25/P3715%20%5BBJOI2017%5D%20%E9%AD%94%E6%B3%95%E5%92%92%E8%AF%AD/</url>
-    <content><![CDATA[<script>
+    <content><![CDATA[<!-- <script>
 MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']]
   }
 };
-</script>
+</script> -->
 <script id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 </script>
