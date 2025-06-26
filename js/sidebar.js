@@ -24,9 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const clickingBlankPart = Math.hypot(deltaX, deltaY) < 20 && event.target.matches('.main');
       // Fancybox has z-index property, but medium-zoom does not, so the sidebar will overlay the zoomed image.
       if (clickingBlankPart || event.target.matches('img.medium-zoom-image')) {
-
         /*点击空白处关闭侧边栏*/
-        
         // this.hideSidebar(); 
       }
     },
