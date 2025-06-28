@@ -1,6 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CF1662L Il Derby della Madonnina</title>
+    <url>/2025/05/13/CF1662L-Il-Derby-della-Madonnina/</url>
+    <content><![CDATA[
+## 题目描述
+
+有 $n$ 个点，第 $i$ 个点在 $t_i$ 时出现在 $a_i$ 位置然后消失。你第 $0$ 秒时在位置 $0$，速度为 $v$，问最多能赶上多少个点出现。
+
+## 思路
+
+设 $dp_i$ 表示到了第 $i$ 个点，且能赶上点 $i$ 的时候，最多能赶上多少点，
+
+<!-- more -->
+
+则 $dp_j = \max_{i=0}^{j-1}\\{ dp_i \space [v \cdot (t_j-t_i) \ge \lvert x_j-x_i \rvert ]\\}+1$。
+
+当 $i<j$ 有 $t_i < t_j$，所以 $v \cdot (t_j-t_i) = \lvert v \cdot t_j - v \cdot t_i \rvert$，
+
+可以把限制条件看作点 $A \space (v \cdot t_i,x_i)$ 与点 $B \space (v \cdot t_j,x_j)$ 两点的切比雪夫距离为其横坐标的距离，且 $B$ 在 $A$ 右侧。画出来图像这样，蓝色区域是 $B$ 点的限制区域。
+
+![1](CF1662L-Il-Derby-della-Madonnina-1.png)
+
+
+我们发现，$B$ 点的范围是个边缘与坐标轴夹 $\frac {\pi}{4} $ 的半平面交，这个边缘不与坐标轴垂直很烦，所以我们将坐标系顺时针旋转 $\frac {\pi}{4} $。
+
+![2](CF1662L-Il-Derby-della-Madonnina-2.png)
+
+
+原坐标系 $(x,y)$ 对应新坐标系 $(x\cos(- \frac {\pi}{4} )+y\sin(- \frac {\pi}{4} ),y\cos(- \frac {\pi}{4} ) - x\sin(- \frac {\pi}{4} ))$。  
+我们实际只在乎两点间的相对位置，将坐标轴整体扩大 $\cos(- \frac {\pi}{4} )$ 后不会对限制产生影响。  
+现在原坐标系的点 $(x,y)$ 对应新坐标系的 $(x-y,x+y)$。
+
+新坐标系下，$B$ 的限制变为了需在 $A$ 的右上部分。
+
+不难发现，原问题变为了求平面最长不下降链，起始点强制为 $(0,0)$，二维偏序即可。
+
+## 代码
+
+
+```cpp
+#include<iostream>
+#include<algorithm>
+using namespace std;
+typedef long long ll;
+const int N = 2e5+10;
+int n,ans,cnt;
+ll v,t[N],a[N],dp[N];
+struct node{
+	ll x,y;
+	inline int operator < (const node&G) const{
+		if(x^G.x) return x < G.x;
+		return y < G.y;
+	}
+}g[N];
+int main(){
+
+	scanf("%lld%lld",&n,&v);
+	for(int i=1;i<=n;++i) scanf("%lld",t+i);
+	for(int i=1;i<=n;++i){
+		scanf("%lld",a+i); // 求新坐标系下点的坐标
+		g[i].x = v*t[i]-a[i];
+		g[i].y = v*t[i]+a[i];
+	}
+	g[++n] = {0,0};
+	sort(g+1,g+1+n); // 排序掉第一维
+	for(int i=1;i<=n;++i){ // 只留下(0,0)能到达的点
+		if(g[i].x>=0 && g[i].y>=0) g[++cnt] = g[i];
+	}
+	for(int i=1;i<=cnt;++i){ // 第二维求最长不下降子序列
+		if(dp[ans]<=g[i].y) dp[++ans] = g[i].y;
+		else *upper_bound(dp+1,dp+1+ans,g[i].y) = g[i].y;
+	}
+	printf("%d",ans-1); // 减去强制选的(0,0)
+	
+	return 0;
+}
+
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>(EX)Lucas&amp;CRT // Kalthyix</title>
     <url>/2025/05/30/Ex-Lucas-CRT-Kalthyix/</url>
     <content><![CDATA[
@@ -228,163 +310,6 @@ Lucas 再求一下 C 就行了。
       </tags>
   </entry>
   <entry>
-    <title>CF1662L Il Derby della Madonnina</title>
-    <url>/2025/05/13/CF1662L-Il-Derby-della-Madonnina/</url>
-    <content><![CDATA[
-## 题目描述
-
-有 $n$ 个点，第 $i$ 个点在 $t_i$ 时出现在 $a_i$ 位置然后消失。你第 $0$ 秒时在位置 $0$，速度为 $v$，问最多能赶上多少个点出现。
-
-## 思路
-
-设 $dp_i$ 表示到了第 $i$ 个点，且能赶上点 $i$ 的时候，最多能赶上多少点，
-
-<!-- more -->
-
-则 $dp_j = \max_{i=0}^{j-1}\\{ dp_i \space [v \cdot (t_j-t_i) \ge \lvert x_j-x_i \rvert ]\\}+1$。
-
-当 $i<j$ 有 $t_i < t_j$，所以 $v \cdot (t_j-t_i) = \lvert v \cdot t_j - v \cdot t_i \rvert$，
-
-可以把限制条件看作点 $A \space (v \cdot t_i,x_i)$ 与点 $B \space (v \cdot t_j,x_j)$ 两点的切比雪夫距离为其横坐标的距离，且 $B$ 在 $A$ 右侧。画出来图像这样，蓝色区域是 $B$ 点的限制区域。
-
-![1](CF1662L-Il-Derby-della-Madonnina-1.png)
-
-
-我们发现，$B$ 点的范围是个边缘与坐标轴夹 $\frac {\pi}{4} $ 的半平面交，这个边缘不与坐标轴垂直很烦，所以我们将坐标系顺时针旋转 $\frac {\pi}{4} $。
-
-![2](CF1662L-Il-Derby-della-Madonnina-2.png)
-
-
-原坐标系 $(x,y)$ 对应新坐标系 $(x\cos(- \frac {\pi}{4} )+y\sin(- \frac {\pi}{4} ),y\cos(- \frac {\pi}{4} ) - x\sin(- \frac {\pi}{4} ))$。  
-我们实际只在乎两点间的相对位置，将坐标轴整体扩大 $\cos(- \frac {\pi}{4} )$ 后不会对限制产生影响。  
-现在原坐标系的点 $(x,y)$ 对应新坐标系的 $(x-y,x+y)$。
-
-新坐标系下，$B$ 的限制变为了需在 $A$ 的右上部分。
-
-不难发现，原问题变为了求平面最长不下降链，起始点强制为 $(0,0)$，二维偏序即可。
-
-## 代码
-
-
-```cpp
-#include<iostream>
-#include<algorithm>
-using namespace std;
-typedef long long ll;
-const int N = 2e5+10;
-int n,ans,cnt;
-ll v,t[N],a[N],dp[N];
-struct node{
-	ll x,y;
-	inline int operator < (const node&G) const{
-		if(x^G.x) return x < G.x;
-		return y < G.y;
-	}
-}g[N];
-int main(){
-
-	scanf("%lld%lld",&n,&v);
-	for(int i=1;i<=n;++i) scanf("%lld",t+i);
-	for(int i=1;i<=n;++i){
-		scanf("%lld",a+i); // 求新坐标系下点的坐标
-		g[i].x = v*t[i]-a[i];
-		g[i].y = v*t[i]+a[i];
-	}
-	g[++n] = {0,0};
-	sort(g+1,g+1+n); // 排序掉第一维
-	for(int i=1;i<=n;++i){ // 只留下(0,0)能到达的点
-		if(g[i].x>=0 && g[i].y>=0) g[++cnt] = g[i];
-	}
-	for(int i=1;i<=cnt;++i){ // 第二维求最长不下降子序列
-		if(dp[ans]<=g[i].y) dp[++ans] = g[i].y;
-		else *upper_bound(dp+1,dp+1+ans,g[i].y) = g[i].y;
-	}
-	printf("%d",ans-1); // 减去强制选的(0,0)
-	
-	return 0;
-}
-
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>P3118 [USACO15JAN] Moovie Mooving G</title>
-    <url>/2024/10/22/P3118-USACO15JAN-Moovie-Mooving-G/</url>
-    <content><![CDATA[
-## 题目描述
-有 $N$ 部电影，每部时长为 $val_i$ 共放映 $num_i$ 场，且第 $i$ 部电影第 $j$ 场的开场时间为 $tim_{i,j}$。  
-每部电影只能看一次，看电影的中途可以换电影，求连续看满时长 $L$ 最少要看几部电影。
-
-<!-- more -->
-
-## 思路
-数据范围 $1\le N\le 20$，考虑状压 DP。  
-设 $dp_s$ 表示在状态 $s$ 时，可以连续看多久电影。  
-对于每个状态 $s$，暴力枚举接下来我们要看的电影。
-
-因为要求看的电影数量尽可能少，所以每次应该选择**最后一个不大于**当前时间的电影场次。这个操作可以用 `upper_bound` 解决。  
-
-然后做正常的状压 DP 就可以了，设当前选到了电影 $i$，只有 $i$ **存在**不大于当前时间的场次，才进行转移。当前状态应当与电影结束时间取最大值，即 $\max(dp_{s|(1<<(i-1))} , tim_{i,idx}+ val_i)$。
-
-## 代码
-
-```cpp
-#include<iostream>
-#include<algorithm>
-#include<cmath>
-#include<cstring>
-#include<cstdio>
-#include<cstdlib>
-using namespace std;
-template <typename T>
-inline void read(T&x){//快读
-	int w=0;x=0;
-	char ch = getchar();
-	while(ch<'0' || ch>'9'){
-		if(ch=='-') w = 1;
-		ch = getchar();
-	}
-	while(ch>='0' && ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x=-x;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-const int N = 25,INF = 0x3f3f3f3f;
-int n,L;
-int val[N],num[N],tim[N][1100];
-int ans=INF,dp[(1<<20)+10];
-int main(){
-	read(n,L);
-	for(int i=1;i<=n;++i){
-		read(val[i],num[i]);//电影时长、场次数量
-		for(int j=1;j<=num[i];++j){
-			read(tim[i][j]);//每场的开始时间
-		}
-	}
-	for(int s=0;s<1<<n;++s){
-		for(int i=1;i<=n;++i){
-			if((1<<(i-1))&s) continue;//电影已经选过
-			int idx = upper_bound(tim[i]+1,tim[i]+num[i]+1,dp[s])-(tim[i]+1);
-			if(idx>0) dp[s|(1<<(i-1))] = max(dp[s|(1<<(i-1))],tim[i][idx]+val[i]); //存在场次
-		}
-		if(dp[s]>=L) ans = min(ans,__builtin_popcount(s));//popcount非常快
-	}
-	printf("%d",ans==INF? -1 : ans);
-	return 0;
-}
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
     <title>P3540 [POI2012] SQU-Squarks</title>
     <url>/2024/11/01/P3540-POI2012-SQU-Squarks/</url>
     <content><![CDATA[
@@ -484,6 +409,81 @@ int main(){
 	return 0;
 }
 
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>P3118 [USACO15JAN] Moovie Mooving G</title>
+    <url>/2024/10/22/P3118-USACO15JAN-Moovie-Mooving-G/</url>
+    <content><![CDATA[
+## 题目描述
+有 $N$ 部电影，每部时长为 $val_i$ 共放映 $num_i$ 场，且第 $i$ 部电影第 $j$ 场的开场时间为 $tim_{i,j}$。  
+每部电影只能看一次，看电影的中途可以换电影，求连续看满时长 $L$ 最少要看几部电影。
+
+<!-- more -->
+
+## 思路
+数据范围 $1\le N\le 20$，考虑状压 DP。  
+设 $dp_s$ 表示在状态 $s$ 时，可以连续看多久电影。  
+对于每个状态 $s$，暴力枚举接下来我们要看的电影。
+
+因为要求看的电影数量尽可能少，所以每次应该选择**最后一个不大于**当前时间的电影场次。这个操作可以用 `upper_bound` 解决。  
+
+然后做正常的状压 DP 就可以了，设当前选到了电影 $i$，只有 $i$ **存在**不大于当前时间的场次，才进行转移。当前状态应当与电影结束时间取最大值，即 $\max(dp_{s|(1<<(i-1))} , tim_{i,idx}+ val_i)$。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+#include<cstring>
+#include<cstdio>
+#include<cstdlib>
+using namespace std;
+template <typename T>
+inline void read(T&x){//快读
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0' || ch>'9'){
+		if(ch=='-') w = 1;
+		ch = getchar();
+	}
+	while(ch>='0' && ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+const int N = 25,INF = 0x3f3f3f3f;
+int n,L;
+int val[N],num[N],tim[N][1100];
+int ans=INF,dp[(1<<20)+10];
+int main(){
+	read(n,L);
+	for(int i=1;i<=n;++i){
+		read(val[i],num[i]);//电影时长、场次数量
+		for(int j=1;j<=num[i];++j){
+			read(tim[i][j]);//每场的开始时间
+		}
+	}
+	for(int s=0;s<1<<n;++s){
+		for(int i=1;i<=n;++i){
+			if((1<<(i-1))&s) continue;//电影已经选过
+			int idx = upper_bound(tim[i]+1,tim[i]+num[i]+1,dp[s])-(tim[i]+1);
+			if(idx>0) dp[s|(1<<(i-1))] = max(dp[s|(1<<(i-1))],tim[i][idx]+val[i]); //存在场次
+		}
+		if(dp[s]>=L) ans = min(ans,__builtin_popcount(s));//popcount非常快
+	}
+	printf("%d",ans==INF? -1 : ans);
+	return 0;
+}
 ```]]></content>
       <categories>
         <category>题解</category>
@@ -623,231 +623,6 @@ int main(){
 	fclose(stdin);
 	fclose(stdout);
 	return 0;
-}
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>P4104 [HEOI2014] 平衡</title>
-    <url>/2024/10/09/P4104-HEOI2014-%E5%B9%B3%E8%A1%A1/</url>
-    <content><![CDATA[
-## 题面
-
-题目描述：  
-一个杠杆上的左右两侧各有 $n$ 块质量相等的橡皮（杠杆最中间也有一块），随机从中拿走 $k$ 块橡皮，可使杠杆依然平衡。求共有多少种拿走橡皮的方案数，答案对 $p$ 取模。
-
-题目简译：  
-从 $-n\sim n$ 中共选出 $k$ 个互不相同的数，求使得正数与负数的和为零的方案数。
-
-<!-- more -->
-
-## 思路
-**前置知识：**[整数划分](https://baike.baidu.com/item/%E6%95%B4%E6%95%B0%E5%88%92%E5%88%86)。
-
-只考虑在杠杆的右侧选出 $x\in [1,k]$ 个数，题目就变成了经典的整数划分模型：  
-将 $N\in [0,n\times k]$ 划分为 $k$ 个互不相同且不大于 $n$ 的正整数的方案数。  
-显然统计答案时，右侧选出 $x$ 个数，那么左侧就选出 $k-x$ 个数，乘法原理计算得到总方案数。  
-
-
----
-
-
-对于数字有大小限制的整数划分：  
-> 令 $dp_{i,j}$ 表示把 $i$ 划分为 $j$ 个数的方案：  
-> 则有 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}$。  
-> 当 $i>n$ 时，出现的不合法方案需要减掉：  
-> 此时 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}-dp_{i-n-1,j-1}$。
-
-对于统计答案：  
-> 如上：枚举杠杆一侧选出 $x$ 个数，另一侧就选出 $k-x$ 个数，乘法原理计算。  
-> 特别注意：杠杆最中间也有一块橡皮，需要考虑是否将其拿走。
-
-## 代码
-
-```cpp
-#include<iostream>
-#include<cstdio>
-#include<algorithm>
-#include<cstring>
-#include<climits>
-#include<cstdlib>
-#include<vector>
-using namespace std;
-typedef long long ll;
-template <typename T>
-inline void read(T&x){//快读
-	int w=0;x=0;
-	char ch = getchar();
-	while(ch<'0'||ch>'9'){
-		if(ch=='-') w=1;
-		ch = getchar();
-	}
-	while(ch>='0'&&ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x=-x;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-const int N = 1e4+10,K = 15;
-int n,k,p;
-ll dp[N*K][K];
-int main(){
-	int T;read(T);
-	while(T--){
-		read(n,k,p);
-		memset(dp,0,sizeof(dp));
-		dp[0][0] = 1;//初始状态
-		for(int i=0;i<=k*n;++i){//整数划分
-			for(int j=1;j<=min(i,k);++j){
-				dp[i][j] = (dp[i][j]+dp[i-j][j]+dp[i-j][j-1])%p;
-				if(i>n) dp[i][j] = (dp[i][j]-dp[i-n-1][j-1]+p)%p;
-			}
-		}
-		ll ans = 0;
-		for(int j=0;j<=k;++j){
-			for(int i=0;i<=n*k;++i){
-				ans = (ans+dp[i][j]*dp[i][k-j])%p;
-				if(j<k) ans = (ans+dp[i][j]*dp[i][k-j-1])%p;//最中间的橡皮要看是否选
-			}
-		}
-		printf("%lld\n",ans);
-	}
-	return 0;
-}
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>P9401 [POI 2020/2021 R3] Kolekcjoner Bajtemonów 2</title>
-    <url>/2024/10/06/P9401-POI-2020-2021-R3-Kolekcjoner-Bajtemonow-2/</url>
-    <content><![CDATA[
-## 题目描述
-给定 $n$ 个数对，在每个数对中选一个数，最大化所选的 $n$ 个数的最大公约数。
-
-## 思路
-先看数据范围 $1\le a\le 5\times 10^5$ 而 $1\le b<2^{63}$。  
-发现 $b_i$ 比 $a_i$ 大很多，且如果要选择一个 $a_i$ 那么最终的答案一定 $1\le ans \le 5\times 10^5$。  
-
-<!-- more -->
-
-所以考虑先预处理出所有 $b_i$ 的最大公约数，再枚举所有可能的 $ans$，通过最终答案来选择将一些 $b_i$ 替换为 $a_i$。  
-具体地：  
-对于 $ans\mid a_i$ 直接选 $a_i$；对于 $ans\nmid a_i$ 就只能选 $b_i$。
-
-如何进行维护和优化：  
-
-1. 考虑基于值域进行处理。令 $X_{a_i} = b_i$，此时更新答案需要求 $X$ 中 $\frac{n}{ans}$ 个区间的 $b_i$ 的 GCD。用 ST 表维护区间 GCD，每次暴力查询判断答案是否合法。
-
-2. 如果使用循环递归求 GCD 其常数十分大会被卡飞，请使用[二进制求 GCD](https://rainppr.github.io/blog/math/number-theory/gcd/#stein-binary-gcd:~:text=Stein%20%E7%AE%97%E6%B3%95%20/-,Binary%20GCD,-%C2%B6)。
-
-复杂度分析：  
-1. ST 表预处理 GCD 单次查询 $O(\log{b})$；
-2. 总查询次数为调和级数 $O(\sum_{i=1}^n \frac{n}{i}) = O(n\ln{n})$。
-
-总复杂度 $O(n\ln{n}\log{b})$。
-
-## 代码
-
-```cpp
-#include<iostream>
-#include<cstdio>
-#include<algorithm>
-#include<cstring>
-#include<cmath>
-#include<vector>
-#include<queue>
-#include<climits>
-#include<cstdlib>
-using namespace std;
-typedef long long ll;
-template <typename T>
-inline void read(T&x){
-	int w=0;x=0;
-	char ch = getchar();
-	while(ch<'0'||ch>'9'){
-		if(ch=='-') w=1;
-		ch = getchar();
-	}
-	while(ch>='0'&&ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x=-x;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-const ll N = 5e5;//答案最大值
-inline ll Max(ll a,ll b){//据说会有玄学优化
-	return (a > b ? a : b);
-}
-inline ll Min(ll a,ll b){
-	return (a < b ? a : b);
-}
-inline ll Abs(ll a){
-	return (a < 0 ? -a : a);
-}
-inline ll Gcd(ll x,ll y){//基于二进制下位运算的GCD，常数十分的小
-	if(!x || !y) return x|y;
-	ll xz = __builtin_ctzll(x);
-	ll yz = __builtin_ctzll(y);
-	ll z = Min(xz,yz),diff;
-	y >>= yz;
-	while(x){
-		x >>= xz;
-		diff = x-y;
-		xz = __builtin_ctzll(diff);
-		y = Min(x,y);
-		x = Abs(diff);
-	}
-	return y << z;
-}
-int n,lg[N+10]={-1};
-ll ans,gcdd,st[N+10][20],ai[N+10];
-inline ll query(ll l,ll r){//ST表查询
-	int k = lg[r-l+1];
-	return Gcd(ans,Gcd(st[l][k],st[r-(1<<k)+1][k]));
-}
-int main(){
-	read(n);
-	ll y;
-	for(int i=1,x;i<=n;++i){
-		read(x,y);
-		ai[x] = Gcd(ai[x],y);//按照值域进行维护
-		gcdd = Gcd(gcdd,y);//只选b的情况
-	}
-	for(int i=1;i<=N;++i){
-		lg[i] = lg[i>>1]+1;
-		st[i][0] = ai[i];
-	}
-	for(int k=1;k<20;++k){
-		for(int l=1;l+(1<<k)<=N+1;++l){
-			st[l][k] = Gcd(st[l][k-1],st[l+(1<<k-1)][k-1]);
-		}
-	}
-	for(ll i=N;i>gcdd;--i){//枚举所有可能的答案
-		ans = 0;
-		ans = query(1,i-1);
-		if(N%i) ans = query(N/i*i+1,N);
-		for(ll j=2;i*j<=N && !(ans%i);++j){//对值域中的 i/j 个区间求GCD
-			ans = query(i*(j-1)+1,i*j-1);
-		}
-		if(!(ans%i)){//答案需要为全部区间的GCD的因数
-			printf("%lld",i);
-			return 0;
-		}
-	}
-	printf("%lld",gcdd);//只选b的情况
-	return 0;;
 }
 ```]]></content>
       <categories>
@@ -1159,6 +934,102 @@ int main(){
       </categories>
   </entry>
   <entry>
+    <title>P4104 [HEOI2014] 平衡</title>
+    <url>/2024/10/09/P4104-HEOI2014-%E5%B9%B3%E8%A1%A1/</url>
+    <content><![CDATA[
+## 题面
+
+题目描述：  
+一个杠杆上的左右两侧各有 $n$ 块质量相等的橡皮（杠杆最中间也有一块），随机从中拿走 $k$ 块橡皮，可使杠杆依然平衡。求共有多少种拿走橡皮的方案数，答案对 $p$ 取模。
+
+题目简译：  
+从 $-n\sim n$ 中共选出 $k$ 个互不相同的数，求使得正数与负数的和为零的方案数。
+
+<!-- more -->
+
+## 思路
+**前置知识：**[整数划分](https://baike.baidu.com/item/%E6%95%B4%E6%95%B0%E5%88%92%E5%88%86)。
+
+只考虑在杠杆的右侧选出 $x\in [1,k]$ 个数，题目就变成了经典的整数划分模型：  
+将 $N\in [0,n\times k]$ 划分为 $k$ 个互不相同且不大于 $n$ 的正整数的方案数。  
+显然统计答案时，右侧选出 $x$ 个数，那么左侧就选出 $k-x$ 个数，乘法原理计算得到总方案数。  
+
+
+---
+
+
+对于数字有大小限制的整数划分：  
+> 令 $dp_{i,j}$ 表示把 $i$ 划分为 $j$ 个数的方案：  
+> 则有 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}$。  
+> 当 $i>n$ 时，出现的不合法方案需要减掉：  
+> 此时 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}-dp_{i-n-1,j-1}$。
+
+对于统计答案：  
+> 如上：枚举杠杆一侧选出 $x$ 个数，另一侧就选出 $k-x$ 个数，乘法原理计算。  
+> 特别注意：杠杆最中间也有一块橡皮，需要考虑是否将其拿走。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<climits>
+#include<cstdlib>
+#include<vector>
+using namespace std;
+typedef long long ll;
+template <typename T>
+inline void read(T&x){//快读
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0'||ch>'9'){
+		if(ch=='-') w=1;
+		ch = getchar();
+	}
+	while(ch>='0'&&ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+const int N = 1e4+10,K = 15;
+int n,k,p;
+ll dp[N*K][K];
+int main(){
+	int T;read(T);
+	while(T--){
+		read(n,k,p);
+		memset(dp,0,sizeof(dp));
+		dp[0][0] = 1;//初始状态
+		for(int i=0;i<=k*n;++i){//整数划分
+			for(int j=1;j<=min(i,k);++j){
+				dp[i][j] = (dp[i][j]+dp[i-j][j]+dp[i-j][j-1])%p;
+				if(i>n) dp[i][j] = (dp[i][j]-dp[i-n-1][j-1]+p)%p;
+			}
+		}
+		ll ans = 0;
+		for(int j=0;j<=k;++j){
+			for(int i=0;i<=n*k;++i){
+				ans = (ans+dp[i][j]*dp[i][k-j])%p;
+				if(j<k) ans = (ans+dp[i][j]*dp[i][k-j-1])%p;//最中间的橡皮要看是否选
+			}
+		}
+		printf("%lld\n",ans);
+	}
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>P4478 [BJWC2018] 上学路线</title>
     <url>/2025/03/12/P4478-BJWC2018-%E4%B8%8A%E5%AD%A6%E8%B7%AF%E7%BA%BF/</url>
     <content><![CDATA[
@@ -1327,6 +1198,135 @@ int main(){
       </categories>
   </entry>
   <entry>
+    <title>P9401 [POI 2020/2021 R3] Kolekcjoner Bajtemonów 2</title>
+    <url>/2024/10/06/P9401-POI-2020-2021-R3-Kolekcjoner-Bajtemonow-2/</url>
+    <content><![CDATA[
+## 题目描述
+给定 $n$ 个数对，在每个数对中选一个数，最大化所选的 $n$ 个数的最大公约数。
+
+## 思路
+先看数据范围 $1\le a\le 5\times 10^5$ 而 $1\le b<2^{63}$。  
+发现 $b_i$ 比 $a_i$ 大很多，且如果要选择一个 $a_i$ 那么最终的答案一定 $1\le ans \le 5\times 10^5$。  
+
+<!-- more -->
+
+所以考虑先预处理出所有 $b_i$ 的最大公约数，再枚举所有可能的 $ans$，通过最终答案来选择将一些 $b_i$ 替换为 $a_i$。  
+具体地：  
+对于 $ans\mid a_i$ 直接选 $a_i$；对于 $ans\nmid a_i$ 就只能选 $b_i$。
+
+如何进行维护和优化：  
+
+1. 考虑基于值域进行处理。令 $X_{a_i} = b_i$，此时更新答案需要求 $X$ 中 $\frac{n}{ans}$ 个区间的 $b_i$ 的 GCD。用 ST 表维护区间 GCD，每次暴力查询判断答案是否合法。
+
+2. 如果使用循环递归求 GCD 其常数十分大会被卡飞，请使用[二进制求 GCD](https://rainppr.github.io/blog/math/number-theory/gcd/#stein-binary-gcd:~:text=Stein%20%E7%AE%97%E6%B3%95%20/-,Binary%20GCD,-%C2%B6)。
+
+复杂度分析：  
+1. ST 表预处理 GCD 单次查询 $O(\log{b})$；
+2. 总查询次数为调和级数 $O(\sum_{i=1}^n \frac{n}{i}) = O(n\ln{n})$。
+
+总复杂度 $O(n\ln{n}\log{b})$。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+#include<vector>
+#include<queue>
+#include<climits>
+#include<cstdlib>
+using namespace std;
+typedef long long ll;
+template <typename T>
+inline void read(T&x){
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0'||ch>'9'){
+		if(ch=='-') w=1;
+		ch = getchar();
+	}
+	while(ch>='0'&&ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+const ll N = 5e5;//答案最大值
+inline ll Max(ll a,ll b){//据说会有玄学优化
+	return (a > b ? a : b);
+}
+inline ll Min(ll a,ll b){
+	return (a < b ? a : b);
+}
+inline ll Abs(ll a){
+	return (a < 0 ? -a : a);
+}
+inline ll Gcd(ll x,ll y){//基于二进制下位运算的GCD，常数十分的小
+	if(!x || !y) return x|y;
+	ll xz = __builtin_ctzll(x);
+	ll yz = __builtin_ctzll(y);
+	ll z = Min(xz,yz),diff;
+	y >>= yz;
+	while(x){
+		x >>= xz;
+		diff = x-y;
+		xz = __builtin_ctzll(diff);
+		y = Min(x,y);
+		x = Abs(diff);
+	}
+	return y << z;
+}
+int n,lg[N+10]={-1};
+ll ans,gcdd,st[N+10][20],ai[N+10];
+inline ll query(ll l,ll r){//ST表查询
+	int k = lg[r-l+1];
+	return Gcd(ans,Gcd(st[l][k],st[r-(1<<k)+1][k]));
+}
+int main(){
+	read(n);
+	ll y;
+	for(int i=1,x;i<=n;++i){
+		read(x,y);
+		ai[x] = Gcd(ai[x],y);//按照值域进行维护
+		gcdd = Gcd(gcdd,y);//只选b的情况
+	}
+	for(int i=1;i<=N;++i){
+		lg[i] = lg[i>>1]+1;
+		st[i][0] = ai[i];
+	}
+	for(int k=1;k<20;++k){
+		for(int l=1;l+(1<<k)<=N+1;++l){
+			st[l][k] = Gcd(st[l][k-1],st[l+(1<<k-1)][k-1]);
+		}
+	}
+	for(ll i=N;i>gcdd;--i){//枚举所有可能的答案
+		ans = 0;
+		ans = query(1,i-1);
+		if(N%i) ans = query(N/i*i+1,N);
+		for(ll j=2;i*j<=N && !(ans%i);++j){//对值域中的 i/j 个区间求GCD
+			ans = query(i*(j-1)+1,i*j-1);
+		}
+		if(!(ans%i)){//答案需要为全部区间的GCD的因数
+			printf("%lld",i);
+			return 0;
+		}
+	}
+	printf("%lld",gcdd);//只选b的情况
+	return 0;;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>UVA12244 Growing Strings</title>
     <url>/2024/09/20/UVA12244-Growing-Strings/</url>
     <content><![CDATA[
@@ -1459,30 +1459,6 @@ int main(){
       <categories>
         <category>题解</category>
       </categories>
-  </entry>
-  <entry>
-    <title>土丘</title>
-    <url>/2025/06/14/%E5%9C%9F%E4%B8%98/</url>
-    <content><![CDATA[
-## 2025.6.13 闲话摘抄
-
-很久之前——
-
-你来到这个世界，我却早已忘却你的模样。
-
-在一座平凡的城市，一条平凡的公路，一片平凡的土壤：
-你是否能看见那萎蔫的草丛，那灰蓝的天空，那积尘的土径？
-也许未来的这里会被钢筋水泥淹没，那样会有勾连的钢架与暖红的夕阳，可是没有你。
-
-这是什么？
-充满悔恨，可是又能怎样。
-清冷的初春，阴郁的天空，一阵小雨。
-
-我再也找不到你了！
-安息吧。]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
   </entry>
   <entry>
     <title>二进制相关 // Kalthyix</title>
@@ -1946,6 +1922,30 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </tags>
   </entry>
   <entry>
+    <title>土丘</title>
+    <url>/2025/06/14/%E5%9C%9F%E4%B8%98/</url>
+    <content><![CDATA[
+## 2025.6.13 闲话摘抄
+
+很久之前——
+
+你来到这个世界，我却早已忘却你的模样。
+
+在一座平凡的城市，一条平凡的公路，一片平凡的土壤：
+你是否能看见那萎蔫的草丛，那灰蓝的天空，那积尘的土径？
+也许未来的这里会被钢筋水泥淹没，那样会有勾连的钢架与暖红的夕阳，可是没有你。
+
+这是什么？
+充满悔恨，可是又能怎样。
+清冷的初春，阴郁的天空，一阵小雨。
+
+我再也找不到你了！
+安息吧。]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>语言的魅力 // Kalthyix</title>
     <url>/2025/03/16/%E8%AF%AD%E8%A8%80%E7%9A%84%E9%AD%85%E5%8A%9B-Kalthyix/</url>
     <content><![CDATA[
@@ -2086,6 +2086,30 @@ Tmbcan 将语言定义为：人类通过某种方式进行信息交换
       </tags>
   </entry>
   <entry>
+    <title>重庆森林</title>
+    <url>/2025/06/07/%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97/</url>
+    <content><![CDATA[
+### 2025.6.6
+
+每天，你都会和许多人擦肩而过，
+
+他们可能会成为你的朋友或是知己。
+
+所以我从来没有放弃和任何人擦肩而过的机会。
+
+那天晚上，我又看到了那个女人，
+
+我知道我可能不会和她成为知己或朋友。
+
+因为我们有太多的机会可以擦肩而过，
+
+衣服都擦破了，也没有看到火花。
+]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>顿感</title>
     <url>/2025/06/14/%E9%A1%BF%E6%84%9F/</url>
     <content><![CDATA[
@@ -2106,30 +2130,6 @@ Tmbcan 将语言定义为：人类通过某种方式进行信息交换
 但事实上
 
 我连一张纸都没有]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>重庆森林</title>
-    <url>/2025/06/07/%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97/</url>
-    <content><![CDATA[
-### 2025.6.6
-
-每天，你都会和许多人擦肩而过，
-
-他们可能会成为你的朋友或是知己。
-
-所以我从来没有放弃和任何人擦肩而过的机会。
-
-那天晚上，我又看到了那个女人，
-
-我知道我可能不会和她成为知己或朋友。
-
-因为我们有太多的机会可以擦肩而过，
-
-衣服都擦破了，也没有看到火花。
-]]></content>
       <tags>
         <tag>闲话</tag>
       </tags>
