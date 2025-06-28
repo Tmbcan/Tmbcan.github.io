@@ -1219,7 +1219,7 @@ pre code {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #6fffd1;
+  background: #ff6039;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2690,23 +2690,4 @@ header.header {
 }
 .sub-menu .menu-item {
   display: inline-block;
-}
-.chitchat-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-.chitchat-title {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.5rem;
-}
-.chitchat-list .post-item {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px dashed #eee;
-}
-.site-state-item-chitchats .site-state-item-count {
-  font-size: 1.2rem !important;
 }
