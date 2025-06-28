@@ -83,6 +83,81 @@ int main(){
       </categories>
   </entry>
   <entry>
+    <title>P3118 [USACO15JAN] Moovie Mooving G</title>
+    <url>/2024/10/21/P3118-USACO15JAN-Moovie-Mooving-G/</url>
+    <content><![CDATA[
+## 题目描述
+有 $N$ 部电影，每部时长为 $val_i$ 共放映 $num_i$ 场，且第 $i$ 部电影第 $j$ 场的开场时间为 $tim_{i,j}$。  
+每部电影只能看一次，看电影的中途可以换电影，求连续看满时长 $L$ 最少要看几部电影。
+
+<!-- more -->
+
+## 思路
+数据范围 $1\le N\le 20$，考虑状压 DP。  
+设 $dp_s$ 表示在状态 $s$ 时，可以连续看多久电影。  
+对于每个状态 $s$，暴力枚举接下来我们要看的电影。
+
+因为要求看的电影数量尽可能少，所以每次应该选择**最后一个不大于**当前时间的电影场次。这个操作可以用 `upper_bound` 解决。  
+
+然后做正常的状压 DP 就可以了，设当前选到了电影 $i$，只有 $i$ **存在**不大于当前时间的场次，才进行转移。当前状态应当与电影结束时间取最大值，即 $\max(dp_{s|(1<<(i-1))} , tim_{i,idx}+ val_i)$。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+#include<cstring>
+#include<cstdio>
+#include<cstdlib>
+using namespace std;
+template <typename T>
+inline void read(T&x){//快读
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0' || ch>'9'){
+		if(ch=='-') w = 1;
+		ch = getchar();
+	}
+	while(ch>='0' && ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+const int N = 25,INF = 0x3f3f3f3f;
+int n,L;
+int val[N],num[N],tim[N][1100];
+int ans=INF,dp[(1<<20)+10];
+int main(){
+	read(n,L);
+	for(int i=1;i<=n;++i){
+		read(val[i],num[i]);//电影时长、场次数量
+		for(int j=1;j<=num[i];++j){
+			read(tim[i][j]);//每场的开始时间
+		}
+	}
+	for(int s=0;s<1<<n;++s){
+		for(int i=1;i<=n;++i){
+			if((1<<(i-1))&s) continue;//电影已经选过
+			int idx = upper_bound(tim[i]+1,tim[i]+num[i]+1,dp[s])-(tim[i]+1);
+			if(idx>0) dp[s|(1<<(i-1))] = max(dp[s|(1<<(i-1))],tim[i][idx]+val[i]); //存在场次
+		}
+		if(dp[s]>=L) ans = min(ans,__builtin_popcount(s));//popcount非常快
+	}
+	printf("%d",ans==INF? -1 : ans);
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>(EX)Lucas&amp;CRT // Kalthyix</title>
     <url>/2025/05/29/Ex-Lucas-CRT-Kalthyix/</url>
     <content><![CDATA[
@@ -308,81 +383,6 @@ Lucas 再求一下 C 就行了。
       <tags>
         <tag>团队周刊</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>P3118 [USACO15JAN] Moovie Mooving G</title>
-    <url>/2024/10/21/P3118-USACO15JAN-Moovie-Mooving-G/</url>
-    <content><![CDATA[
-## 题目描述
-有 $N$ 部电影，每部时长为 $val_i$ 共放映 $num_i$ 场，且第 $i$ 部电影第 $j$ 场的开场时间为 $tim_{i,j}$。  
-每部电影只能看一次，看电影的中途可以换电影，求连续看满时长 $L$ 最少要看几部电影。
-
-<!-- more -->
-
-## 思路
-数据范围 $1\le N\le 20$，考虑状压 DP。  
-设 $dp_s$ 表示在状态 $s$ 时，可以连续看多久电影。  
-对于每个状态 $s$，暴力枚举接下来我们要看的电影。
-
-因为要求看的电影数量尽可能少，所以每次应该选择**最后一个不大于**当前时间的电影场次。这个操作可以用 `upper_bound` 解决。  
-
-然后做正常的状压 DP 就可以了，设当前选到了电影 $i$，只有 $i$ **存在**不大于当前时间的场次，才进行转移。当前状态应当与电影结束时间取最大值，即 $\max(dp_{s|(1<<(i-1))} , tim_{i,idx}+ val_i)$。
-
-## 代码
-
-```cpp
-#include<iostream>
-#include<algorithm>
-#include<cmath>
-#include<cstring>
-#include<cstdio>
-#include<cstdlib>
-using namespace std;
-template <typename T>
-inline void read(T&x){//快读
-	int w=0;x=0;
-	char ch = getchar();
-	while(ch<'0' || ch>'9'){
-		if(ch=='-') w = 1;
-		ch = getchar();
-	}
-	while(ch>='0' && ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x=-x;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-const int N = 25,INF = 0x3f3f3f3f;
-int n,L;
-int val[N],num[N],tim[N][1100];
-int ans=INF,dp[(1<<20)+10];
-int main(){
-	read(n,L);
-	for(int i=1;i<=n;++i){
-		read(val[i],num[i]);//电影时长、场次数量
-		for(int j=1;j<=num[i];++j){
-			read(tim[i][j]);//每场的开始时间
-		}
-	}
-	for(int s=0;s<1<<n;++s){
-		for(int i=1;i<=n;++i){
-			if((1<<(i-1))&s) continue;//电影已经选过
-			int idx = upper_bound(tim[i]+1,tim[i]+num[i]+1,dp[s])-(tim[i]+1);
-			if(idx>0) dp[s|(1<<(i-1))] = max(dp[s|(1<<(i-1))],tim[i][idx]+val[i]); //存在场次
-		}
-		if(dp[s]>=L) ans = min(ans,__builtin_popcount(s));//popcount非常快
-	}
-	printf("%d",ans==INF? -1 : ans);
-	return 0;
-}
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
   </entry>
   <entry>
     <title>P3540 [POI2012] SQU-Squarks</title>
@@ -1030,6 +1030,174 @@ int main(){
       </categories>
   </entry>
   <entry>
+    <title>P4478 [BJWC2018] 上学路线</title>
+    <url>/2025/03/11/P4478-BJWC2018-%E4%B8%8A%E5%AD%A6%E8%B7%AF%E7%BA%BF/</url>
+    <content><![CDATA[
+## 思路
+
+看到有 $T$ 个障碍点并且障碍点非常少，所以想到暴力容斥，用总方案减去不合法的方案数。
+
+只要经过任意一个障碍点，就是一个不合法方案。所以令 $dp_i$ 表示**只经过**障碍点 $i$ 的方案数。 
+
+<!-- more -->
+
+设当前障碍点为 $(x_i,y_i)$，如果不管途中是否经过其他障碍点，那么走到该点的总方案数为 $C_{x_i+y_i}^{x_i}$。  
+但是其中还包含了经过其他障碍点的方案数。
+
+设还经过了障碍点 $(x_j,y_j)$，满足 $x_j \le x_i$ 且 $y_j \le y_i$，那么多统计的方案数为 $dp_j \times C_{x_i-x_j+y_i-y_j}^{x_i-x_j}$ 减掉即可。  
+一个点能从其左下角的每个点转移过来，所以先把点按从左到右、从上到下排好序，才能保证转移是正确的。  
+
+我们发现 $n$ 和 $m$ 都非常大，所以要用 Lucas 定理，$C_n^m \equiv C_{n\\%P}^{m\\%P} \times C_{n/P}^{m/P} \pmod P$。  
+然而 Lucas 定理只适用于 $P$ 为质数，如果 $P$ 不是质数怎么办呢。  
+我们可以把 $P$ 分解质因数，对于每个质因子都列出一个方程，得到同余方程组，然后用中国剩余定理合并求解就可以了。
+
+我们发现 $P = 1019663265=3 \times 5 \times 6793 \times 10007$，所以不用繁琐的对组合数拆开取模，直接做就可以了。
+
+
+## 代码
+
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<climits>
+#include<cstdlib>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+template <typename T>
+inline void read(T&x){// 快读
+	int w = 0;x = 0;
+	char ch = getchar();
+	while(ch<'0' || ch>'9'){
+		if(ch=='-') w = 1;
+		ch = getchar();
+	}
+	while(ch>='0' && ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x = ~x+1;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+template <typename T>
+inline T Min(T x,T y){ return (x < y ? x : y); }
+template <typename T>
+inline T Max(T x,T y){ return (x > y ? x : y); }
+template <typename T>
+inline T Abs(T x){ return (x < 0 ? ~x+1 : x); }
+const int N = 210,M = 1e6+10;
+ll prime[4] = {3,5,6793,10007};
+ll T,ans[N],P; int cnt;
+struct node{
+    ll x,y;
+    inline int operator < (const node&G) const{
+        if(x^G.x) return x < G.x;
+        return y < G.y;
+    }
+}g[N];
+ll mul[4][M],inv[4][M];
+inline ll quick_pow(ll x,ll y,int t){
+    ll res = 1;
+    while(y){
+        if(y&1) (res *= x)%=prime[t];
+        (x *= x)%=prime[t];
+        y >>= 1;
+    }
+    return res;
+}
+inline ll C(ll n,ll m,int t){// 组合数
+    if(m>n) return 0;
+    return mul[t][n]*inv[t][n-m]%prime[t]*inv[t][m]%prime[t];
+}
+inline ll Lucas(ll n,ll m,int t){// Lucas
+    if(!m) return 1;
+    return C(n%prime[t],m%prime[t],t)*Lucas(n/prime[t],m/prime[t],t)%prime[t];
+}
+inline ll Gcd(ll x,ll y){
+    if(!x || !y) return x|y;
+    ll xz = __builtin_ctzll(x);
+    ll yz = __builtin_ctzll(y);
+    ll z = Min(xz,yz);
+    ll diff;
+    y >>= yz;
+    while(x){
+        x >>= xz;
+        diff = x-y;
+        xz = __builtin_ctzll(diff);
+        y = Min(x,y);
+        x = Abs(diff);
+    }
+    return y << z;
+}
+inline void Exgcd(ll x,ll y,ll &Ex,ll &Ey){// 扩欧
+    if(!y){
+        Ex = 1;
+        Ey = 0;
+        return ;
+    }
+    Exgcd(y,x%y,Ey,Ex);
+    Ey = Ey-x/y*Ex;
+}
+inline ll ExCRT(ll n,ll m){// ExCRT 合并方程
+    ll r1 = Lucas(n,m,0);
+    ll m1 = prime[0];
+    ll r2,m2,Ex,Ey;
+    for(int t=1;t<=cnt;++t){
+        r2 = Lucas(n,m,t);
+        m2 = prime[t];
+        ll d = Gcd(m1,m2);
+        // if((r2-r1)%d) exit(0);
+        Exgcd(m1/d,m2/d,Ex,Ey);
+
+        Ex = ((r2-r1)/d*Ex%(m2/d)+(m2/d))%(m2/d);
+        r1 = ((r1+m1*Ex)%(m1/d*m2)+(m1/d*m2))%(m1/d*m2);
+        m1 = m1/d*m2;
+    }
+    return r1;
+}
+int main(){
+	// freopen("in.in","r",stdin);
+    // freopen("out.out","w",stdout);
+
+	ll n,m;read(n,m,T,P);
+    for(int i=1;i<=T;++i) read(g[i].x,g[i].y);
+    g[++T] = {n,m};
+    sort(g+1,g+1+T);// 排好序
+    if(P==1000003) prime[0] = 1000003,cnt = 0;
+    else cnt = 3;
+    for(int t=0;t<=cnt;++t){
+        mul[t][0] = 1;
+        for(ll i=1;i<prime[t];++i) mul[t][i] = mul[t][i-1]*i%prime[t];
+        inv[t][prime[t]-1] = quick_pow(mul[t][prime[t]-1],prime[t]-2,t);
+        for(ll i=prime[t]-1;i;--i) inv[t][i-1] = inv[t][i]*i%prime[t];
+    }
+    for(int i=1;i<=T;++i){
+        ans[i] = ExCRT(g[i].x+g[i].y,g[i].x);
+        for(int j=1;j<i;++j){
+            if(g[j].x<=g[i].x && g[j].y<=g[i].y){// 左下角的点
+                ans[i] = (ans[i]-ans[j]*ExCRT(g[i].x+g[i].y-g[j].x-g[j].y,g[i].x-g[j].x)%P+P)%P;
+            }
+        }
+    }
+    printf("%lld",ans[T]);
+
+	fclose(stdin);
+	fclose(stdout);
+	return 0;
+}
+
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>P9401 [POI 2020/2021 R3] Kolekcjoner Bajtemonów 2</title>
     <url>/2024/10/06/P9401-POI-2020-2021-R3-Kolekcjoner-Bajtemonow-2/</url>
     <content><![CDATA[
@@ -1287,174 +1455,6 @@ int main(){
 	}
 	return 0;
 }
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>P4478 [BJWC2018] 上学路线</title>
-    <url>/2025/03/11/P4478-BJWC2018-%E4%B8%8A%E5%AD%A6%E8%B7%AF%E7%BA%BF/</url>
-    <content><![CDATA[
-## 思路
-
-看到有 $T$ 个障碍点并且障碍点非常少，所以想到暴力容斥，用总方案减去不合法的方案数。
-
-只要经过任意一个障碍点，就是一个不合法方案。所以令 $dp_i$ 表示**只经过**障碍点 $i$ 的方案数。 
-
-<!-- more -->
-
-设当前障碍点为 $(x_i,y_i)$，如果不管途中是否经过其他障碍点，那么走到该点的总方案数为 $C_{x_i+y_i}^{x_i}$。  
-但是其中还包含了经过其他障碍点的方案数。
-
-设还经过了障碍点 $(x_j,y_j)$，满足 $x_j \le x_i$ 且 $y_j \le y_i$，那么多统计的方案数为 $dp_j \times C_{x_i-x_j+y_i-y_j}^{x_i-x_j}$ 减掉即可。  
-一个点能从其左下角的每个点转移过来，所以先把点按从左到右、从上到下排好序，才能保证转移是正确的。  
-
-我们发现 $n$ 和 $m$ 都非常大，所以要用 Lucas 定理，$C_n^m \equiv C_{n\\%P}^{m\\%P} \times C_{n/P}^{m/P} \pmod P$。  
-然而 Lucas 定理只适用于 $P$ 为质数，如果 $P$ 不是质数怎么办呢。  
-我们可以把 $P$ 分解质因数，对于每个质因子都列出一个方程，得到同余方程组，然后用中国剩余定理合并求解就可以了。
-
-我们发现 $P = 1019663265=3 \times 5 \times 6793 \times 10007$，所以不用繁琐的对组合数拆开取模，直接做就可以了。
-
-
-## 代码
-
-
-```cpp
-#include<iostream>
-#include<cstdio>
-#include<algorithm>
-#include<cstring>
-#include<climits>
-#include<cstdlib>
-using namespace std;
-typedef long long ll;
-typedef unsigned long long ull;
-template <typename T>
-inline void read(T&x){// 快读
-	int w = 0;x = 0;
-	char ch = getchar();
-	while(ch<'0' || ch>'9'){
-		if(ch=='-') w = 1;
-		ch = getchar();
-	}
-	while(ch>='0' && ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x = ~x+1;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-template <typename T>
-inline T Min(T x,T y){ return (x < y ? x : y); }
-template <typename T>
-inline T Max(T x,T y){ return (x > y ? x : y); }
-template <typename T>
-inline T Abs(T x){ return (x < 0 ? ~x+1 : x); }
-const int N = 210,M = 1e6+10;
-ll prime[4] = {3,5,6793,10007};
-ll T,ans[N],P; int cnt;
-struct node{
-    ll x,y;
-    inline int operator < (const node&G) const{
-        if(x^G.x) return x < G.x;
-        return y < G.y;
-    }
-}g[N];
-ll mul[4][M],inv[4][M];
-inline ll quick_pow(ll x,ll y,int t){
-    ll res = 1;
-    while(y){
-        if(y&1) (res *= x)%=prime[t];
-        (x *= x)%=prime[t];
-        y >>= 1;
-    }
-    return res;
-}
-inline ll C(ll n,ll m,int t){// 组合数
-    if(m>n) return 0;
-    return mul[t][n]*inv[t][n-m]%prime[t]*inv[t][m]%prime[t];
-}
-inline ll Lucas(ll n,ll m,int t){// Lucas
-    if(!m) return 1;
-    return C(n%prime[t],m%prime[t],t)*Lucas(n/prime[t],m/prime[t],t)%prime[t];
-}
-inline ll Gcd(ll x,ll y){
-    if(!x || !y) return x|y;
-    ll xz = __builtin_ctzll(x);
-    ll yz = __builtin_ctzll(y);
-    ll z = Min(xz,yz);
-    ll diff;
-    y >>= yz;
-    while(x){
-        x >>= xz;
-        diff = x-y;
-        xz = __builtin_ctzll(diff);
-        y = Min(x,y);
-        x = Abs(diff);
-    }
-    return y << z;
-}
-inline void Exgcd(ll x,ll y,ll &Ex,ll &Ey){// 扩欧
-    if(!y){
-        Ex = 1;
-        Ey = 0;
-        return ;
-    }
-    Exgcd(y,x%y,Ey,Ex);
-    Ey = Ey-x/y*Ex;
-}
-inline ll ExCRT(ll n,ll m){// ExCRT 合并方程
-    ll r1 = Lucas(n,m,0);
-    ll m1 = prime[0];
-    ll r2,m2,Ex,Ey;
-    for(int t=1;t<=cnt;++t){
-        r2 = Lucas(n,m,t);
-        m2 = prime[t];
-        ll d = Gcd(m1,m2);
-        // if((r2-r1)%d) exit(0);
-        Exgcd(m1/d,m2/d,Ex,Ey);
-
-        Ex = ((r2-r1)/d*Ex%(m2/d)+(m2/d))%(m2/d);
-        r1 = ((r1+m1*Ex)%(m1/d*m2)+(m1/d*m2))%(m1/d*m2);
-        m1 = m1/d*m2;
-    }
-    return r1;
-}
-int main(){
-	// freopen("in.in","r",stdin);
-    // freopen("out.out","w",stdout);
-
-	ll n,m;read(n,m,T,P);
-    for(int i=1;i<=T;++i) read(g[i].x,g[i].y);
-    g[++T] = {n,m};
-    sort(g+1,g+1+T);// 排好序
-    if(P==1000003) prime[0] = 1000003,cnt = 0;
-    else cnt = 3;
-    for(int t=0;t<=cnt;++t){
-        mul[t][0] = 1;
-        for(ll i=1;i<prime[t];++i) mul[t][i] = mul[t][i-1]*i%prime[t];
-        inv[t][prime[t]-1] = quick_pow(mul[t][prime[t]-1],prime[t]-2,t);
-        for(ll i=prime[t]-1;i;--i) inv[t][i-1] = inv[t][i]*i%prime[t];
-    }
-    for(int i=1;i<=T;++i){
-        ans[i] = ExCRT(g[i].x+g[i].y,g[i].x);
-        for(int j=1;j<i;++j){
-            if(g[j].x<=g[i].x && g[j].y<=g[i].y){// 左下角的点
-                ans[i] = (ans[i]-ans[j]*ExCRT(g[i].x+g[i].y-g[j].x-g[j].y,g[i].x-g[j].x)%P+P)%P;
-            }
-        }
-    }
-    printf("%lld",ans[T]);
-
-	fclose(stdin);
-	fclose(stdout);
-	return 0;
-}
-
 ```]]></content>
       <categories>
         <category>题解</category>
@@ -1902,6 +1902,50 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </categories>
   </entry>
   <entry>
+    <title>土丘</title>
+    <url>/2025/06/13/%E5%9C%9F%E4%B8%98/</url>
+    <content><![CDATA[
+## 2025.6.13 闲话摘抄
+
+很久之前——
+
+你来到这个世界，我却早已忘却你的模样。
+
+在一座平凡的城市，一条平凡的公路，一片平凡的土壤：
+你是否能看见那萎蔫的草丛，那灰蓝的天空，那积尘的土径？
+也许未来的这里会被钢筋水泥淹没，那样会有勾连的钢架与暖红的夕阳，可是没有你。
+
+这是什么？
+充满悔恨，可是又能怎样。
+清冷的初春，阴郁的天空，一阵小雨。
+
+我再也找不到你了！
+安息吧。]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>憂い桜（忧郁樱花）</title>
+    <url>/2025/06/13/%E6%86%82%E3%81%84%E6%A1%9C%EF%BC%88%E5%BF%A7%E9%83%81%E6%A8%B1%E8%8A%B1%EF%BC%89/</url>
+    <content><![CDATA[
+### 2025.6.13
+
+当眼前的光景
+
+终有一天化为回忆时
+
+你希望记住什么呢
+
+---
+
+我想记住关于你的一切
+]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>语言的魅力 // Kalthyix</title>
     <url>/2025/03/15/%E8%AF%AD%E8%A8%80%E7%9A%84%E9%AD%85%E5%8A%9B-Kalthyix/</url>
     <content><![CDATA[
@@ -2039,6 +2083,55 @@ Tmbcan 将语言定义为：人类通过某种方式进行信息交换
 ]]></content>
       <tags>
         <tag>团队周刊</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>顿感</title>
+    <url>/2025/06/13/%E9%A1%BF%E6%84%9F/</url>
+    <content><![CDATA[
+### 2025.6.13
+
+所有无能为力的事
+
+我都试着慢慢接受
+
+我好像想这样，又好像只可以这样
+
+有时候我想折架纸飞机
+
+望着它越飞越低越飞越低
+
+它载着我想要的自由，抑或是其它
+
+但事实上
+
+我连一张纸都没有]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>重庆森林</title>
+    <url>/2025/06/06/%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97/</url>
+    <content><![CDATA[
+### 2025.6.6
+
+每天，你都会和许多人擦肩而过，
+
+他们可能会成为你的朋友或是知己。
+
+所以我从来没有放弃和任何人擦肩而过的机会。
+
+那天晚上，我又看到了那个女人，
+
+我知道我可能不会和她成为知己或朋友。
+
+因为我们有太多的机会可以擦肩而过，
+
+衣服都擦破了，也没有看到火花。
+]]></content>
+      <tags>
+        <tag>闲话</tag>
       </tags>
   </entry>
 </search>
