@@ -333,8 +333,12 @@ mjx-container[display="true"] + br {
 <!-- 在 /zh-CN.yml 和 /next/_config.yml 和 /Blog/_config.yml 里加了 chitchat -->
 <!-- /layout 里加了 chitchat.hjk -->
 <!-- 在 /Blog/source 里加了 /_data/styles.styl 并在 /next/_config.yml 里开启了 custom_file_path : style -->
+
 <!-- 但是可以在 /next/_config : nemu 里设置 chitchats 的默认开启文件夹，所以现在 /layout/chitchat.njk 用不上-->
+<!-- chitchat.njk 的界面不能显示日期，但是将 chitchats 内联到 \tags\闲话 之后可以显示日期 -->
 <!-- 但是我打算先留着 /layout/chitchat.njk, 可以设置一个新的 /chitchat 页面 , 或许以后还有能用到的地方 -->
+
+<!-- /source : index.md 同时支持 js css -->
 <div class="site-state-wrap animated">
   <nav class="site-state">
 
@@ -473,6 +477,18 @@ mjx-container[display="true"] + br {
     </div>
 
     
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="/frindlinks/" title="&#x2F;frindlinks&#x2F;">友链</a>
+            </li>
+        </ul>
+      </div>
+    </div>
   </aside>
 
 
@@ -753,7 +769,7 @@ mjx-container[display="true"] + br {
     &copy; 2023 – 
     <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
-      <i class="fa fa-heartbeat"></i>
+      <i class="fa fa-heart"></i>
     </span>
     <span class="author" itemprop="copyrightHolder">Tmbcan</span>
   </div>
