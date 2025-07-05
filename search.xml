@@ -385,6 +385,111 @@ int main(){
       </categories>
   </entry>
   <entry>
+    <title>P3540 [POI2012] SQU-Squarks</title>
+    <url>/2024/11/01/P3540-POI2012-SQU-Squarks/</url>
+    <content><![CDATA[
+## 题目描述
+有 $N$ 个数，给出一个序列 $X_N$ 表示每两个数的和。求排序去重后这 $N$ 个数所有可能的情况。
+
+## 思路
+我们设原数从小到大排序后为序列 $a_N$。  
+首先想到最暴力的方法：枚举全排列，期望得分 20 分。 
+
+<!-- more -->
+
+思考，如果我们可以通过确定某些 $a$，就能求出整个 $a_N$，那么就可以减少全排列的枚举次数。
+  
+我们先对 $X_N$ 从小到大排序，那么有 $X_1 = a_1+a_2$，$X_2 = a_1+a_3$。此时如果我们枚举 $X_i = a_2+a_3$，就可以分别求出 $a_1$、$a_2$、$a_3$。  
+当我们能够确定 $a_1$、$a_2$、$a_3$ 后，考虑如何求出 $a_4\sim a_N$。    
+
+在 $X_N$ 中，如果去掉 $X_1$、$X_2$ 和 $X_i=a_2+a_3$，那么剩下的 $X$ 中的最小值就是 $a_1+a_4$ 的值，从而我们可以求出 $a_4$。推广一下我们就可以求出整个序列 $a_N$。
+
+因为 $X_N$ 可能重复且需要排序，所以我们用 `multiset` 存储 $X_N$（或者写平衡树），当每次求出一个 $a_j$ 时，判断其对于 $X_N$ 是否合法即可。
+
+注意枚举 $a_2+a_3$ 的值的时候，有重复的要判掉，不然会多算重复的情况。~~（因为这个一直没过第一个点）~~。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<climits>
+#include<cstdlib>
+#include<vector>
+#include<set>
+using namespace std;
+typedef long long ll;
+template <typename T>
+inline void read(T&x){//快读
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0'||ch>'9'){
+		if(ch=='-') w=1;
+		ch = getchar();
+	}
+	while(ch>='0'&&ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+const int N = 300;
+int n,m,cnt;
+int X[N*N];
+vector < vector <int> > ans;
+vector <int> a;
+multiset <int> s;	
+int main(){
+	// freopen("in.in","r",stdin);
+	// freopen("out.out","w",stdout);
+	read(n);m = n*(n-1)/2;
+	for(int i=1;i<=m;++i) read(X[i]);
+	sort(X+1,X+1+m);
+	a.resize(n+1);
+	for(int k=3;k<=n;++k){
+		s.clear();
+		if(X[k]==X[k-1]) continue;//判掉重复的情况
+		a[1] = (X[1]+X[2]-X[k]) >> 1;
+		a[2] = X[1]-a[1];
+		a[3] = X[2]-a[1];
+		if(a[1]<=0 || a[2]<=0 || a[3]<=0) continue;//都要大于零
+		for(int i=3;i<=m;++i) if(i!=k) s.insert(X[i]);//不算X[k]
+		int f = 0;
+		for(int i=4;i<=n && !f;++i){
+			a[i] = (*s.begin())-a[1];
+			if(a[i]<=0) f = 1;
+			for(int j=1;j<=i-1 && !f;++j){//判断a[j]是否重复
+				if(s.find(a[i]+a[j])==s.end()) f=1;
+				else s.erase(s.find(a[i]+a[j])); 
+			}
+		}
+		if(f) continue;
+		ans.push_back(a);//存答案
+	}
+	printf("%d\n",ans.size());
+	for(int i=0;i<ans.size();++i){
+		for(int j=1;j<=n;++j){
+			printf("%d ",ans[i][j]);
+		}
+		putchar('\n');
+	}
+	// fclose(stdin);
+	// fclose(stdout);
+	return 0;
+}
+
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>P3629 [APIO2010] 巡逻</title>
     <url>/2025/02/27/P3629-APIO2010-%E5%B7%A1%E9%80%BB/</url>
     <content><![CDATA[## 思路
@@ -517,207 +622,6 @@ int main(){
 
 	fclose(stdin);
 	fclose(stdout);
-	return 0;
-}
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>P3540 [POI2012] SQU-Squarks</title>
-    <url>/2024/11/01/P3540-POI2012-SQU-Squarks/</url>
-    <content><![CDATA[
-## 题目描述
-有 $N$ 个数，给出一个序列 $X_N$ 表示每两个数的和。求排序去重后这 $N$ 个数所有可能的情况。
-
-## 思路
-我们设原数从小到大排序后为序列 $a_N$。  
-首先想到最暴力的方法：枚举全排列，期望得分 20 分。 
-
-<!-- more -->
-
-思考，如果我们可以通过确定某些 $a$，就能求出整个 $a_N$，那么就可以减少全排列的枚举次数。
-  
-我们先对 $X_N$ 从小到大排序，那么有 $X_1 = a_1+a_2$，$X_2 = a_1+a_3$。此时如果我们枚举 $X_i = a_2+a_3$，就可以分别求出 $a_1$、$a_2$、$a_3$。  
-当我们能够确定 $a_1$、$a_2$、$a_3$ 后，考虑如何求出 $a_4\sim a_N$。    
-
-在 $X_N$ 中，如果去掉 $X_1$、$X_2$ 和 $X_i=a_2+a_3$，那么剩下的 $X$ 中的最小值就是 $a_1+a_4$ 的值，从而我们可以求出 $a_4$。推广一下我们就可以求出整个序列 $a_N$。
-
-因为 $X_N$ 可能重复且需要排序，所以我们用 `multiset` 存储 $X_N$（或者写平衡树），当每次求出一个 $a_j$ 时，判断其对于 $X_N$ 是否合法即可。
-
-注意枚举 $a_2+a_3$ 的值的时候，有重复的要判掉，不然会多算重复的情况。~~（因为这个一直没过第一个点）~~。
-
-## 代码
-
-```cpp
-#include<iostream>
-#include<cstdio>
-#include<algorithm>
-#include<cstring>
-#include<climits>
-#include<cstdlib>
-#include<vector>
-#include<set>
-using namespace std;
-typedef long long ll;
-template <typename T>
-inline void read(T&x){//快读
-	int w=0;x=0;
-	char ch = getchar();
-	while(ch<'0'||ch>'9'){
-		if(ch=='-') w=1;
-		ch = getchar();
-	}
-	while(ch>='0'&&ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x=-x;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-const int N = 300;
-int n,m,cnt;
-int X[N*N];
-vector < vector <int> > ans;
-vector <int> a;
-multiset <int> s;	
-int main(){
-	// freopen("in.in","r",stdin);
-	// freopen("out.out","w",stdout);
-	read(n);m = n*(n-1)/2;
-	for(int i=1;i<=m;++i) read(X[i]);
-	sort(X+1,X+1+m);
-	a.resize(n+1);
-	for(int k=3;k<=n;++k){
-		s.clear();
-		if(X[k]==X[k-1]) continue;//判掉重复的情况
-		a[1] = (X[1]+X[2]-X[k]) >> 1;
-		a[2] = X[1]-a[1];
-		a[3] = X[2]-a[1];
-		if(a[1]<=0 || a[2]<=0 || a[3]<=0) continue;//都要大于零
-		for(int i=3;i<=m;++i) if(i!=k) s.insert(X[i]);//不算X[k]
-		int f = 0;
-		for(int i=4;i<=n && !f;++i){
-			a[i] = (*s.begin())-a[1];
-			if(a[i]<=0) f = 1;
-			for(int j=1;j<=i-1 && !f;++j){//判断a[j]是否重复
-				if(s.find(a[i]+a[j])==s.end()) f=1;
-				else s.erase(s.find(a[i]+a[j])); 
-			}
-		}
-		if(f) continue;
-		ans.push_back(a);//存答案
-	}
-	printf("%d\n",ans.size());
-	for(int i=0;i<ans.size();++i){
-		for(int j=1;j<=n;++j){
-			printf("%d ",ans[i][j]);
-		}
-		putchar('\n');
-	}
-	// fclose(stdin);
-	// fclose(stdout);
-	return 0;
-}
-
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>P4104 [HEOI2014] 平衡</title>
-    <url>/2024/10/09/P4104-HEOI2014-%E5%B9%B3%E8%A1%A1/</url>
-    <content><![CDATA[
-## 题面
-
-题目描述：  
-一个杠杆上的左右两侧各有 $n$ 块质量相等的橡皮（杠杆最中间也有一块），随机从中拿走 $k$ 块橡皮，可使杠杆依然平衡。求共有多少种拿走橡皮的方案数，答案对 $p$ 取模。
-
-题目简译：  
-从 $-n\sim n$ 中共选出 $k$ 个互不相同的数，求使得正数与负数的和为零的方案数。
-
-<!-- more -->
-
-## 思路
-**前置知识：**[整数划分](https://baike.baidu.com/item/%E6%95%B4%E6%95%B0%E5%88%92%E5%88%86)。
-
-只考虑在杠杆的右侧选出 $x\in [1,k]$ 个数，题目就变成了经典的整数划分模型：  
-将 $N\in [0,n\times k]$ 划分为 $k$ 个互不相同且不大于 $n$ 的正整数的方案数。  
-显然统计答案时，右侧选出 $x$ 个数，那么左侧就选出 $k-x$ 个数，乘法原理计算得到总方案数。  
-
-
----
-
-
-对于数字有大小限制的整数划分：  
-> 令 $dp_{i,j}$ 表示把 $i$ 划分为 $j$ 个数的方案：  
-> 则有 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}$。  
-> 当 $i>n$ 时，出现的不合法方案需要减掉：  
-> 此时 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}-dp_{i-n-1,j-1}$。
-
-对于统计答案：  
-> 如上：枚举杠杆一侧选出 $x$ 个数，另一侧就选出 $k-x$ 个数，乘法原理计算。  
-> 特别注意：杠杆最中间也有一块橡皮，需要考虑是否将其拿走。
-
-## 代码
-
-```cpp
-#include<iostream>
-#include<cstdio>
-#include<algorithm>
-#include<cstring>
-#include<climits>
-#include<cstdlib>
-#include<vector>
-using namespace std;
-typedef long long ll;
-template <typename T>
-inline void read(T&x){//快读
-	int w=0;x=0;
-	char ch = getchar();
-	while(ch<'0'||ch>'9'){
-		if(ch=='-') w=1;
-		ch = getchar();
-	}
-	while(ch>='0'&&ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x=-x;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-const int N = 1e4+10,K = 15;
-int n,k,p;
-ll dp[N*K][K];
-int main(){
-	int T;read(T);
-	while(T--){
-		read(n,k,p);
-		memset(dp,0,sizeof(dp));
-		dp[0][0] = 1;//初始状态
-		for(int i=0;i<=k*n;++i){//整数划分
-			for(int j=1;j<=min(i,k);++j){
-				dp[i][j] = (dp[i][j]+dp[i-j][j]+dp[i-j][j-1])%p;
-				if(i>n) dp[i][j] = (dp[i][j]-dp[i-n-1][j-1]+p)%p;
-			}
-		}
-		ll ans = 0;
-		for(int j=0;j<=k;++j){
-			for(int i=0;i<=n*k;++i){
-				ans = (ans+dp[i][j]*dp[i][k-j])%p;
-				if(j<k) ans = (ans+dp[i][j]*dp[i][k-j-1])%p;//最中间的橡皮要看是否选
-			}
-		}
-		printf("%lld\n",ans);
-	}
 	return 0;
 }
 ```]]></content>
@@ -1030,6 +934,102 @@ int main(){
       </categories>
   </entry>
   <entry>
+    <title>P4104 [HEOI2014] 平衡</title>
+    <url>/2024/10/09/P4104-HEOI2014-%E5%B9%B3%E8%A1%A1/</url>
+    <content><![CDATA[
+## 题面
+
+题目描述：  
+一个杠杆上的左右两侧各有 $n$ 块质量相等的橡皮（杠杆最中间也有一块），随机从中拿走 $k$ 块橡皮，可使杠杆依然平衡。求共有多少种拿走橡皮的方案数，答案对 $p$ 取模。
+
+题目简译：  
+从 $-n\sim n$ 中共选出 $k$ 个互不相同的数，求使得正数与负数的和为零的方案数。
+
+<!-- more -->
+
+## 思路
+**前置知识：**[整数划分](https://baike.baidu.com/item/%E6%95%B4%E6%95%B0%E5%88%92%E5%88%86)。
+
+只考虑在杠杆的右侧选出 $x\in [1,k]$ 个数，题目就变成了经典的整数划分模型：  
+将 $N\in [0,n\times k]$ 划分为 $k$ 个互不相同且不大于 $n$ 的正整数的方案数。  
+显然统计答案时，右侧选出 $x$ 个数，那么左侧就选出 $k-x$ 个数，乘法原理计算得到总方案数。  
+
+
+---
+
+
+对于数字有大小限制的整数划分：  
+> 令 $dp_{i,j}$ 表示把 $i$ 划分为 $j$ 个数的方案：  
+> 则有 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}$。  
+> 当 $i>n$ 时，出现的不合法方案需要减掉：  
+> 此时 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}-dp_{i-n-1,j-1}$。
+
+对于统计答案：  
+> 如上：枚举杠杆一侧选出 $x$ 个数，另一侧就选出 $k-x$ 个数，乘法原理计算。  
+> 特别注意：杠杆最中间也有一块橡皮，需要考虑是否将其拿走。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<climits>
+#include<cstdlib>
+#include<vector>
+using namespace std;
+typedef long long ll;
+template <typename T>
+inline void read(T&x){//快读
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0'||ch>'9'){
+		if(ch=='-') w=1;
+		ch = getchar();
+	}
+	while(ch>='0'&&ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+const int N = 1e4+10,K = 15;
+int n,k,p;
+ll dp[N*K][K];
+int main(){
+	int T;read(T);
+	while(T--){
+		read(n,k,p);
+		memset(dp,0,sizeof(dp));
+		dp[0][0] = 1;//初始状态
+		for(int i=0;i<=k*n;++i){//整数划分
+			for(int j=1;j<=min(i,k);++j){
+				dp[i][j] = (dp[i][j]+dp[i-j][j]+dp[i-j][j-1])%p;
+				if(i>n) dp[i][j] = (dp[i][j]-dp[i-n-1][j-1]+p)%p;
+			}
+		}
+		ll ans = 0;
+		for(int j=0;j<=k;++j){
+			for(int i=0;i<=n*k;++i){
+				ans = (ans+dp[i][j]*dp[i][k-j])%p;
+				if(j<k) ans = (ans+dp[i][j]*dp[i][k-j-1])%p;//最中间的橡皮要看是否选
+			}
+		}
+		printf("%lld\n",ans);
+	}
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>P4478 [BJWC2018] 上学路线</title>
     <url>/2025/03/12/P4478-BJWC2018-%E4%B8%8A%E5%AD%A6%E8%B7%AF%E7%BA%BF/</url>
     <content><![CDATA[
@@ -1198,6 +1198,82 @@ int main(){
       </categories>
   </entry>
   <entry>
+    <title>P4484 [BJWC2018] 最长上升子序列</title>
+    <url>/2025/07/01/P4484-BJWC2018-%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/</url>
+    <content><![CDATA[
+## 思路
+
+看到排列和 LIS，所以想到了杨表。
+
+设杨图单元格数为 $n$，则其每一行的格数构成了 $n$ 的一种整数划分。
+
+<!-- more -->
+
+向一个单元格数为 $n$，划分为 $\lambda$ 的杨图 $Y_{\lambda}$ 中，插入 $1\sim n$ 的排列，我们有[钩长公式](https://www.zgbk.com/ecph/words?SiteID=1&ID=95404&SubID=61853)，得到的标准杨表的数量 $d_{\lambda}$ 为：
+
+$$
+d_{\lambda} = \frac{n!}{\Pi_{(i,j)\in Y_{\lambda}} h_{\lambda}(i,j)}
+$$
+
+此时对应排列的 LIS 长度，为杨表第一行的长度 $|S_{\lambda}|$。
+
+对于划分都为 $\lambda$ 的杨表，我们有 [Robinson-Schensted correspondence 定理](https://encyclopediaofmath.org/wiki/Robinson-Schensted_correspondence)，它们中两两会唯一对应一种排列。则 $|S_{\lambda}|$ 对答案的贡献为：
+
+$$
+(d_{\lambda})^2|S_{\lambda}|
+$$
+
+我们钦定杨图的形态，则答案为：
+
+$$
+\frac{1}{n!}\sum_{\lambda} (d_{\lambda})^2|S_{\lambda}|
+$$
+
+由于 $n \le 28$，最多也就 $3718$ 种划分，所以暴力枚举 $\lambda$ 即可。
+
+## 代码
+
+```cpp
+inline void dfs(int las,int num){
+	if(num==n){
+		ll val = mul;
+		for(int i=1;i<=cnt;++i){
+			for(int j=1;j<=Y[i];++j){
+				int num = Y[i]-j+1,t = i+1;;
+				while(t<=cnt && Y[t]>=j) ++t,++num;
+				(val *= inv[num])%=mod;
+			}
+		}
+		(val *= val*Y[1]%mod)%=mod;
+		(ans += val)%=mod;
+	}
+	for(int i=1;i<=las;++i){
+		if(num+i>n) break;
+		Y[++cnt] = i;
+		dfs(i,num+i);
+		--cnt;
+	}
+}
+int main(){
+	
+	read(n); mul = 1;
+	for(ll i=1;i<=n;++i) (mul *= i)%=mod;
+	for(int i=1;i<=n;++i){
+		Y[++cnt] = i;
+		dfs(i,i);
+		--cnt;
+	}
+	(ans *= quick_pow(mul,mod-2))%=mod;
+	printf("%lld",ans);
+
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>P9401 [POI 2020/2021 R3] Kolekcjoner Bajtemonów 2</title>
     <url>/2024/10/06/P9401-POI-2020-2021-R3-Kolekcjoner-Bajtemonow-2/</url>
     <content><![CDATA[
@@ -1320,82 +1396,6 @@ int main(){
 	}
 	printf("%lld",gcdd);//只选b的情况
 	return 0;;
-}
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>P4484 [BJWC2018] 最长上升子序列</title>
-    <url>/2025/07/01/P4484-BJWC2018-%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/</url>
-    <content><![CDATA[
-## 思路
-
-看到排列和 LIS，所以想到了杨表。
-
-设杨图单元格数为 $n$，则其每一行的格数构成了 $n$ 的一种整数划分。
-
-<!-- more -->
-
-向一个单元格数为 $n$，划分为 $\lambda$ 的杨图 $Y_{\lambda}$ 中，插入 $1\sim n$ 的排列，我们有[钩长公式](https://www.zgbk.com/ecph/words?SiteID=1&ID=95404&SubID=61853)，得到的标准杨表的数量 $d_{\lambda}$ 为：
-
-$$
-d_{\lambda} = \frac{n!}{\Pi_{(i,j)\in Y_{\lambda}} h_{\lambda}(i,j)}
-$$
-
-此时对应排列的 LIS 长度，为杨表第一行的长度 $|S_{\lambda}|$。
-
-对于划分都为 $\lambda$ 的杨表，我们有 [Robinson-Schensted correspondence 定理](https://encyclopediaofmath.org/wiki/Robinson-Schensted_correspondence)，它们中两两会唯一对应一种排列。则 $|S_{\lambda}|$ 对答案的贡献为：
-
-$$
-(d_{\lambda})^2|S_{\lambda}|
-$$
-
-我们钦定杨图的形态，则答案为：
-
-$$
-\frac{1}{n!}\sum_{\lambda} (d_{\lambda})^2|S_{\lambda}|
-$$
-
-由于 $n \le 28$，最多也就 $3718$ 种划分，所以暴力枚举 $\lambda$ 即可。
-
-## 代码
-
-```cpp
-inline void dfs(int las,int num){
-	if(num==n){
-		ll val = mul;
-		for(int i=1;i<=cnt;++i){
-			for(int j=1;j<=Y[i];++j){
-				int num = Y[i]-j+1,t = i+1;;
-				while(t<=cnt && Y[t]>=j) ++t,++num;
-				(val *= inv[num])%=mod;
-			}
-		}
-		(val *= val*Y[1]%mod)%=mod;
-		(ans += val)%=mod;
-	}
-	for(int i=1;i<=las;++i){
-		if(num+i>n) break;
-		Y[++cnt] = i;
-		dfs(i,num+i);
-		--cnt;
-	}
-}
-int main(){
-	
-	read(n); mul = 1;
-	for(ll i=1;i<=n;++i) (mul *= i)%=mod;
-	for(int i=1;i<=n;++i){
-		Y[++cnt] = i;
-		dfs(i,i);
-		--cnt;
-	}
-	(ans *= quick_pow(mul,mod-2))%=mod;
-	printf("%lld",ans);
-
-	return 0;
 }
 ```]]></content>
       <categories>
@@ -1984,6 +1984,26 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </categories>
   </entry>
   <entry>
+    <title>憂い桜（忧郁樱花）</title>
+    <url>/2025/06/14/%E6%86%82%E3%81%84%E6%A1%9C%EF%BC%88%E5%BF%A7%E9%83%81%E6%A8%B1%E8%8A%B1%EF%BC%89/</url>
+    <content><![CDATA[
+### 2025.6.13
+
+当眼前的光景
+
+终有一天化为回忆时
+
+你希望记住什么呢
+
+---
+
+我想记住关于你的一切
+]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>土丘</title>
     <url>/2025/06/14/%E5%9C%9F%E4%B8%98/</url>
     <content><![CDATA[
@@ -2145,26 +2165,6 @@ Tmbcan 将语言定义为：人类通过某种方式进行信息交换
 ]]></content>
       <tags>
         <tag>团队周刊</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>憂い桜（忧郁樱花）</title>
-    <url>/2025/06/14/%E6%86%82%E3%81%84%E6%A1%9C%EF%BC%88%E5%BF%A7%E9%83%81%E6%A8%B1%E8%8A%B1%EF%BC%89/</url>
-    <content><![CDATA[
-### 2025.6.13
-
-当眼前的光景
-
-终有一天化为回忆时
-
-你希望记住什么呢
-
----
-
-我想记住关于你的一切
-]]></content>
-      <tags>
-        <tag>闲话</tag>
       </tags>
   </entry>
   <entry>
