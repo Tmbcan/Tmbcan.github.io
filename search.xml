@@ -1,0 +1,2238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>(EX)Lucas&amp;CRT // Kalthyix</title>
+    <url>/2025/05/30/Ex-Lucas-CRT-Kalthyix/</url>
+    <content><![CDATA[
+# 作为团队内部刊物，我将进行更多的文字叙述以保证大家的体验
+
+# 我将更多地直接给出证明和结论而非思考过程
+
+放点组合数学原理吧，至少有用，关键是我只会这个。不打算放很多题。
+请注意区分 $=$ 和 $\equiv$。
+
+# CRT
+
+没用，请直接学习 ExCRT。
+
+# ExCRT
+
+我记得之前有人讲过。相信大家都会，但我为了水字数，所以再写一下。
+
+ExCRT 用来求同余方程组的解。
+
+## 只有两个方程
+
+我们先考虑求 $2$ 个同余方程的解：
+
+$$
+x \equiv r_1 (\bmod \space m_1) \\
+x \equiv r_2 (\bmod \space m_2)
+$$
+
+我们直接蛇：
+
+$$
+x = k_1m_1+r_1 = k_2m_2+r_2
+$$
+
+那么：
+
+$$
+k_1m_1-k_2m_2 = r_2-r_1
+$$
+
+我们现在求一组 $k_1$、$k_2$ 的解。 
+
+由裴蜀定理，当且仅当 $\gcd(m_1,m_2)\space| \space (r_2-r_1)$ 时有解。**记得要先判有没有解。**
+
+>裴蜀定理：
+>若存在 $x$、$y$ 使 $ax+by=n$ 成立，则 $\gcd(a,b) \space | \space n$。
+
+确认有解之后，我们直接继续蛇 $d = \gcd(m_1,m_2)$，
+
+现在我们把原柿写成：
+
+$$
+k_1\frac{m_1}{d} - k_2\frac{m_2}{d} = \frac{r_2-r_1}{d}
+$$
+
+不难发现 $\gcd(\frac{m_1}{d},\frac{m_2}{d}) = 1$，于是我们直接扩欧求这个柿子的解。
+
+然后再蛇求出来解为：
+
+$$
+k_1 = \frac{r_2-r_1}{d}\beta_1 \\
+k_2 = \frac{r_2-r_1}{d}\beta_2
+$$
+
+直接带回原柿：
+
+$$
+x = k_1m_1+r_1 = \frac{r_2-r_1}{d}\beta_1m_1+r_1
+$$
+
+于是我们求得了上面两个同余方程的解。
+
+## 好几个方程
+
+现在求 $n$ 个同余方程的解。
+
+假设我们求出了前两个方程的解为 $x$。
+
+则对于前两个方程，通解为 $X_i = x+k\cdot lcm(m_1,m_2)$。
+
+即 $X_i \equiv x\pmod {lcm(m_1,m_2)}$
+
+我们发现我们又构造了一个新的同余方程，且这个方程的解满足先前两个方程。
+
+此时两个同余方程被合并为了一个。
+
+然后一直合并下去就行了。
+
+# Lucas
+
+这个大家应该都非常会。其实打完 ExCRT 我已经快Ⅳ了，所以我们直接下一个。
+
+# ExLucas
+
+求 $C_n^m \% P$，$P$ 不为质数。
+
+## 朴素想法
+
+直接质因数分解 $P = \Pi_{i=1}^{k} p_{i}^{c_i}$，
+
+列出 $k$ 个方程 $C_n^m \equiv r_i (\bmod \space p_i^{c_i})$，
+
+然后 ExCRT 合并。
+
+## 然而
+
+然而，$C_n^m = \frac{n!}{m!(n-m)!}$，$m!(n-m)!$ 与 $p^{c}$ 可能不互质。
+
+> 在域内求不了逆元那你不炸了......朴素想法还是不美妙啊。
+
+那直接把 $C_n^m$ 中的所有 $p$ 分离出来，最后再乘回去不就完事了吗：
+
+$$
+C_n^m = \frac{\frac{n!}{p^{k_1}}}{\frac{m!}{p^{k_2}}\cdot\frac{(n-m)!}{p^{k_3}}}\cdot p^{k_1+k_2+k_3}
+$$
+
+使得 $\gcd(n!,p^{k_1}) = \gcd(m!,p^{k_2}) = \gcd((n-m)!,p^{k_3}) = 1$。
+
+子问题变为求 $\frac{n!}{p^k} \% p^c$ 和其中的 $k$。
+
+直接拆开阶乘，把 $p$ 的倍数全提出来：
+
+$$
+n! = \Pi_{i=1}^{n} i = (\Pi_{i=1}^{\lfloor\frac{n}{p}\rfloor} i\cdot p) \cdot (\Pi_{i=1,p\nmid i}^{n}i) = (\frac{n}{p})!\cdot p^{\lfloor\frac{n}{p}\rfloor} \cdot \Pi_{i=1,p\nmid i}^{n} i
+$$
+
+上面的柿子中，$p^{\lfloor\frac{n}{p}\rfloor}$ 直接求了；$(\frac{n}{p})!$ 递归求；$\Pi_{i=1,p\nmid i}^{n} i$ 继续分解。
+
+现在我们考虑 $\Pi_{i=1,p\nmid i}^{n} i$ 在 $\bmod \space p^c$ 下的运算：
+
+$$
+\Pi_{i=1,p\nmid i}^{n} i = (\Pi_{t=1}^{\lfloor \frac{n}{p^c}\rfloor}\Pi_{i=1,p\nmid i}^{p^c}(i+t\cdot p^c))\cdot (\Pi_{i=p^c\cdot\lfloor\frac{n}{p^c}\rfloor+1,p\nmid i}^{n}i)
+$$
+
+此时有一个美妙的性质 $x \equiv t\cdot m+y \space (\bmod\space m)$：
+
+$$
+\Pi_{i=1,p\nmid i}^{n} i \equiv (\Pi_{i=1,p\nmid i}^{p^c}i)^{\lfloor \frac{n}{p^c}\rfloor}\cdot (\Pi_{i=p^c\cdot\lfloor\frac{n}{p^c}\rfloor+1,p\nmid i}^{n}i) \space (\bmod \space p^c)
+$$
+
+上面的柿子中 $(\Pi_{i=1,p\nmid i}^{p^c}i)^{\lfloor \frac{n}{p^c}\rfloor}$ 和 $(\Pi_{i=p^c\cdot\lfloor\frac{n}{p^c}\rfloor+1,p\nmid i}^{n}i)$ 项数实际并不会很多，枚举一下得了。
+
+现在我们已经会求 $\frac{n!}{p^k} \% p^c$，然后求其中的 $k$。
+
+其实我们发现 $k$ 的贡献来源与 $n!$ 分解中的 $(\frac{n}{p})!\cdot p^{\lfloor\frac{n}{p}\rfloor}$。
+
+$(\frac{n}{p})!$ 的贡献递归求；$p^{\lfloor\frac{n}{p}\rfloor}$ 会贡献 $\lfloor\frac{n}{p}\rfloor$。 
+
+现在我们会求了 $\frac{n!}{p^k} \% p^c$ 和其中的 $k$。
+
+然后我们就可以求 $C_n^m \% p^c$ 了！
+
+接下来列出方程组 $C_n^m \equiv r_i (\bmod \space p_i^{c_i})$，就可以愉快地用 ExCRT 合并了。
+
+---
+
+接下来是一些需要运用以上的东西的玩意
+
+# 多重集合
+
+## 多重集合排列
+
+将 $n$ 个物品划分为 $k$ 个集合，集合 $i$ 大小为 $c_i$，求总方案数。
+
+我们尝试转换一下问题：
+有 $k$ 种物品，第 $i$ 种物品有 $c_i$ 个，用 $n$ 个物品。求将这些物品排成一排的不同方案数。
+
+若 $\sum_{i=1}^k c_i >n$，无解。
+
+若 $sum_{i=1}^k c_1=n$，总方案数为 $\frac{\sum_{i=1}^k (c_i)!}{\Pi_{i=1}^{k}(c_i)!} = \frac{n!}{\Pi_{i=1}^{k}(c_i!)}$。
+
+若 $sum_{i=1}^k c_i<n$，令 $c_{k+1} = n-sum_{i=1}^k c_i$ 即可。
+
+但大部分时候我们要在 $\bmod P$ 意义下进行。
+
+发现这玩意和 $C_n^m$ 简直一模一样，于是把组合数拆开，然后 ExLucas 即可。
+
+## 多重集合组合
+
+有 $n$ 种元素，从中选 $k$ 个，有几种可行方案。
+
+我们尝试转换一下问题：
+有 $k$ 个元素，分为 $n$ 堆，允许存在空集。
+
+如果不存在空集，那隔板法答案为 $C_{k+1}^{n-1}$。
+
+然而，允许存在空集，即可以存在”空“这种元素，故答案为 $C_{n+k-1}^{n-1}$。
+
+如果此时我们再加一个条件，使得划分的集合每个大小不超过 $c_i$，那么容斥即可。
+
+不难想到在 $\bmod P$ 意义下，需要 ExLucas。
+
+---
+
+# 题 ！！！
+
+你别管我扔啥题，反正我就只做过那点题。。。
+
+## [P2606 [ZJOI2010] 排列计数](https://www.luogu.com.cn/problem/P2606)
+
+$p_i > p_{\lfloor \frac{i}{2} \rfloor}$ 是个小根堆，题目需要求满足小根堆性质的排列方案数。
+
+把这个问题拎到小根堆上，思考其中一个子树。
+
+它的大小为 $siz$，左子树内有 $ls$ 个点，右子树有 $siz-ls-1$ 个点。
+
+只要保证它的根是最小的，其余左右子树的 $siz-1$ 个点在左右子树中可以任选。
+
+设 $dp_u$ 为以 $u$ 为根的方案数。
+
+那么 $dp_u = C_{siz-1}^{ls} \times dp_{ls} \times dp_{rs}$。
+
+Lucas 再求一下 C 就行了。
+
+## [P2183 [国家集训队] 礼物](https://www.luogu.com.cn/problem/P2183)
+
+孩子，如果你认真阅读了上面的内容，你将发现这就是多重集合排列板题。
+]]></content>
+      <categories>
+        <category>数学/证明</category>
+      </categories>
+      <tags>
+        <tag>团队周刊</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>P3118 [USACO15JAN] Moovie Mooving G</title>
+    <url>/2024/10/22/P3118-USACO15JAN-Moovie-Mooving-G/</url>
+    <content><![CDATA[
+## 题目描述
+有 $N$ 部电影，每部时长为 $val_i$ 共放映 $num_i$ 场，且第 $i$ 部电影第 $j$ 场的开场时间为 $tim_{i,j}$。  
+每部电影只能看一次，看电影的中途可以换电影，求连续看满时长 $L$ 最少要看几部电影。
+
+<!-- more -->
+
+## 思路
+数据范围 $1\le N\le 20$，考虑状压 DP。  
+设 $dp_s$ 表示在状态 $s$ 时，可以连续看多久电影。  
+对于每个状态 $s$，暴力枚举接下来我们要看的电影。
+
+因为要求看的电影数量尽可能少，所以每次应该选择**最后一个不大于**当前时间的电影场次。这个操作可以用 `upper_bound` 解决。  
+
+然后做正常的状压 DP 就可以了，设当前选到了电影 $i$，只有 $i$ **存在**不大于当前时间的场次，才进行转移。当前状态应当与电影结束时间取最大值，即 $\max(dp_{s|(1<<(i-1))} , tim_{i,idx}+ val_i)$。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+#include<cstring>
+#include<cstdio>
+#include<cstdlib>
+using namespace std;
+template <typename T>
+inline void read(T&x){//快读
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0' || ch>'9'){
+		if(ch=='-') w = 1;
+		ch = getchar();
+	}
+	while(ch>='0' && ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+const int N = 25,INF = 0x3f3f3f3f;
+int n,L;
+int val[N],num[N],tim[N][1100];
+int ans=INF,dp[(1<<20)+10];
+int main(){
+	read(n,L);
+	for(int i=1;i<=n;++i){
+		read(val[i],num[i]);//电影时长、场次数量
+		for(int j=1;j<=num[i];++j){
+			read(tim[i][j]);//每场的开始时间
+		}
+	}
+	for(int s=0;s<1<<n;++s){
+		for(int i=1;i<=n;++i){
+			if((1<<(i-1))&s) continue;//电影已经选过
+			int idx = upper_bound(tim[i]+1,tim[i]+num[i]+1,dp[s])-(tim[i]+1);
+			if(idx>0) dp[s|(1<<(i-1))] = max(dp[s|(1<<(i-1))],tim[i][idx]+val[i]); //存在场次
+		}
+		if(dp[s]>=L) ans = min(ans,__builtin_popcount(s));//popcount非常快
+	}
+	printf("%d",ans==INF? -1 : ans);
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>CF1662L Il Derby della Madonnina</title>
+    <url>/2025/05/13/CF1662L-Il-Derby-della-Madonnina/</url>
+    <content><![CDATA[
+## 题目描述
+
+有 $n$ 个点，第 $i$ 个点在 $t_i$ 时出现在 $a_i$ 位置然后消失。你第 $0$ 秒时在位置 $0$，速度为 $v$，问最多能赶上多少个点出现。
+
+## 思路
+
+设 $dp_i$ 表示到了第 $i$ 个点，且能赶上点 $i$ 的时候，最多能赶上多少点，
+
+<!-- more -->
+
+则 $dp_j = \max_{i=0}^{j-1}\\{ dp_i \space [v \cdot (t_j-t_i) \ge \lvert x_j-x_i \rvert ]\\}+1$。
+
+当 $i<j$ 有 $t_i < t_j$，所以 $v \cdot (t_j-t_i) = \lvert v \cdot t_j - v \cdot t_i \rvert$，
+
+可以把限制条件看作点 $A \space (v \cdot t_i,x_i)$ 与点 $B \space (v \cdot t_j,x_j)$ 两点的切比雪夫距离为其横坐标的距离，且 $B$ 在 $A$ 右侧。画出来图像这样，蓝色区域是 $B$ 点的限制区域。
+
+![1](CF1662L-Il-Derby-della-Madonnina-1.png)
+
+
+我们发现，$B$ 点的范围是个边缘与坐标轴夹 $\frac {\pi}{4} $ 的半平面交，这个边缘不与坐标轴垂直很烦，所以我们将坐标系顺时针旋转 $\frac {\pi}{4} $。
+
+![2](CF1662L-Il-Derby-della-Madonnina-2.png)
+
+
+原坐标系 $(x,y)$ 对应新坐标系 $(x\cos(- \frac {\pi}{4} )+y\sin(- \frac {\pi}{4} ),y\cos(- \frac {\pi}{4} ) - x\sin(- \frac {\pi}{4} ))$。  
+我们实际只在乎两点间的相对位置，将坐标轴整体扩大 $\cos(- \frac {\pi}{4} )$ 后不会对限制产生影响。  
+现在原坐标系的点 $(x,y)$ 对应新坐标系的 $(x-y,x+y)$。
+
+新坐标系下，$B$ 的限制变为了需在 $A$ 的右上部分。
+
+不难发现，原问题变为了求平面最长不下降链，起始点强制为 $(0,0)$，二维偏序即可。
+
+## 代码
+
+
+```cpp
+#include<iostream>
+#include<algorithm>
+using namespace std;
+typedef long long ll;
+const int N = 2e5+10;
+int n,ans,cnt;
+ll v,t[N],a[N],dp[N];
+struct node{
+	ll x,y;
+	inline int operator < (const node&G) const{
+		if(x^G.x) return x < G.x;
+		return y < G.y;
+	}
+}g[N];
+int main(){
+
+	scanf("%lld%lld",&n,&v);
+	for(int i=1;i<=n;++i) scanf("%lld",t+i);
+	for(int i=1;i<=n;++i){
+		scanf("%lld",a+i); // 求新坐标系下点的坐标
+		g[i].x = v*t[i]-a[i];
+		g[i].y = v*t[i]+a[i];
+	}
+	g[++n] = {0,0};
+	sort(g+1,g+1+n); // 排序掉第一维
+	for(int i=1;i<=n;++i){ // 只留下(0,0)能到达的点
+		if(g[i].x>=0 && g[i].y>=0) g[++cnt] = g[i];
+	}
+	for(int i=1;i<=cnt;++i){ // 第二维求最长不下降子序列
+		if(dp[ans]<=g[i].y) dp[++ans] = g[i].y;
+		else *upper_bound(dp+1,dp+1+ans,g[i].y) = g[i].y;
+	}
+	printf("%d",ans-1); // 减去强制选的(0,0)
+	
+	return 0;
+}
+
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>P3540 [POI2012] SQU-Squarks</title>
+    <url>/2024/11/01/P3540-POI2012-SQU-Squarks/</url>
+    <content><![CDATA[
+## 题目描述
+有 $N$ 个数，给出一个序列 $X_N$ 表示每两个数的和。求排序去重后这 $N$ 个数所有可能的情况。
+
+## 思路
+我们设原数从小到大排序后为序列 $a_N$。  
+首先想到最暴力的方法：枚举全排列，期望得分 20 分。 
+
+<!-- more -->
+
+思考，如果我们可以通过确定某些 $a$，就能求出整个 $a_N$，那么就可以减少全排列的枚举次数。
+  
+我们先对 $X_N$ 从小到大排序，那么有 $X_1 = a_1+a_2$，$X_2 = a_1+a_3$。此时如果我们枚举 $X_i = a_2+a_3$，就可以分别求出 $a_1$、$a_2$、$a_3$。  
+当我们能够确定 $a_1$、$a_2$、$a_3$ 后，考虑如何求出 $a_4\sim a_N$。    
+
+在 $X_N$ 中，如果去掉 $X_1$、$X_2$ 和 $X_i=a_2+a_3$，那么剩下的 $X$ 中的最小值就是 $a_1+a_4$ 的值，从而我们可以求出 $a_4$。推广一下我们就可以求出整个序列 $a_N$。
+
+因为 $X_N$ 可能重复且需要排序，所以我们用 `multiset` 存储 $X_N$（或者写平衡树），当每次求出一个 $a_j$ 时，判断其对于 $X_N$ 是否合法即可。
+
+注意枚举 $a_2+a_3$ 的值的时候，有重复的要判掉，不然会多算重复的情况。~~（因为这个一直没过第一个点）~~。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<climits>
+#include<cstdlib>
+#include<vector>
+#include<set>
+using namespace std;
+typedef long long ll;
+template <typename T>
+inline void read(T&x){//快读
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0'||ch>'9'){
+		if(ch=='-') w=1;
+		ch = getchar();
+	}
+	while(ch>='0'&&ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+const int N = 300;
+int n,m,cnt;
+int X[N*N];
+vector < vector <int> > ans;
+vector <int> a;
+multiset <int> s;	
+int main(){
+	// freopen("in.in","r",stdin);
+	// freopen("out.out","w",stdout);
+	read(n);m = n*(n-1)/2;
+	for(int i=1;i<=m;++i) read(X[i]);
+	sort(X+1,X+1+m);
+	a.resize(n+1);
+	for(int k=3;k<=n;++k){
+		s.clear();
+		if(X[k]==X[k-1]) continue;//判掉重复的情况
+		a[1] = (X[1]+X[2]-X[k]) >> 1;
+		a[2] = X[1]-a[1];
+		a[3] = X[2]-a[1];
+		if(a[1]<=0 || a[2]<=0 || a[3]<=0) continue;//都要大于零
+		for(int i=3;i<=m;++i) if(i!=k) s.insert(X[i]);//不算X[k]
+		int f = 0;
+		for(int i=4;i<=n && !f;++i){
+			a[i] = (*s.begin())-a[1];
+			if(a[i]<=0) f = 1;
+			for(int j=1;j<=i-1 && !f;++j){//判断a[j]是否重复
+				if(s.find(a[i]+a[j])==s.end()) f=1;
+				else s.erase(s.find(a[i]+a[j])); 
+			}
+		}
+		if(f) continue;
+		ans.push_back(a);//存答案
+	}
+	printf("%d\n",ans.size());
+	for(int i=0;i<ans.size();++i){
+		for(int j=1;j<=n;++j){
+			printf("%d ",ans[i][j]);
+		}
+		putchar('\n');
+	}
+	// fclose(stdin);
+	// fclose(stdout);
+	return 0;
+}
+
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>P3629 [APIO2010] 巡逻</title>
+    <url>/2025/02/27/P3629-APIO2010-%E5%B7%A1%E9%80%BB/</url>
+    <content><![CDATA[## 思路
+
+对于 $k=1$ 的情况，加上一条边时，树上出现了一条环且长为 $S$，环上的原路径都可以少走一遍，再算上新路径要走一遍。此时答案为 $2 \times (n-1) - (S-1) + 1$。  
+我们需要令 $S-1$ 尽可能大，即原路径的那条链尽可能长，那么应该取树的直径。
+
+<!-- more -->
+
+对于 $k=2$ 的情况，加上两条边会出现两条环。由于出现的每条环长度比所选链长多一，所以只考虑树上所选链的情况即可。  
+若想使总步数尽可能小，那么**选出的两条链要尽可能多的覆盖树上的路径**。且在每条环上，我们都会把环上所有边都经过一遍再走出这条环，两条链重合的部分会重复走，所以**两条链的重合部分要尽可能少**。       
+我们巡逻的策略是一但遇到不在环上的点，就优先去走它，然后再想办法走到环上。所以实际答案为 $2 \times (n-1) - S_{并}+S_{交}+2$。 
+
+贪心地取，我们取到的其中一条链一定是树的直径。  
+粗略证明：  
+对于我们选的两条链，它们分别越长一定不劣。如果两条链没有重合部分，那么其中一条上半部分选中两条链中间的部分，接到另一条的下半部分，答案不劣。由于两条链都要尽量长，那么第一条链如此操作一定能够取到直径。
+
+第二条链在取的时候我们分类讨论。  
+设第一条链选出的点共有 $m$ 个，点集为 $T$，按照深度顺序排列。  
+
+如果第二条链与第一条链没有重叠部分，那么我们对每个 $T_i$ 求其子树直径即可。  
+如果第二条链与第一条链有重叠部分，我们找到重合部分的两个端点 $T_i$、$T_j$。那么我们将这条链分为一段重合部分、和两段非重合部分。可以钦定 $i < j$，那么 $S_{重} = j-i$。  
+
+![1](P3629-APIO2010-巡逻-1.webp)
+
+
+我们需要使 $S_{并}-S_{交}$ 最大，那么分别取到 $T_i$、$T_j$ 的子树内距其最深的深度 $maxdep{T_i}$、$maxdep{T_j}$ 一定更优。  
+此时答案为 $2 \times (n-1) -(m-1)-\[ maxdep{T_1}+maxdep{T_2} - (j-i)\] +2$，
+
+找到 $\max\\{maxdep{T_1}+maxdep{T_2} - (j-i)\\}$ 即可。  
+
+令 $g_i = maxdep{T_i}+i$，$f_j = maxdep{T_j}-j$，此时转化为求 $\max \\{ g_i+f_j \\}$ （$i<j$）。  
+只需要 $O(n)$ 扫一遍 $f_j$，对于每个 $f_j$ 维护出最大的 $g_i$（在求第二条链的时候顺便维护即可）。 
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstring>
+#include<queue>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+template <typename T>
+inline void read(T&x){ //快读
+	int w = 0;x = 0;
+	char ch = getchar();
+	while(ch<'0' || ch>'9'){
+		if(ch=='-') w = 1;
+		ch = getchar();
+	}
+	while(ch>='0' && ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x = ~x+1;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+template <typename T>
+inline T Max(T x,T y){ return (x > y ? x : y); }
+const int N = 1e5+10;
+int n,m,cnt;
+struct{
+	int to,nex;
+}edge[N<<1];
+int head[N],edge_num;
+inline void add(int x,int y){// 存边
+	edge[++edge_num].to = y;
+	edge[edge_num].nex = head[x];
+	head[x] = edge_num;
+}
+int dis[N],fa[N],vis[N];
+inline int bfs(int s,int flag){// 用来找以 s 为根最深的深度对应的点
+	memset(dis,0,sizeof(dis));
+	queue <int> q;
+	q.push(s);
+	int idx = 0;
+	if(flag) fa[s] = 0; //只有选直径的时候才标记父亲
+	while(!q.empty()){
+		int now = q.front();
+		q.pop();
+		for(int i=head[now];i;i=edge[i].nex){
+			int tto = edge[i].to;
+			if(dis[tto] || tto==s || vis[tto]) continue;
+			if(flag) fa[tto] = now;
+			dis[tto] = dis[now]+1;
+			if(dis[tto]>dis[idx]) idx = tto;
+			q.push(tto);
+		}
+	}
+	return idx;
+}
+int main(){
+	// freopen("data.out","r",stdin);
+	// freopen("put.out","w",stdout);
+
+	read(n,m);
+	for(int i=1,u,v;i<n;++i){
+		read(u,v);
+		add(u,v); add(v,u);
+	}
+	int t1 = bfs(1,1),t2 = bfs(t1,1); //求直径
+	if(m==1){// k==1
+		printf("%d",2*(n-1)-dis[t2]+1);
+		return 0;
+	}
+    // 把直径上的点标记，强制第二次找最深的深度时，只在直径上的点的子树内
+	for(int i=t2;i;i=fa[i]) vis[i] = 1;
+	int maxdis = dis[t2],maxn = 0;
+	for(int i=t2,f,g,maxg=0;i;i=fa[i]){
+		vis[i] = 0;// 防止第一个儿子可能统计不到
+		t1 = bfs(i,0);// 最大深度
+
+		++cnt;
+        // 求 g 和 f
+		g = dis[t1]+cnt;
+		f = dis[t1]-cnt;
+		// 求 max{g + f}
+		maxn = Max(maxn,f+maxg);
+		maxg = Max(maxg,g);
+
+		t2 = bfs(t1,0);// 求其子树直径
+		vis[i] = 1;// 记得加回来
+		maxn = Max(maxn,dis[t2]);// 没有重合部分的情况
+	}
+	printf("%d",2*(n-1)-maxdis-maxn+2);// 答案
+
+	fclose(stdin);
+	fclose(stdout);
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>P3715 [BJOI2017] 魔法咒语</title>
+    <url>/2025/06/11/P3715-BJOI2017-%E9%AD%94%E6%B3%95%E5%92%92%E8%AF%AD/</url>
+    <content><![CDATA[
+## 题意
+
+用 $n$ 个字符串拼成一个长为 $L$ 的长串，长串中不能出现另外的 $m$ 个字符串，求总方案数。
+
+## 思路
+
+限制条件为忌讳词语不能匹配上拼成的长串。
+
+所以我们把忌讳词语都扔到 AC 自动机上做 dp。
+
+<!-- more -->
+
+令 $S_i$ 表示基本词汇，$trnas_{u,i}$ 表示 fail 树上节点 $u$ 拼接上 $S_i$ 后会转移到的节点。
+
+设 $dp_{u,l}$ 为当前在 fail 树上节点 $u$，拼成串长为 $l$ 时的方案数， 
+
+如果存在一个忌讳词语以节点 $v$ 结尾，那么 $v$ 及其子树都不能参与转移，此时我们设其对应的 $trans_{u,i}=0$。
+
+设 AC 自动机上有 $c$ 个节点，那么转移很好写：
+
+$$
+dp_{u,l} = \sum_{v=1}^c \sum_{i=1}^n [trans_{v,i}==u]dp_{v,l-|S_i|}
+$$
+
+最后答案为 $ans = \sum_{u=1}^c dp_{u,L}$。
+
+然后我们发现这个玩意的 $L$ 高达 $10^{18}$，但当 $L$ 较大时 $|S_i|\le2$。所以我们考虑点分治，对数据点。
+
+### Subtask 1
+
+前 60pts 我们直接如上 dp。
+
+### Subtask 2
+
+中间 20pts，$|S_i|=1$，$l$ 只会对 $l+1$ 有贡献。  
+
+艾佛森括号不再作判断语句，而是放进转移里：
+
+$$
+dp_{u,l} = \sum_{v=1}^c \sum_{i=1}^n [trans_{v,i}==u]\times dp_{v,l-1}
+$$
+
+中间的艾佛森括号我们提出来求和：
+
+$$
+f_{v,u} = \sum_{i=1}^n [trans_{v,i}==u]
+$$
+
+转移方程变成：
+
+$$
+dp_{u,l} = \sum_{v=1}^c f_{v,u} \times dp_{v,l-1}
+$$
+
+转移方程现在已经很像矩阵乘法了，所以我们构造转移矩阵优化 dp。
+
+$$
+F_l = 
+\begin{bmatrix}
+dp_{1,l} \\\\
+dp_{2,l} \\\\
+\vdots \\\\
+dp_{c,l}
+\end{bmatrix}
+\space
+T = 
+\begin{bmatrix}
+f_{1,1} & f_{2,1} & \cdots & f_{c,1} \\\\
+f_{1,2} & f_{2,2} & \cdots & f_{c,2} \\\\
+\vdots & \vdots & \vdots & \vdots \\\\
+f_{1,c} & f_{2,c} & \cdots & f_{c,c}
+\end{bmatrix}
+$$
+
+$$
+F_L = T^{L-1}F_1
+$$
+
+### Subtask 3
+
+最后 20pts，$|S_i|\le2$，$l$ 只会对 $l+1$ 和 $l+2$ 有贡献。
+
+把对 $|S_i|$ 的分类讨论放进转移里：
+
+$$
+dp_{u,l} = \sum_{v=1}^c \sum_{i=1}^n [|S_i|==1][trans_{v,i}==u]dp_{v,l-1}+[|S_i|==2][trans_{v,i}==u]dp_{v,l-2}
+$$
+
+分别把两对艾佛森括号提出来：
+
+$$
+\begin{align}
+f_{1,v,u} = \sum_{i=1}^n [|S_i|==1][trans_{v,i}==u] \\\\
+f_{2,v,u} = \sum_{i=1}^n [|S_i|==2][trans_{v,i}==u]
+\end{align}
+$$
+
+转移方程变成了：
+
+$$
+dp_{u,l} = \sum_{u=1}^c f_{1,v,u}\times dp_{v,l-1}+f_{2,v,u}\times dp_{v,l-2}
+$$
+
+现在在矩阵里记录 $l-1$ 和 $l-2$ 两个状态就可以了。
+
+$$
+F_l = 
+\begin{bmatrix}
+dp_{1,l-1} \\\\
+dp_{2,l-1} \\\\
+\vdots \\\\
+dp_{c,l-1} \\\\
+\\\\
+dp_{1,l-2} \\\\
+dp_{2,l-2} \\\\
+\vdots \\\\
+dp_{c,l-2}
+\end{bmatrix}
+\space
+T=
+\begin{bmatrix}
+f_{1,1,1} & f_{1,2,1} & \cdots & f_{1,c,1} & \space f_{2,1,1} & f_{2,2,1} & \cdots & f_{2,c,1} \\\\
+f_{1,1,2} & f_{1,2,2} & \cdots & f_{1,c,2} & \space f_{2,1,2} & f_{2,2,2} & \cdots & f_{2,c,2} \\\\
+\vdots & \vdots & \vdots & \vdots & \space \vdots & \vdots & \vdots & \vdots \\\\
+f_{1,1,c} & f_{1,2,c} & \cdots & f_{1,c,c} & \space f_{2,1,c} & f_{2,2,c} & \cdots & f_{2,c,c} \\\\
+\\\\
+1 & 0 & \cdots & 0 & \space 0 & 0 & \cdots & 0 \\\\
+0 & 1 & \cdots & 0 & \space 0 & 0 & \cdots & 0 \\\\
+\vdots & \vdots & \vdots & \vdots & \space \vdots & \vdots & \vdots & \vdots \\\\
+0 & 0 & \cdots & 1 & \space 0 & 0 & \cdots & 0
+\end{bmatrix}
+$$
+
+$$
+F_L = T^{L-1}F_1
+$$
+
+## 代码
+
+```cpp
+const int N = 55,M = 105;
+const ll mod = 1e9+7;
+char t[M],S[N][M];
+int n,m,L,f2 = 1; ll ans;
+int rt = 1,cnt = 1;
+struct{
+	int son[26],fail,trans[N];
+	int is_ed; // is_ed 是否有一个忌讳词语以该节点结尾
+	vector <int> g; // fail 树边
+}tr[M];
+inline void insert(){
+	int now = rt;
+	int len = strlen(t+1);
+	for(int i=1;i<=len;++i){
+		int c = t[i]-'a';
+		if(!tr[now].son[c]) tr[now].son[c] = ++cnt;
+		now = tr[now].son[c];
+	}
+	tr[now].is_ed = 1;
+}
+inline int get_trans(int now,int id){
+	int len = strlen(S[id]+1);
+	for(int i=1;i<=len;++i){
+		int c = S[id][i]-'a';
+		now = tr[now].son[c];
+		if(tr[now].is_ed) return 0; // 不能参与转移设成 0
+	}
+	return now;
+}
+inline void get_fail(){
+	queue <int> q;
+	for(int i=0;i<26;++i) tr[0].son[i] = 1;
+	q.push(1);
+	while(!q.empty()){
+		int now = q.front();
+		q.pop();
+		for(int i=0;i<26;++i){
+			if(tr[now].son[i]){
+				tr[tr[now].son[i]].fail = tr[tr[now].fail].son[i];
+				q.push(tr[now].son[i]);
+				// 一个节点不能转移，其子树内节点都不能参与转移
+				tr[tr[now].son[i]].is_ed |= tr[tr[tr[now].son[i]].fail].is_ed; 
+				tr[tr[tr[now].son[i]].fail].g.push_back(tr[now].son[i]);
+			}
+			else tr[now].son[i] = tr[tr[now].fail].son[i];
+		}
+	}
+	q.push(1);
+	while(!q.empty()){
+		int now = q.front();
+		q.pop();
+		if(tr[now].is_ed) continue;
+		for(int i=1;i<=n;++i) tr[now].trans[i] = get_trans(now,i);
+		for(int i=tr[now].g.size()-1;i>=0;--i) q.push(tr[now].g[i]);
+	}
+}
+
+inline void solve1(){ // L<=100
+	ll dp[M][M];
+	memset(dp,0,sizeof(dp));
+	dp[1][0] = 1;
+	for(int len=0;len<L;++len){
+		for(int now=1;now<=cnt;++now){
+			if(!dp[now][len]) continue;
+			for(int i=1;i<=n;++i){
+				if(tr[now].trans[i] && len+strlen(S[i]+1)<=L){
+					(dp[tr[now].trans[i]][len+strlen(S[i]+1)] += dp[now][len])%=mod;
+				}
+			}
+		}
+	}
+	for(int now=1;now<=cnt;++now) (ans += dp[now][L])%=mod;
+}
+struct Matrix{
+	int row,clm;
+	ll val[M<<1][M<<1];
+	Matrix(){
+		row = clm = 0;
+		memset(val,0,sizeof(val));
+	}
+	Matrix(int f){
+		row = clm = 0;
+		memset(val,0,sizeof(val));
+		if(f) for(int i=(M<<1)-1;i;--i) val[i][i] = 1;
+	}
+	inline Matrix operator * (const Matrix&G) const{
+		Matrix res = Matrix(0);
+		res.row = row; res.clm = G.clm;
+		for(int k=1;k<=clm;++k){
+			for(int i=1;i<=row;++i){
+				for(int j=1;j<=G.clm;++j){
+					(res.val[i][j] += val[i][k]*G.val[k][j])%=mod;
+				}
+			}
+		}
+		return res;
+	}
+	inline void operator *= (const Matrix&G){
+		(*this) = (*this)*G;
+	}
+	friend inline Matrix quick_pow(Matrix x,int y){
+		Matrix res = Matrix(1); 
+		res.row = x.row; res.clm = x.clm;
+		while(y){
+			if(y&1) res *= x;
+			x *= x;
+			y >>= 1;
+		}
+		return res;
+	}
+}T,F;
+inline void solve2_1(){ // |S|==1
+	F.row = cnt; F.clm = 1;
+	for(int i=1;i<=n;++i) F.val[tr[1].trans[i]][1]++;
+	T.row = cnt; T.clm = cnt;
+	for(int now=1;now<=cnt;++now){
+		for(int i=1;i<=n;++i){
+			T.val[tr[now].trans[i]][now]++;
+		}
+	}
+	F = quick_pow(T,L-1)*F;
+	for(int now=1;now<=cnt;++now) (ans += F.val[now][1])%=mod;
+}
+inline void solve2_2(){ // |S|<=2
+	F.row = cnt*2; F.clm = 1;
+	for(int i=1;i<=n;++i) F.val[tr[1].trans[i]][1] += (strlen(S[i]+1)==1);
+	F.val[cnt+1][1] = 1; // dp[1][0] = 1
+	T.row = cnt*2; T.clm = cnt*2;
+	for(int now=1;now<=cnt;++now){
+		for(int i=1;i<=n;++i){
+			if(strlen(S[i]+1)==1) T.val[tr[now].trans[i]][now]++;
+			else if(strlen(S[i]+1)==2) T.val[tr[now].trans[i]][now+cnt]++;
+			T.val[now+cnt][now] = 1;
+		}
+	}
+	F = quick_pow(T,L-1)*F;
+	for(int now=1;now<=cnt;++now) (ans += F.val[now][1])%=mod;
+}
+int main(){
+
+	read(n,m,L);
+	for(int i=1;i<=n;++i){
+		scanf("%s",S[i]+1); 
+		if(strlen(S[i]+1)>1) f2 = 0; // Subtask 2 or 3
+	}
+	for(int i=1;i<=m;++i){
+		scanf("%s",t+1);
+		insert();
+	}
+	get_fail();
+	L<=100 ? solve1() : f2 ? solve2_1() : solve2_2();	
+	printf("%lld",ans);
+
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>P4104 [HEOI2014] 平衡</title>
+    <url>/2024/10/09/P4104-HEOI2014-%E5%B9%B3%E8%A1%A1/</url>
+    <content><![CDATA[
+## 题面
+
+题目描述：  
+一个杠杆上的左右两侧各有 $n$ 块质量相等的橡皮（杠杆最中间也有一块），随机从中拿走 $k$ 块橡皮，可使杠杆依然平衡。求共有多少种拿走橡皮的方案数，答案对 $p$ 取模。
+
+题目简译：  
+从 $-n\sim n$ 中共选出 $k$ 个互不相同的数，求使得正数与负数的和为零的方案数。
+
+<!-- more -->
+
+## 思路
+**前置知识：**[整数划分](https://baike.baidu.com/item/%E6%95%B4%E6%95%B0%E5%88%92%E5%88%86)。
+
+只考虑在杠杆的右侧选出 $x\in [1,k]$ 个数，题目就变成了经典的整数划分模型：  
+将 $N\in [0,n\times k]$ 划分为 $k$ 个互不相同且不大于 $n$ 的正整数的方案数。  
+显然统计答案时，右侧选出 $x$ 个数，那么左侧就选出 $k-x$ 个数，乘法原理计算得到总方案数。  
+
+
+---
+
+
+对于数字有大小限制的整数划分：  
+> 令 $dp_{i,j}$ 表示把 $i$ 划分为 $j$ 个数的方案：  
+> 则有 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}$。  
+> 当 $i>n$ 时，出现的不合法方案需要减掉：  
+> 此时 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}-dp_{i-n-1,j-1}$。
+
+对于统计答案：  
+> 如上：枚举杠杆一侧选出 $x$ 个数，另一侧就选出 $k-x$ 个数，乘法原理计算。  
+> 特别注意：杠杆最中间也有一块橡皮，需要考虑是否将其拿走。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<climits>
+#include<cstdlib>
+#include<vector>
+using namespace std;
+typedef long long ll;
+template <typename T>
+inline void read(T&x){//快读
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0'||ch>'9'){
+		if(ch=='-') w=1;
+		ch = getchar();
+	}
+	while(ch>='0'&&ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+const int N = 1e4+10,K = 15;
+int n,k,p;
+ll dp[N*K][K];
+int main(){
+	int T;read(T);
+	while(T--){
+		read(n,k,p);
+		memset(dp,0,sizeof(dp));
+		dp[0][0] = 1;//初始状态
+		for(int i=0;i<=k*n;++i){//整数划分
+			for(int j=1;j<=min(i,k);++j){
+				dp[i][j] = (dp[i][j]+dp[i-j][j]+dp[i-j][j-1])%p;
+				if(i>n) dp[i][j] = (dp[i][j]-dp[i-n-1][j-1]+p)%p;
+			}
+		}
+		ll ans = 0;
+		for(int j=0;j<=k;++j){
+			for(int i=0;i<=n*k;++i){
+				ans = (ans+dp[i][j]*dp[i][k-j])%p;
+				if(j<k) ans = (ans+dp[i][j]*dp[i][k-j-1])%p;//最中间的橡皮要看是否选
+			}
+		}
+		printf("%lld\n",ans);
+	}
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>P4478 [BJWC2018] 上学路线</title>
+    <url>/2025/03/12/P4478-BJWC2018-%E4%B8%8A%E5%AD%A6%E8%B7%AF%E7%BA%BF/</url>
+    <content><![CDATA[
+## 思路
+
+看到有 $T$ 个障碍点并且障碍点非常少，所以想到暴力容斥，用总方案减去不合法的方案数。
+
+只要经过任意一个障碍点，就是一个不合法方案。所以令 $dp_i$ 表示**只经过**障碍点 $i$ 的方案数。 
+
+<!-- more -->
+
+设当前障碍点为 $(x_i,y_i)$，如果不管途中是否经过其他障碍点，那么走到该点的总方案数为 $C_{x_i+y_i}^{x_i}$。  
+但是其中还包含了经过其他障碍点的方案数。
+
+设还经过了障碍点 $(x_j,y_j)$，满足 $x_j \le x_i$ 且 $y_j \le y_i$，那么多统计的方案数为 $dp_j \times C_{x_i-x_j+y_i-y_j}^{x_i-x_j}$ 减掉即可。  
+一个点能从其左下角的每个点转移过来，所以先把点按从左到右、从上到下排好序，才能保证转移是正确的。  
+
+我们发现 $n$ 和 $m$ 都非常大，所以要用 Lucas 定理，$C_n^m \equiv C_{n\\%P}^{m\\%P} \times C_{n/P}^{m/P} \pmod P$。  
+然而 Lucas 定理只适用于 $P$ 为质数，如果 $P$ 不是质数怎么办呢。  
+我们可以把 $P$ 分解质因数，对于每个质因子都列出一个方程，得到同余方程组，然后用中国剩余定理合并求解就可以了。
+
+我们发现 $P = 1019663265=3 \times 5 \times 6793 \times 10007$，所以不用繁琐的对组合数拆开取模，直接做就可以了。
+
+
+## 代码
+
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<climits>
+#include<cstdlib>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+template <typename T>
+inline void read(T&x){// 快读
+	int w = 0;x = 0;
+	char ch = getchar();
+	while(ch<'0' || ch>'9'){
+		if(ch=='-') w = 1;
+		ch = getchar();
+	}
+	while(ch>='0' && ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x = ~x+1;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+template <typename T>
+inline T Min(T x,T y){ return (x < y ? x : y); }
+template <typename T>
+inline T Max(T x,T y){ return (x > y ? x : y); }
+template <typename T>
+inline T Abs(T x){ return (x < 0 ? ~x+1 : x); }
+const int N = 210,M = 1e6+10;
+ll prime[4] = {3,5,6793,10007};
+ll T,ans[N],P; int cnt;
+struct node{
+    ll x,y;
+    inline int operator < (const node&G) const{
+        if(x^G.x) return x < G.x;
+        return y < G.y;
+    }
+}g[N];
+ll mul[4][M],inv[4][M];
+inline ll quick_pow(ll x,ll y,int t){
+    ll res = 1;
+    while(y){
+        if(y&1) (res *= x)%=prime[t];
+        (x *= x)%=prime[t];
+        y >>= 1;
+    }
+    return res;
+}
+inline ll C(ll n,ll m,int t){// 组合数
+    if(m>n) return 0;
+    return mul[t][n]*inv[t][n-m]%prime[t]*inv[t][m]%prime[t];
+}
+inline ll Lucas(ll n,ll m,int t){// Lucas
+    if(!m) return 1;
+    return C(n%prime[t],m%prime[t],t)*Lucas(n/prime[t],m/prime[t],t)%prime[t];
+}
+inline ll Gcd(ll x,ll y){
+    if(!x || !y) return x|y;
+    ll xz = __builtin_ctzll(x);
+    ll yz = __builtin_ctzll(y);
+    ll z = Min(xz,yz);
+    ll diff;
+    y >>= yz;
+    while(x){
+        x >>= xz;
+        diff = x-y;
+        xz = __builtin_ctzll(diff);
+        y = Min(x,y);
+        x = Abs(diff);
+    }
+    return y << z;
+}
+inline void Exgcd(ll x,ll y,ll &Ex,ll &Ey){// 扩欧
+    if(!y){
+        Ex = 1;
+        Ey = 0;
+        return ;
+    }
+    Exgcd(y,x%y,Ey,Ex);
+    Ey = Ey-x/y*Ex;
+}
+inline ll ExCRT(ll n,ll m){// ExCRT 合并方程
+    ll r1 = Lucas(n,m,0);
+    ll m1 = prime[0];
+    ll r2,m2,Ex,Ey;
+    for(int t=1;t<=cnt;++t){
+        r2 = Lucas(n,m,t);
+        m2 = prime[t];
+        ll d = Gcd(m1,m2);
+        // if((r2-r1)%d) exit(0);
+        Exgcd(m1/d,m2/d,Ex,Ey);
+
+        Ex = ((r2-r1)/d*Ex%(m2/d)+(m2/d))%(m2/d);
+        r1 = ((r1+m1*Ex)%(m1/d*m2)+(m1/d*m2))%(m1/d*m2);
+        m1 = m1/d*m2;
+    }
+    return r1;
+}
+int main(){
+	// freopen("in.in","r",stdin);
+    // freopen("out.out","w",stdout);
+
+	ll n,m;read(n,m,T,P);
+    for(int i=1;i<=T;++i) read(g[i].x,g[i].y);
+    g[++T] = {n,m};
+    sort(g+1,g+1+T);// 排好序
+    if(P==1000003) prime[0] = 1000003,cnt = 0;
+    else cnt = 3;
+    for(int t=0;t<=cnt;++t){
+        mul[t][0] = 1;
+        for(ll i=1;i<prime[t];++i) mul[t][i] = mul[t][i-1]*i%prime[t];
+        inv[t][prime[t]-1] = quick_pow(mul[t][prime[t]-1],prime[t]-2,t);
+        for(ll i=prime[t]-1;i;--i) inv[t][i-1] = inv[t][i]*i%prime[t];
+    }
+    for(int i=1;i<=T;++i){
+        ans[i] = ExCRT(g[i].x+g[i].y,g[i].x);
+        for(int j=1;j<i;++j){
+            if(g[j].x<=g[i].x && g[j].y<=g[i].y){// 左下角的点
+                ans[i] = (ans[i]-ans[j]*ExCRT(g[i].x+g[i].y-g[j].x-g[j].y,g[i].x-g[j].x)%P+P)%P;
+            }
+        }
+    }
+    printf("%lld",ans[T]);
+
+	fclose(stdin);
+	fclose(stdout);
+	return 0;
+}
+
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>P4484 [BJWC2018] 最长上升子序列</title>
+    <url>/2025/07/01/P4484-BJWC2018-%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/</url>
+    <content><![CDATA[
+## 思路
+
+看到排列和 LIS，所以想到了杨表。
+
+设杨图单元格数为 $n$，则其每一行的格数构成了 $n$ 的一种整数划分。
+
+<!-- more -->
+
+向一个单元格数为 $n$，划分为 $\lambda$ 的杨图 $Y_{\lambda}$ 中，插入 $1\sim n$ 的排列，我们有[钩长公式](https://www.zgbk.com/ecph/words?SiteID=1&ID=95404&SubID=61853)，得到的标准杨表的数量 $d_{\lambda}$ 为：
+
+$$
+d_{\lambda} = \frac{n!}{\Pi_{(i,j)\in Y_{\lambda}} h_{\lambda}(i,j)}
+$$
+
+此时对应排列的 LIS 长度，为杨表第一行的长度 $|S_{\lambda}|$。
+
+对于划分都为 $\lambda$ 的杨表，我们有 [Robinson-Schensted correspondence 定理](https://encyclopediaofmath.org/wiki/Robinson-Schensted_correspondence)，它们中两两会唯一对应一种排列。则 $|S_{\lambda}|$ 对答案的贡献为：
+
+$$
+(d_{\lambda})^2|S_{\lambda}|
+$$
+
+我们尝试钦定杨图的形态，则答案为：
+
+$$
+\frac{1}{n!}\sum_{\lambda} (d_{\lambda})^2|S_{\lambda}|
+$$
+
+由于 $n \le 28$，最多也就 $3718$ 种划分，所以暴力枚举 $\lambda$ 即可。
+
+## 代码
+
+```cpp
+inline void dfs(int las,int num){
+	if(num==n){
+		ll val = mul;
+		for(int i=1;i<=cnt;++i){
+			for(int j=1;j<=Y[i];++j){
+				int num = Y[i]-j+1,t = i+1;;
+				while(t<=cnt && Y[t]>=j) ++t,++num;
+				(val *= inv[num])%=mod;
+			}
+		}
+		(val *= val*Y[1]%mod)%=mod;
+		(ans += val)%=mod;
+	}
+	for(int i=1;i<=las;++i){
+		if(num+i>n) break;
+		Y[++cnt] = i;
+		dfs(i,num+i);
+		--cnt;
+	}
+}
+int main(){
+	
+	read(n); mul = 1;
+	for(ll i=1;i<=n;++i) (mul *= i)%=mod;
+	for(int i=1;i<=n;++i){
+		Y[++cnt] = i;
+		dfs(i,i);
+		--cnt;
+	}
+	(ans *= quick_pow(mul,mod-2))%=mod;
+	printf("%lld",ans);
+
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>P9401 [POI 2020/2021 R3] Kolekcjoner Bajtemonów 2</title>
+    <url>/2024/10/06/P9401-POI-2020-2021-R3-Kolekcjoner-Bajtemonow-2/</url>
+    <content><![CDATA[
+## 题目描述
+给定 $n$ 个数对，在每个数对中选一个数，最大化所选的 $n$ 个数的最大公约数。
+
+## 思路
+先看数据范围 $1\le a\le 5\times 10^5$ 而 $1\le b<2^{63}$。  
+发现 $b_i$ 比 $a_i$ 大很多，且如果要选择一个 $a_i$ 那么最终的答案一定 $1\le ans \le 5\times 10^5$。  
+
+<!-- more -->
+
+所以考虑先预处理出所有 $b_i$ 的最大公约数，再枚举所有可能的 $ans$，通过最终答案来选择将一些 $b_i$ 替换为 $a_i$。  
+具体地：  
+对于 $ans\mid a_i$ 直接选 $a_i$；对于 $ans\nmid a_i$ 就只能选 $b_i$。
+
+如何进行维护和优化：  
+
+1. 考虑基于值域进行处理。令 $X_{a_i} = b_i$，此时更新答案需要求 $X$ 中 $\frac{n}{ans}$ 个区间的 $b_i$ 的 GCD。用 ST 表维护区间 GCD，每次暴力查询判断答案是否合法。
+
+2. 如果使用循环递归求 GCD 其常数十分大会被卡飞，请使用[二进制求 GCD](https://rainppr.github.io/blog/math/number-theory/gcd/#stein-binary-gcd:~:text=Stein%20%E7%AE%97%E6%B3%95%20/-,Binary%20GCD,-%C2%B6)。
+
+复杂度分析：  
+1. ST 表预处理 GCD 单次查询 $O(\log{b})$；
+2. 总查询次数为调和级数 $O(\sum_{i=1}^n \frac{n}{i}) = O(n\ln{n})$。
+
+总复杂度 $O(n\ln{n}\log{b})$。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+#include<vector>
+#include<queue>
+#include<climits>
+#include<cstdlib>
+using namespace std;
+typedef long long ll;
+template <typename T>
+inline void read(T&x){
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0'||ch>'9'){
+		if(ch=='-') w=1;
+		ch = getchar();
+	}
+	while(ch>='0'&&ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+const ll N = 5e5;//答案最大值
+inline ll Max(ll a,ll b){//据说会有玄学优化
+	return (a > b ? a : b);
+}
+inline ll Min(ll a,ll b){
+	return (a < b ? a : b);
+}
+inline ll Abs(ll a){
+	return (a < 0 ? -a : a);
+}
+inline ll Gcd(ll x,ll y){//基于二进制下位运算的GCD，常数十分的小
+	if(!x || !y) return x|y;
+	ll xz = __builtin_ctzll(x);
+	ll yz = __builtin_ctzll(y);
+	ll z = Min(xz,yz),diff;
+	y >>= yz;
+	while(x){
+		x >>= xz;
+		diff = x-y;
+		xz = __builtin_ctzll(diff);
+		y = Min(x,y);
+		x = Abs(diff);
+	}
+	return y << z;
+}
+int n,lg[N+10]={-1};
+ll ans,gcdd,st[N+10][20],ai[N+10];
+inline ll query(ll l,ll r){//ST表查询
+	int k = lg[r-l+1];
+	return Gcd(ans,Gcd(st[l][k],st[r-(1<<k)+1][k]));
+}
+int main(){
+	read(n);
+	ll y;
+	for(int i=1,x;i<=n;++i){
+		read(x,y);
+		ai[x] = Gcd(ai[x],y);//按照值域进行维护
+		gcdd = Gcd(gcdd,y);//只选b的情况
+	}
+	for(int i=1;i<=N;++i){
+		lg[i] = lg[i>>1]+1;
+		st[i][0] = ai[i];
+	}
+	for(int k=1;k<20;++k){
+		for(int l=1;l+(1<<k)<=N+1;++l){
+			st[l][k] = Gcd(st[l][k-1],st[l+(1<<k-1)][k-1]);
+		}
+	}
+	for(ll i=N;i>gcdd;--i){//枚举所有可能的答案
+		ans = 0;
+		ans = query(1,i-1);
+		if(N%i) ans = query(N/i*i+1,N);
+		for(ll j=2;i*j<=N && !(ans%i);++j){//对值域中的 i/j 个区间求GCD
+			ans = query(i*(j-1)+1,i*j-1);
+		}
+		if(!(ans%i)){//答案需要为全部区间的GCD的因数
+			printf("%lld",i);
+			return 0;
+		}
+	}
+	printf("%lld",gcdd);//只选b的情况
+	return 0;;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2025/07/03/Private-refreshto/</url>
+    <content><![CDATA[
+<!-- <body>
+<meta http-equiv="refresh" content="3;url=/private_posts/">
+    <p>页面将在3秒钟后自动跳转到<a href="/private_posts/">/private_posts/</a></p>
+</body> -->
+
+<!-- <script>
+    window.onload = function() {
+        window.location.href = "/private_posts/";
+    };
+</script> -->
+
+我累了，自己手动在网址根目录后面加 /private_posts/ 吧。]]></content>
+  </entry>
+  <entry>
+    <title>UVA12244 Growing Strings</title>
+    <url>/2024/09/20/UVA12244-Growing-Strings/</url>
+    <content><![CDATA[
+[题面](https://onlinejudge.org/external/122/p12244.pdf) 
+
+## 形式化题意
+给定 $N$ 个字符串 $S_1 \dots S_N$，从中选出一些字符串首尾相接依次排成一个序列。在序列中，前面串是后面串的子串。
+每组数据输出一行一个整数，表示最多可以选择的字符串个数。
+
+<!-- more -->
+
+## 思路
+ 对于字符串匹配问题，第一时间想到[ AC 自动机](https://oi-wiki.org/string/ac-automaton/)。 
+> AC 自动机利用**失配 Fail 指针**来辅助多模式串的匹配。  
+> Fail 指针指向所有模式串的**前缀中匹配当前状态的最长后缀**。
+
+不难发现 **Fail 指针**与我们本题字符串匹配模式十分相似。  
+那么本题的解法就很容易想到了。
+
+[AC 自动机](https://oi-wiki.org/string/ac-automaton/)+[DP](https://oi-wiki.org/dp/basic/)
+
+令 $dp[i]$ 表示以**节点 $i$ 结尾**时最多可以选多少个字符串。  
+需知道以其**父亲节点**和 **$Fail$ 节点**为结尾的可选字符串数量，再加上以 $i$ 为结尾的**字符串数量**。  
+则 $dp[i]=  \max(dp[i\\_father],dp[i\\_fail])+num[i]$
+
+## 样例解释：
+对于样例一：
+
+![1](UVA12244-Growing-Strings-1.webp)
+
+我们只要在构建 **Fail 树**的同时进行 **DP**，就可以找到最多可选字符串的数量了。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+#include<queue>
+using namespace std;
+typedef long long ll;
+template <typename T>
+inline void read(T&x){//快读 
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0'||ch>'9'){
+		if(ch=='-') w=1;
+		ch = getchar();
+	}
+	while(ch>='0'&&ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+inline int max(int a,int b){
+  return (a > b ? a : b);
+}
+#define mian main
+
+const int N = 1e6+5;
+int n;
+char s[N];
+struct TRIE{
+	int son[27],fail,num;//宏定义qwq 
+	#define son(x,y) Trie[x].son[y]
+	#define fail(x) Trie[x].fail
+	#define num(x) Trie[x].num
+//	TRIE(){
+//		memset(son,0,sizeof(son));
+//		fail = pos = fu = ind = num = 0;
+//	}
+}Trie[N];
+int dp[N],rt=0,cnt;
+inline void insert(char *s){//建Trie树 
+	int now = rt;
+	int len = strlen(s);
+	for(int i=0;i<len;++i){
+		int c = s[i]-'a';
+		if(!son(now,c)) son(now,c) =  ++cnt;
+		now = son(now,c);
+	}
+	++num(now);
+}
+queue <int> q;
+inline void get_fail(){//建Fail树 
+	int res = 0;
+	q.push(0);
+	while(q.size()){
+		int now = q.front();
+		q.pop();
+		int tfail = fail(now);
+		if(num(tfail)) num(now) = 1;
+		for(int i=0;i<26;++i){
+			int tson = son(now,i);
+			if(tson) q.push(tson);
+			else son(now,i) = son(tfail,i);
+			if(now) fail(tson) = son(tfail,i);//Root==0根 
+			dp[tson] = max(dp[now],dp[fail(tson)])+num(tson);//建树同时更新节点信息 
+			res = max(res,dp[tson]);
+		}	
+	}
+	printf("%d\n",res);
+}
+inline void Init(){
+	memset(Trie,0,sizeof(TRIE)*(cnt+1));
+	memset(dp,0,sizeof(dp));
+	cnt = 0;
+}
+int main(){
+	while(1){
+		read(n);
+		if(!n) break;
+		Init();//多测清空
+		while(n--){
+			scanf("%s",s);
+			insert(s);
+		}
+		get_fail();
+	}
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>二进制相关 // Kalthyix</title>
+    <url>/2025/01/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%9B%B8%E5%85%B3-Kalthyix/</url>
+    <content><![CDATA[
+## 前言
+
+文章作为面向团队内部成员的读物，我就语言不那么严谨~~直接开始瞎胡扯~~了。  
+
+根据 @Tighnarri 的建议，我们来写一些大家可能会用到的与二进制有关的简单小玩意，希望大家喜欢。
+
+## 常识部分
+
+> 世界上只有 $10$ 种人，一种的懂二进制的人，一种是不懂二进制的人。
+
+### 1、原码、补码、反码
+
+机器存储中，二进制数的第一位代表符号位，正数为 $0$，负数为 $1$。
+
+- 原码：符号位加上真值的绝对值。  
+- 反码：正数的反码是其本身；负数的反码就是在其原码的基础上，符号位不变，其余各位取反。  
+- 补码：正数的补码就是其本身；负数的补码就是在原码的基础上，符号位不变，其余各位取反，最后 $+ 1$。即，在反码的基础上 $+1$。
+
+这有啥用呢。  
+当你想表示一个数，其二进制下全是 $1$ 时，这个数是 $-1$。
+
+### 2、双目运算
+
+一个数的二进制数是一个 $01$ 串，这十分简单。
+
+于是我们有 $\\&$ $|$ $\oplus$ 等双目运算符，本质是把两个数在二进制下的 $01$ 串进行位运算。
+
+我们常用的还有左右移位，右移后在最低位补 $0$，左移后在最高位补符号位。
+
+## 状态压缩
+
+把每个物品看做一个二进制串的某一位，存在就是 $1$，不存在就是 $0$，把这个 $01$ 串表示为一个十进制数，就得到了当前的状态。
+
+同时我们还得会一些小玩意。  
+- 合并两种状态用 $|$
+- 判断第 $k$ 低位是几用 $(S>>(k-1))\\&1$
+- 两种状态叠加后会改变原状态用 $\oplus$
+- 判断两种状态是否有交集用 $\\&$
+- 枚举子集用 $S_{0} = S,S_{0}=S\\&(S_{0}-1)$
+- $\\_\\_builtin$ 系列函数，我会在文章末尾列举一些常用的
+
+### 1、就是单纯的状态压缩
+
+这十分简单且有用，所以我们来看一道最短路题（千辛万苦找的最短路）。
+
+> 给出 $n \times m$ 的地下城的地图：
+> 
+> $@$ 代表起点，$\\#$ 代表终点；  
+> $.$ $\space$ 代表空地，$*$ 代表障碍物；
+> 
+> $A \sim Z$ 代表带锁的门,对应的钥匙分别为 $a \sim z$；  
+> $a \sim z$ 代表钥匙。
+> 
+> 每一步只能往上下左右4个方向走一格，求最少步数。  
+> 可能存在多个同样的钥匙或门，用钥匙开门并不消耗掉钥匙。
+> 
+> $n,m \le 30$ 
+
+关键问题显然在于当走到一个门时，我需要知道当前自己是否携带了钥匙。  
+钥匙只有 $26$ 种，所以我们完全可以用一个 $26$ 位的十进制数表示出当前携带了哪些钥匙，于是这道题就做完了。  
+
+```cpp
+const int N = 25,INF = 0x3f3f3f3f;
+int vis[N][N][1025]; char g[N][N];
+int dx[4] = {1,-1,0,0};
+int dy[4] = {0,0,1,-1};
+int n,m,sx,sy,fx,fy;
+struct node{
+	int x,y; ll k;
+    int step;
+};
+inline int bfs(int x,int y){//最短路不用说吧
+	queue <node> q;
+	vis[x][y][0] = 1;
+	q.push({x,y,0,0});
+	while(q.size()){
+		node now = q.front();
+		q.pop();
+		if(now.x==fx && now.y==fy){//到地方了
+			printf("%d",now.step);
+			return 1;
+		}
+		for(int i=0;i<4;++i){
+			int tx = now.x+dx[i];
+			int ty = now.y+dy[i];
+			ll tk = now.k;
+            //如果当前能拿钥匙就拿，注意双目运算符
+			if(g[tx][ty]>='a' && g[tx][ty]<='z') tk |= (1ll<<(g[tx][ty]-'a'));
+            //如果当前是门，看看有没有带着对应的钥匙，注意判断二进制数某一位是否为一
+			else if(g[tx][ty]>='A' && g[tx][ty]<='Z')
+                 if(!((tk>>(g[tx][ty]-'A'))&1)) continue;
+
+			if(tx<1 || ty<1 || tx>n || ty>m || g[tx][ty]=='*' || vis[tx][ty][tk]) continue;
+			vis[tx][ty][tk] = 1;
+			q.push({tx,ty,tk,now.step+1});
+		}
+	}
+    return 0;
+}
+int main(){
+	
+	read(n,m);
+	for(int i=1;i<=n;++i){
+		for(int j=1;j<=m;++j){
+			cin >> g[i][j];
+			if(g[i][j]=='@'){
+				sx = i;
+				sy = j;
+			}
+			else if(g[i][j]=='#'){
+				fx = i;
+				fy = j;
+			}
+		}
+	}
+	bfs(sx,sy) ? 0 : printf("-1");
+	return 0;
+}
+```
+
+### 2、状压 DP
+
+就是把压缩的状态放到转移的数组里，就没了。  
+十分简单且不简单，所以我们来看一道简单的状压 $dp$。
+
+> [**P3118 [USACO15JAN] Moovie Mooving G**](https://www.luogu.com.cn/problem/P3118)  
+> 有 $N$ 部电影，每部时长为 $val_i$ 共放映 $num_i$ 场，且第 $i$ 部电影第 $j$ 场的开场时间为 $tim_{i,j}$。  
+> 每部电影只能看一次，看电影的中途可以换电影，求连续看满时长 $L$ 最少要看几部电影。  
+> $1\le N\le 20$
+
+$N\le 20$ 所以直接状压，设 $dp_s$ 表示在状态 $s$ 时，可以连续看多久电影。  
+对于每个状态 $s$，暴力枚举接下来我们要看的电影。
+
+因为要求看的电影数量尽可能少，所以每次应该选择**最后一个不大于**当前时间的电影场次。这个操作可以用 `upper_bound` 解决。  
+设当前选到了电影 $i$，只有 $i$ **存在**不大于当前时间的场次，才进行转移。当前状态应当与电影结束时间取最大值。
+
+```cpp
+const int N = 25,INF = 0x3f3f3f3f;
+int n,L;
+int val[N],num[N],tim[N][1100];
+int ans=INF,dp[(1<<20)+10];
+int main(){
+	read(n,L);
+	for(int i=1;i<=n;++i){
+		read(val[i],num[i]);//电影时长、场次数量
+		for(int j=1;j<=num[i];++j){
+			read(tim[i][j]);//每场的开始时间
+		}
+	}
+	for(int s=0;s<1<<n;++s){
+		for(int i=1;i<=n;++i){
+			if((1<<(i-1))&s) continue;//电影已经看过
+			int idx = upper_bound(tim[i]+1,tim[i]+num[i]+1,dp[s])-(tim[i]+1);
+			if(idx>0) dp[s|(1<<(i-1))] = max(dp[s|(1<<(i-1))],tim[i][idx]+val[i]); //存在场次
+		}
+		if(dp[s]>=L) ans = min(ans,__builtin_popcount(s));//popcount求s中 1 的个数
+	}
+	printf("%d",ans==INF? -1 : ans);
+	return 0;
+}
+```
+
+## 二进制拆分
+
+二进制拆也是我们很喜欢的东西。  
+我们可以把一个数拆成若干个系数为一的 $2$ 的幂的和，这可以做很多事情。  
+
+### 1、lowbit 
+
+对于个二进制数，如何求其最后一位 $1$ 在哪。  
+最后一位 $1$ 为：$S\\&(-S)$。
+
+> 可以粗略证明：
+> 
+> 我们假设 $S > 0$，设 $S$ 的二进制表示中，第 $k$ 位为 $1$，第 $0$ 至第 $k-1$ 位都为 $0$。  
+> 现在我们对 $S$ 的二进制进行取反操作，可以得到 ~$S$ 的二进制表示中，第 k 位为 $0$ ，第 $0$ 至第 $k-1$ 位都为 $1$。我们再将 ~$S$ 进行加 $1$ 操作，可以得到一个结果，就是 ~$S+1$ 的第 $k+1$ 位至其最高位都为 $S$ 的二进制表示中相反的数字。然后我们再将 ~$S+1$ 与 $S$ 进行与运算，就可以得到我们想要的结果了。  
+> 负数同理。
+
+于是可以快速对某个数二进制拆分。  
+我们只需要它的 $1$ 位，直接 $lowbit$ 即可。
+
+### 2、二进制分组优化多重背包
+
+多重背包中每个物品可以选多次，但当物品数量较大时，遍历每个数量并不优。  
+注意，我们对每个物品的数量进行二进制拆分。这样一个可以选 $k$ 次的物品就变成了 $\log{k}$ 个可以选一次的物品。  
+
+据说有人写过，不展开说了。
+
+### 3、底数为 2 的运算
+
+二进制还有一些比较有趣的性质。  
+- $2^k = 1 << k$
+- $S \mod 2^k$ 相当于取 $S$ 二进制下的后 $k$ 位  
+- $S \div 2^k$ 相当于 $S$ 左移 $k$ 位  
+- $S \times 2^k$ 相当于 $S$ 右移 $k$ 位  
+- $\log{S}$ 相当于求 $S$ 的最高位 $1$ 的位置
+
+## 我们最喜欢的 DS 
+
+我没啥会的，就瞎说俩奥。
+
+### 1、树状数组
+
+我管这个东西叫线段树中序遍历。  
+
+树状数组每个节点存一个前缀值。  
+我们对其管辖前缀 $k$，进行二进制拆分，其子树内节点为 $k$ 二进制拆分后的值。  
+二进制拆分我们用 $lowbit$ 即可，十分简单且快速。  
+$BIT$ 不但常数优秀，而且还比递归线段树好写 $\Large \theta$ 倍。  
+
+然而我不会并 $BIT$，所以就不继续讲了~~大家等 Bow 讲吧，我估计会很抽象~~。
+
+### 2、01 Trie
+
+建一棵二叉树，钦定边权为 $0$ 和 $1$，这个树叫 $01$ Trie。
+
+考虑对两个数 $k$ 和 $q$ 做双目运算，需要对它们的二进制数每一位进行比较。  
+我们对 $k$ 和 $q$ 的二进制数从低位到高位建一棵 $01$ Trie，钦定边权，于是此时的双目运算过程可以看作 $01$ Trie 上走路。以此实现一些比较有趣的操作。
+
+非常简单易懂，我们来看个简单的 01 Trie 题。
+
+> [**P4551 最长异或路径**](https://www.luogu.com.cn/problem/P4551)  
+> 给定一棵 $n$ 个点的带权树，结点下标 $1\sim n$。 
+> 寻找树中找两个结点，求最长的异或路径。  
+> 异或路径指的是指两个结点之间唯一路径上的所有边权的异或。  
+> $n\le 1e6,w\le 2^{31}$
+
+显然对于一条从 $u$ 到 $v$ 的路径异或，我们看作两点
+分别到根的路径异或值。  
+由于一个二进制数最高位越大，数就越大。所以我们贪心地在 $01$ Trie 上走路，只要有一位不同就一定走过去。  
+模拟树上走路即可。
+
+```cpp
+const int N = 2e6+10;
+int n,ans;
+struct{
+	int to,nex,w;
+}edge[N<<1];
+int head[N],edge_num;
+inline void add(int x,int y,int w){
+	edge[++edge_num].to = y;
+	edge[edge_num].nex = head[x];
+	head[x] = edge_num;
+	edge[edge_num].w = w;
+}
+int sum[N];
+void dfs(int now,int fu){//预处理
+    for(int i=head[now]; i;i=edge[i].nex){
+        int tto = edge[i].to;
+        if(tto==fu) continue;
+        sum[tto]=sum[now]^edge[i].w;
+        dfs(tto,now);
+    }
+}
+struct trie{
+    int ch[2];
+}t[N];
+int tot;
+void build(int val,int x){
+    for(int i=(1<<30);i;i>>=1){
+        bool c=val&i;//取出二进制下这个数的当前位置
+        if(!t[x].ch[c]){
+            t[x].ch[c] = ++tot;
+        }
+        x = t[x].ch[c];
+    }
+}
+int query(int val,int x){
+    int ans=0;
+    for(int i=(1<<30);i;i>>=1){
+        bool c=val&i;
+        if(t[x].ch[!c]){//如果这一位可以进行异或就沿着这一条往下走
+            ans += i;
+            x = t[x].ch[!c];
+        }
+        else x = t[x].ch[c];//否则就沿着另一条路往下走
+    }
+    return ans;
+}
+int main(){
+    read(n);
+    for(int i=1,u,v,w;i<n;++i){
+        read(u,v,w);
+        add(u,v,w); add(v,u,w);
+    }
+    dfs(1,0);//预处理
+    for(int i=1;i<=n;++i) build(sum[i],0);//建 01 Trie
+    for(int i=1;i<=n;++i) ans = Max(ans,query(sum[i],0));//查询，取最大值
+    printf("%d\n",ans);
+    return 0;
+}
+```
+
+然后我们再来看一道充满了我们喜欢的二进制的题。
+
+> [**P6587 超超的序列**](https://www.luogu.com.cn/problem/P6587)  
+> 给定一个序列 $a_N$，每次给出 $x$ 和 $y$。每次对所有满足 $i\equiv y\pmod{2^x}$ 的 $a_i$ 进行修改和查询。  
+> $n\le 1e3,x\le 20,y\le 2^x$
+
+## 其他东西
+
+### 1、二进制求 gcd
+
+```cpp
+inline ll Gcd(ll x,ll y){
+	if(!x || !y) return x|y;
+	ll xz = __builtin_ctzll(x);
+	ll yz = __builtin_ctzll(y);
+	ll z = Min(xz,yz),diff;
+	y >>= yz;
+	while(x){
+		x >>= xz;
+		diff = x-y;
+		xz = __builtin_ctzll(diff);
+		y = Min(x,y);
+		x = Abs(diff);
+	}
+	return y << z;
+}
+```
+
+
+### 2、__builtin 系列函数
+
+__builtin 系列用来对数的二进制表示进行一些运算，复杂度近似 $O(1)$。  
+
+- __builtin_ctz 末尾 $0$ 的个数  
+- __buitlin_clz 前导 $0$ 的个数  
+- __builtin_popcount $1$ 的个数  
+- __builtin_parity $1$ 的个数的奇偶性  
+- __builtin_ffs 最高位 $1$ 的位置  
+- __builtin_sqrt 开平方
+
+常用于快速求 $\log$，以及状态压缩中的一些事情。  
+询问较少时，比预处理 $\log$ 数组和 $1$ 的个数要快很多。
+
+## 后记
+
+依旧是建议配合 OIWiki 食用。
+
+题都是从我写过的题解里随机 rand 的，质量保真度 $70\%$ 左右，请自行辨并进行选择。 
+看来下次得放多点 DS 压压惊了。]]></content>
+      <categories>
+        <category>算法/数据结构</category>
+      </categories>
+      <tags>
+        <tag>团队周刊</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于莫比乌斯函数性质的证明</title>
+    <url>/2025/05/25/%E5%85%B3%E4%BA%8E%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%87%BD%E6%95%B0%E6%80%A7%E8%B4%A8%E7%9A%84%E8%AF%81%E6%98%8E/</url>
+    <content><![CDATA[
+## $\sum_{d|n} \mu(d) = \varepsilon(n)$
+
+关于上式有人问我不卷积怎么证，真是个好问题。
+
+首先 $n=1$ 时自算该式成立，
+
+然后讨论 $n>1$ 的情况。
+
+<!-- more -->
+
+---
+
+### 下证 $\sum_{i\bmod 2 = 0}^{n}C_{n}^{i} - \sum_{i\bmod 2 = 1}^{n}C_{n}^{i} = [n==0]$
+
+当 $n=0$ 显然成立。
+
+当 $n$ 为奇数，总有 $i$ 为奇数与偶数一一对应，则差为0.
+
+当 $n$ 为偶数时，
+
+令 $T_1(x)$ 表示集合大小为 $x$ 时选奇数个的情况，$T_0(x)$ 表示集合大小为 $x$ 时在其中选偶数个的情况。
+
+当 $x$ 为奇数时，$T_1(x\*2) = 2 \times T_1(x)T_0(x)$，$T_1(x\*2) = T_0^2(x)+T_0^2(x)$，
+且有 $T_0(x)  = T_1(x)$，此时 $T_1(x\*2) = T_0(x\*2)$；
+
+当 $x$ 为偶数时，二分合并即可。
+
+---
+
+$n = \Pi_{i=1}^{k} p_i^{c_i}$，
+
+令 $P = {p_1 \cdots p_k}$，
+
+设 $n$ 的一个因数为 $d = \Pi_{i=1}^{k_1} S_i (S\subseteq P)$，
+
+设 $d' = \frac{n}{d}$。
+
+### 1、若 $\mu(n) = -1$
+
+其另一因数为 $d' = \Pi_{i=1}^{k-k_1} S'_i (S' = S \supset P)$，
+
+此时 $k$ 为奇数，
+
+当 $k_1$ 为奇数，$\mu(d) = -1$，$\mu(d') = 1$；
+当 $k_1$ 为偶数，$\mu(d) = 1$，$\mu(d') = -1$。
+
+$\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
+
+### 2、若 $\mu(n) = 0$
+
+将 $d$ 分为 $3$ 类:
+
+1.$\mu(d) = 0$；
+2.$\mu(d) != 0$ 且 $\mu(d') != 0$；
+3.$\mu(d) != 0$ 且 $\mu(d') = 0$；
+
+第一种放着不管。
+
+第二种情况，当且仅当 $c_i \le 2$ 存在。显然在 $d != d'$ 时，$\mu(d) = -\mu(d')$。
+
+第三种情况，只关心 $\mu(d)$ 即可。
+
+当 $k_1$ 为奇数时 $\mu(d) = -1$；当 $k_1$ 为偶数时 $\mu(d) = 1$。
+
+而总有 $k_1$ 为奇数情况比偶数情况多 $1$。
+
+即三种情况 $\mu(d)$ 和为 $-1$，最后加上 $\mu(1) = 1$。
+
+### 3、若 $\mu(n) = 1$
+
+此时 $k$ 为偶数，
+
+当 $k_1$ 为奇数时，有 $\mu(d)+\mu(d') = -2$；
+
+当 $k_1$ 为偶数时，有 $\mu(d)+\mu(d') = 2$。
+
+总有 $k_1$ 为奇数情况比偶数情况多 $1$。
+
+故 $\mu(d)+\mu(d') = -2$，最后加上 $\mu(1) + \mu(n) = 2$。
+]]></content>
+      <categories>
+        <category>数学/证明</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>土丘</title>
+    <url>/2025/06/14/%E5%9C%9F%E4%B8%98/</url>
+    <content><![CDATA[
+## 2025.6.13 闲话摘抄
+
+很久之前——
+
+你来到这个世界，我却早已忘却你的模样。
+
+在一座平凡的城市，一条平凡的公路，一片平凡的土壤：
+你是否能看见那萎蔫的草丛，那灰蓝的天空，那积尘的土径？
+也许未来的这里会被钢筋水泥淹没，那样会有勾连的钢架与暖红的夕阳，可是没有你。
+
+这是什么？
+充满悔恨，可是又能怎样。
+清冷的初春，阴郁的天空，一阵小雨。
+
+我再也找不到你了！
+安息吧。]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>憂い桜（忧郁樱花）</title>
+    <url>/2025/06/14/%E6%86%82%E3%81%84%E6%A1%9C%EF%BC%88%E5%BF%A7%E9%83%81%E6%A8%B1%E8%8A%B1%EF%BC%89/</url>
+    <content><![CDATA[
+### 2025.6.13
+
+当眼前的光景
+
+终有一天化为回忆时
+
+你希望记住什么呢
+
+---
+
+我想记住关于你的一切
+]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>施工公告</title>
+    <url>/2025/07/09/%E6%96%BD%E5%B7%A5%E5%85%AC%E5%91%8A/</url>
+    <content><![CDATA[
+正在边施工新博客，边搬运来自 [CNblog](https://www.cnblogs.com/Tmbcan) 的文章
+
+预计需要 INF 年才能竣工]]></content>
+  </entry>
+  <entry>
+    <title>重庆森林</title>
+    <url>/2025/06/07/%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97/</url>
+    <content><![CDATA[
+### 2025.6.6
+
+每天，你都会和许多人擦肩而过，
+
+他们可能会成为你的朋友或是知己。
+
+所以我从来没有放弃和任何人擦肩而过的机会。
+
+那天晚上，我又看到了那个女人，
+
+我知道我可能不会和她成为知己或朋友。
+
+因为我们有太多的机会可以擦肩而过，
+
+衣服都擦破了，也没有看到火花。
+]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>顿感</title>
+    <url>/2025/06/14/%E9%A1%BF%E6%84%9F/</url>
+    <content><![CDATA[
+### 2025.6.13
+
+所有无能为力的事
+
+我都试着慢慢接受
+
+我好像想这样，又好像只可以这样
+
+有时候我想折架纸飞机
+
+望着它越飞越低越飞越低
+
+它载着我想要的自由，抑或是其它
+
+但事实上
+
+我连一张纸都没有]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>语言的魅力 // Kalthyix</title>
+    <url>/2025/03/16/%E8%AF%AD%E8%A8%80%E7%9A%84%E9%AD%85%E5%8A%9B-Kalthyix/</url>
+    <content><![CDATA[
+## Tmbcan 语言论
+
+Tmbcan 将语言定义为：人类通过某种方式进行信息交换
+语言可以是文字、声音、肢体甚至是眼神等等
+
+显然，语言最大的作用就是使人与人之间可以**有效地**交流沟通。
+
+但是，大多数情况下，人与人之间进行有效交流是非常困难的
+所以本篇博客，旨在教授大家如何在无法有效交流时**力挽狂澜**
+
+## 一、肢体接触让人心跳加速
+
+### 1、手肘抽动法
+
+我们学习前辈荪貘蚺的智慧，在进行交流时，伸出一根手指并抽动，以表达情绪激动
+
+动作要领：
+要完全放松手腕，小臂带动手掌，可以在抖动时适当前伸小臂，起到警示敌方的作用。
+
+### 2、指人鄙视法
+
+根据 Tmbcan 本人的实战经验，在面对敌人使，可以先以食指指之、再以中指鄙视指
+
+动作要领：
+要伸直手臂并水平抬起，指人时要辅以下文教学的表情和话语教程，鄙视人时要不屑，鄙视完不要回头直接走。
+
+### 3、拥抱吼叫法
+
+在与敌方僵持不下时，可以冲刺到对方面前抱住它，并进行怪叫，对方被恐吓的同时，可以趁机撂倒对方或悄没声做一些事情
+
+> 注意：本方法依赖使用者的体质，否则有可能被对方先发制人，且建议在熟人少的情况下使用，除非你和我一样。
+
+动作要领：
+抱人时手臂要放低，方便后续进行操作，嘴张的越大声音越怪，恐吓作用越大。
+
+## 二、表情和声调是敌人的兴奋剂
+
+这是我的弱项。
+
+### 1、如何做出骇人眼睛的表情
+
+常见技巧有伸舌头、翻白眼、张嘴、瞪眼
+个人感觉 @\_Kenma\_ 在这方面较强
+
+### 2、如何发出骇人耳朵的声音
+
+效仿乃龙即可
+个人感觉二姨替飞在这方面较强
+
+## 三、如听仙乐耳暂名
+
+### 1、某些词语应该添加在句子的什么地方
+
+带有攻击性的词语可加在主语后，突出强调，让人不寒而栗
+食物等可以放在动词之后，让对方脑海中浮现画面
+威胁的话可以放在最后，起到警示作用
+
+> 信不信用你手机号注册网站，让你消息一栏被验证码刷爆
+
+### 2、可以运用哪些词语
+
+包括但不限于：家庭、身体部位、食物等
+建议平时勤加积累，才能出口成章
+
+词语越为诡密、像数学一样令人费解，效果就越强
+> 我赌你的枪里，全是羊粪蛋
+
+### 3、如何打得对方措手不及
+
+轻易不要展现自己的才能，平时说话要面带微笑，和蔼可亲
+在对方以为你不善言辞的情况下，给对方致命一击
+
+同时搭配上文提到的肢体语言，可以加倍暴击
+如果你亲身体验过就知道真的很ex
+
+> 笑里藏数据结构
+
+## 四、基于最新政策研发的语言技巧及兑现方式
+
+政治老师说要关心时政。
+
+由于最近政策收紧，上述语言方式容易出现增加体活课的现象，故研究了新的技巧
+
+### 1、字词消音法
+
+当提及 ~~安全词~~ 屏蔽词时，自动消音，让对方的大脑自动补全对话
+需要勤加练习，毕竟脑子经常容易赶不上嘴
+
+> 我 你
+
+### 2、康熙词典法
+
+使用康熙词典、中国古汉语词典、或一些数理化方面的专业用语，对传统字词进行联想、借代，已达到避开安全词的效果
+
+对个人的文化水平要求较高
+
+> 宛如初始的太阳
+
+### 3、声带发炎法
+
+在激情兑现时，适当降低音量、提高语速，降低被发现的可能性
+同时让对手疲于听听力
+
+兑现至情深时可直接不再说话，只用唇语，与对方无声的交流
+~~多模每秒啊！~~
+
+>   
+
+### 4、cos王羲之法
+
+将想说只话写下来，两人纸上博弈，别有一番韵味
+
+对草稿纸存量要求较高，且伤狄一千自损八百
+写到最后都写不动字了就老实了
+
+> 赵括
+
+### 5、忍者神龟法
+
+忍着，放了学没人了在使用上述方式兑现
+
+对个人忍耐能力要求极高
+退一步越想越气，忍一时暴跳如雷
+
+> 你就用这来考验老干部吗
+
+## 小结
+
+语言论暂时先到这里，毕竟理论的形成需要实践的依托，等我何时再通过实践证明某一新观点的正确性，再更新
+
+### THE END
+]]></content>
+      <tags>
+        <tag>团队周刊</tag>
+      </tags>
+  </entry>
+</search>
