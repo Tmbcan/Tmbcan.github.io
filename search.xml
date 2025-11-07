@@ -138,6 +138,7 @@ int main(){
 
 进行了睡觉活动，醒来后本来想看小说，但是脑袋比较昏沉，眼睛对不上焦了，遂打开电脑推 game  
 @hdkk 问我：“火车上真的可以玩这么可爱的游戏吗？”
+![3](CSP-2025-游记-3.png)
 
 到酒店后和 大被他 严肃烧水，然后点外卖  
 结果 被他 的外卖没送餐具哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈笑死我了，开白群让他吃手抓饭  
@@ -243,7 +244,7 @@ int main(){
     <summary> 与 CSP 无关的内容 </summary>
 说实话，我以前不认识衡水那边的，这次没面积成功，也是一件十分伤心的事
 
-@hdkk 说的可爱游戏是去年新上的国产姛游戏，无 R18 但是画风和配音十分精美，想要可以找我拷
+可爱游戏是去年新上的国产姛，无 R18 但是画风和配音十分精美，本人十分喜爱
     
 奥对了，片子是 LZDQ-009，零几年的，南朋导演早期的纯爱作品，姛  
 拍的非常有感觉很美好很真实，当年这个片子在姛圈内也是顶流级别的了，  
@@ -1597,6 +1598,272 @@ int main(){
 我累了，自己手动在网址根目录后面加 /private_posts/ 吧。]]></content>
   </entry>
   <entry>
+    <title>UVA12244 Growing Strings</title>
+    <url>/2024/09/20/UVA12244-Growing-Strings/</url>
+    <content><![CDATA[
+[题面](https://onlinejudge.org/external/122/p12244.pdf) 
+
+## 形式化题意
+给定 $N$ 个字符串 $S_1 \dots S_N$，从中选出一些字符串首尾相接依次排成一个序列。在序列中，前面串是后面串的子串。
+每组数据输出一行一个整数，表示最多可以选择的字符串个数。
+
+<!-- more -->
+
+## 思路
+ 对于字符串匹配问题，第一时间想到[ AC 自动机](https://oi-wiki.org/string/ac-automaton/)。 
+> AC 自动机利用**失配 Fail 指针**来辅助多模式串的匹配。  
+> Fail 指针指向所有模式串的**前缀中匹配当前状态的最长后缀**。
+
+不难发现 **Fail 指针**与我们本题字符串匹配模式十分相似。  
+那么本题的解法就很容易想到了。
+
+[AC 自动机](https://oi-wiki.org/string/ac-automaton/)+[DP](https://oi-wiki.org/dp/basic/)
+
+令 $dp[i]$ 表示以**节点 $i$ 结尾**时最多可以选多少个字符串。  
+需知道以其**父亲节点**和 **$Fail$ 节点**为结尾的可选字符串数量，再加上以 $i$ 为结尾的**字符串数量**。  
+则 $dp[i]=  \max(dp[i\\_father],dp[i\\_fail])+num[i]$
+
+## 样例解释：
+对于样例一：
+
+![1](UVA12244-Growing-Strings-1.webp)
+
+我们只要在构建 **Fail 树**的同时进行 **DP**，就可以找到最多可选字符串的数量了。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+#include<queue>
+using namespace std;
+typedef long long ll;
+template <typename T>
+inline void read(T&x){//快读 
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0'||ch>'9'){
+		if(ch=='-') w=1;
+		ch = getchar();
+	}
+	while(ch>='0'&&ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+inline int max(int a,int b){
+  return (a > b ? a : b);
+}
+#define mian main
+
+const int N = 1e6+5;
+int n;
+char s[N];
+struct TRIE{
+	int son[27],fail,num;//宏定义qwq 
+	#define son(x,y) Trie[x].son[y]
+	#define fail(x) Trie[x].fail
+	#define num(x) Trie[x].num
+//	TRIE(){
+//		memset(son,0,sizeof(son));
+//		fail = pos = fu = ind = num = 0;
+//	}
+}Trie[N];
+int dp[N],rt=0,cnt;
+inline void insert(char *s){//建Trie树 
+	int now = rt;
+	int len = strlen(s);
+	for(int i=0;i<len;++i){
+		int c = s[i]-'a';
+		if(!son(now,c)) son(now,c) =  ++cnt;
+		now = son(now,c);
+	}
+	++num(now);
+}
+queue <int> q;
+inline void get_fail(){//建Fail树 
+	int res = 0;
+	q.push(0);
+	while(q.size()){
+		int now = q.front();
+		q.pop();
+		int tfail = fail(now);
+		if(num(tfail)) num(now) = 1;
+		for(int i=0;i<26;++i){
+			int tson = son(now,i);
+			if(tson) q.push(tson);
+			else son(now,i) = son(tfail,i);
+			if(now) fail(tson) = son(tfail,i);//Root==0根 
+			dp[tson] = max(dp[now],dp[fail(tson)])+num(tson);//建树同时更新节点信息 
+			res = max(res,dp[tson]);
+		}	
+	}
+	printf("%d\n",res);
+}
+inline void Init(){
+	memset(Trie,0,sizeof(TRIE)*(cnt+1));
+	memset(dp,0,sizeof(dp));
+	cnt = 0;
+}
+int main(){
+	while(1){
+		read(n);
+		if(!n) break;
+		Init();//多测清空
+		while(n--){
+			scanf("%s",s);
+			insert(s);
+		}
+		get_fail();
+	}
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>憂い桜（忧郁樱花）</title>
+    <url>/2025/06/14/%E6%86%82%E3%81%84%E6%A1%9C%EF%BC%88%E5%BF%A7%E9%83%81%E6%A8%B1%E8%8A%B1%EF%BC%89/</url>
+    <content><![CDATA[
+### 2025.6.13
+
+当眼前的光景
+
+终有一天化为回忆时
+
+你希望记住什么呢
+
+---
+
+我想记住关于你的一切
+]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于莫比乌斯函数性质的证明</title>
+    <url>/2025/05/25/%E5%85%B3%E4%BA%8E%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%87%BD%E6%95%B0%E6%80%A7%E8%B4%A8%E7%9A%84%E8%AF%81%E6%98%8E/</url>
+    <content><![CDATA[
+## $\sum_{d|n} \mu(d) = \varepsilon(n)$
+
+关于上式有人问我不卷积怎么证，真是个好问题。
+
+首先 $n=1$ 时自算该式成立，
+
+然后讨论 $n>1$ 的情况。
+
+<!-- more -->
+
+---
+
+### 下证 $\sum_{i\bmod 2 = 0}^{n}C_{n}^{i} - \sum_{i\bmod 2 = 1}^{n}C_{n}^{i} = [n==0]$
+
+当 $n=0$ 显然成立。
+
+当 $n$ 为奇数，总有 $i$ 为奇数与偶数一一对应，则差为0.
+
+当 $n$ 为偶数时，
+
+令 $T_1(x)$ 表示集合大小为 $x$ 时选奇数个的情况，$T_0(x)$ 表示集合大小为 $x$ 时在其中选偶数个的情况。
+
+当 $x$ 为奇数时，$T_1(x\*2) = 2 \times T_1(x)T_0(x)$，$T_1(x\*2) = T_0^2(x)+T_0^2(x)$，
+且有 $T_0(x)  = T_1(x)$，此时 $T_1(x\*2) = T_0(x\*2)$；
+
+当 $x$ 为偶数时，二分合并即可。
+
+---
+
+$n = \Pi_{i=1}^{k} p_i^{c_i}$，
+
+令 $P = {p_1 \cdots p_k}$，
+
+设 $n$ 的一个因数为 $d = \Pi_{i=1}^{k_1} S_i (S\subseteq P)$，
+
+设 $d' = \frac{n}{d}$。
+
+### 1、若 $\mu(n) = -1$
+
+其另一因数为 $d' = \Pi_{i=1}^{k-k_1} S'_i (S' = S \supset P)$，
+
+此时 $k$ 为奇数，
+
+当 $k_1$ 为奇数，$\mu(d) = -1$，$\mu(d') = 1$；
+当 $k_1$ 为偶数，$\mu(d) = 1$，$\mu(d') = -1$。
+
+$\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
+
+### 2、若 $\mu(n) = 0$
+
+将 $d$ 分为 $3$ 类:
+
+1.$\mu(d) = 0$；
+2.$\mu(d) != 0$ 且 $\mu(d') != 0$；
+3.$\mu(d) != 0$ 且 $\mu(d') = 0$；
+
+第一种放着不管。
+
+第二种情况，当且仅当 $c_i \le 2$ 存在。显然在 $d != d'$ 时，$\mu(d) = -\mu(d')$。
+
+第三种情况，只关心 $\mu(d)$ 即可。
+
+当 $k_1$ 为奇数时 $\mu(d) = -1$；当 $k_1$ 为偶数时 $\mu(d) = 1$。
+
+而总有 $k_1$ 为奇数情况比偶数情况多 $1$。
+
+即三种情况 $\mu(d)$ 和为 $-1$，最后加上 $\mu(1) = 1$。
+
+### 3、若 $\mu(n) = 1$
+
+此时 $k$ 为偶数，
+
+当 $k_1$ 为奇数时，有 $\mu(d)+\mu(d') = -2$；
+
+当 $k_1$ 为偶数时，有 $\mu(d)+\mu(d') = 2$。
+
+总有 $k_1$ 为奇数情况比偶数情况多 $1$。
+
+故 $\mu(d)+\mu(d') = -2$，最后加上 $\mu(1) + \mu(n) = 2$。
+]]></content>
+      <categories>
+        <category>数学/证明</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>土丘</title>
+    <url>/2025/06/14/%E5%9C%9F%E4%B8%98/</url>
+    <content><![CDATA[
+## 2025.6.13 闲话摘抄
+
+很久之前——
+
+你来到这个世界，我却早已忘却你的模样。
+
+在一座平凡的城市，一条平凡的公路，一片平凡的土壤：
+你是否能看见那萎蔫的草丛，那灰蓝的天空，那积尘的土径？
+也许未来的这里会被钢筋水泥淹没，那样会有勾连的钢架与暖红的夕阳，可是没有你。
+
+这是什么？
+充满悔恨，可是又能怎样。
+清冷的初春，阴郁的天空，一阵小雨。
+
+我再也找不到你了！
+安息吧。]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>二进制相关 // Kalthyix</title>
     <url>/2025/01/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%9B%B8%E5%85%B3-Kalthyix/</url>
     <content><![CDATA[
@@ -1950,278 +2217,12 @@ __builtin 系列用来对数的二进制表示进行一些运算，复杂度近�
       </tags>
   </entry>
   <entry>
-    <title>关于莫比乌斯函数性质的证明</title>
-    <url>/2025/05/25/%E5%85%B3%E4%BA%8E%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%87%BD%E6%95%B0%E6%80%A7%E8%B4%A8%E7%9A%84%E8%AF%81%E6%98%8E/</url>
-    <content><![CDATA[
-## $\sum_{d|n} \mu(d) = \varepsilon(n)$
-
-关于上式有人问我不卷积怎么证，真是个好问题。
-
-首先 $n=1$ 时自算该式成立，
-
-然后讨论 $n>1$ 的情况。
-
-<!-- more -->
-
----
-
-### 下证 $\sum_{i\bmod 2 = 0}^{n}C_{n}^{i} - \sum_{i\bmod 2 = 1}^{n}C_{n}^{i} = [n==0]$
-
-当 $n=0$ 显然成立。
-
-当 $n$ 为奇数，总有 $i$ 为奇数与偶数一一对应，则差为0.
-
-当 $n$ 为偶数时，
-
-令 $T_1(x)$ 表示集合大小为 $x$ 时选奇数个的情况，$T_0(x)$ 表示集合大小为 $x$ 时在其中选偶数个的情况。
-
-当 $x$ 为奇数时，$T_1(x\*2) = 2 \times T_1(x)T_0(x)$，$T_1(x\*2) = T_0^2(x)+T_0^2(x)$，
-且有 $T_0(x)  = T_1(x)$，此时 $T_1(x\*2) = T_0(x\*2)$；
-
-当 $x$ 为偶数时，二分合并即可。
-
----
-
-$n = \Pi_{i=1}^{k} p_i^{c_i}$，
-
-令 $P = {p_1 \cdots p_k}$，
-
-设 $n$ 的一个因数为 $d = \Pi_{i=1}^{k_1} S_i (S\subseteq P)$，
-
-设 $d' = \frac{n}{d}$。
-
-### 1、若 $\mu(n) = -1$
-
-其另一因数为 $d' = \Pi_{i=1}^{k-k_1} S'_i (S' = S \supset P)$，
-
-此时 $k$ 为奇数，
-
-当 $k_1$ 为奇数，$\mu(d) = -1$，$\mu(d') = 1$；
-当 $k_1$ 为偶数，$\mu(d) = 1$，$\mu(d') = -1$。
-
-$\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
-
-### 2、若 $\mu(n) = 0$
-
-将 $d$ 分为 $3$ 类:
-
-1.$\mu(d) = 0$；
-2.$\mu(d) != 0$ 且 $\mu(d') != 0$；
-3.$\mu(d) != 0$ 且 $\mu(d') = 0$；
-
-第一种放着不管。
-
-第二种情况，当且仅当 $c_i \le 2$ 存在。显然在 $d != d'$ 时，$\mu(d) = -\mu(d')$。
-
-第三种情况，只关心 $\mu(d)$ 即可。
-
-当 $k_1$ 为奇数时 $\mu(d) = -1$；当 $k_1$ 为偶数时 $\mu(d) = 1$。
-
-而总有 $k_1$ 为奇数情况比偶数情况多 $1$。
-
-即三种情况 $\mu(d)$ 和为 $-1$，最后加上 $\mu(1) = 1$。
-
-### 3、若 $\mu(n) = 1$
-
-此时 $k$ 为偶数，
-
-当 $k_1$ 为奇数时，有 $\mu(d)+\mu(d') = -2$；
-
-当 $k_1$ 为偶数时，有 $\mu(d)+\mu(d') = 2$。
-
-总有 $k_1$ 为奇数情况比偶数情况多 $1$。
-
-故 $\mu(d)+\mu(d') = -2$，最后加上 $\mu(1) + \mu(n) = 2$。
-]]></content>
-      <categories>
-        <category>数学/证明</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>土丘</title>
-    <url>/2025/06/14/%E5%9C%9F%E4%B8%98/</url>
-    <content><![CDATA[
-## 2025.6.13 闲话摘抄
-
-很久之前——
-
-你来到这个世界，我却早已忘却你的模样。
-
-在一座平凡的城市，一条平凡的公路，一片平凡的土壤：
-你是否能看见那萎蔫的草丛，那灰蓝的天空，那积尘的土径？
-也许未来的这里会被钢筋水泥淹没，那样会有勾连的钢架与暖红的夕阳，可是没有你。
-
-这是什么？
-充满悔恨，可是又能怎样。
-清冷的初春，阴郁的天空，一阵小雨。
-
-我再也找不到你了！
-安息吧。]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>UVA12244 Growing Strings</title>
-    <url>/2024/09/20/UVA12244-Growing-Strings/</url>
-    <content><![CDATA[
-[题面](https://onlinejudge.org/external/122/p12244.pdf) 
-
-## 形式化题意
-给定 $N$ 个字符串 $S_1 \dots S_N$，从中选出一些字符串首尾相接依次排成一个序列。在序列中，前面串是后面串的子串。
-每组数据输出一行一个整数，表示最多可以选择的字符串个数。
-
-<!-- more -->
-
-## 思路
- 对于字符串匹配问题，第一时间想到[ AC 自动机](https://oi-wiki.org/string/ac-automaton/)。 
-> AC 自动机利用**失配 Fail 指针**来辅助多模式串的匹配。  
-> Fail 指针指向所有模式串的**前缀中匹配当前状态的最长后缀**。
-
-不难发现 **Fail 指针**与我们本题字符串匹配模式十分相似。  
-那么本题的解法就很容易想到了。
-
-[AC 自动机](https://oi-wiki.org/string/ac-automaton/)+[DP](https://oi-wiki.org/dp/basic/)
-
-令 $dp[i]$ 表示以**节点 $i$ 结尾**时最多可以选多少个字符串。  
-需知道以其**父亲节点**和 **$Fail$ 节点**为结尾的可选字符串数量，再加上以 $i$ 为结尾的**字符串数量**。  
-则 $dp[i]=  \max(dp[i\\_father],dp[i\\_fail])+num[i]$
-
-## 样例解释：
-对于样例一：
-
-![1](UVA12244-Growing-Strings-1.webp)
-
-我们只要在构建 **Fail 树**的同时进行 **DP**，就可以找到最多可选字符串的数量了。
-
-## 代码
-
-```cpp
-#include<iostream>
-#include<cstdio>
-#include<algorithm>
-#include<cstring>
-#include<cmath>
-#include<queue>
-using namespace std;
-typedef long long ll;
-template <typename T>
-inline void read(T&x){//快读 
-	int w=0;x=0;
-	char ch = getchar();
-	while(ch<'0'||ch>'9'){
-		if(ch=='-') w=1;
-		ch = getchar();
-	}
-	while(ch>='0'&&ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x=-x;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-inline int max(int a,int b){
-  return (a > b ? a : b);
-}
-#define mian main
-
-const int N = 1e6+5;
-int n;
-char s[N];
-struct TRIE{
-	int son[27],fail,num;//宏定义qwq 
-	#define son(x,y) Trie[x].son[y]
-	#define fail(x) Trie[x].fail
-	#define num(x) Trie[x].num
-//	TRIE(){
-//		memset(son,0,sizeof(son));
-//		fail = pos = fu = ind = num = 0;
-//	}
-}Trie[N];
-int dp[N],rt=0,cnt;
-inline void insert(char *s){//建Trie树 
-	int now = rt;
-	int len = strlen(s);
-	for(int i=0;i<len;++i){
-		int c = s[i]-'a';
-		if(!son(now,c)) son(now,c) =  ++cnt;
-		now = son(now,c);
-	}
-	++num(now);
-}
-queue <int> q;
-inline void get_fail(){//建Fail树 
-	int res = 0;
-	q.push(0);
-	while(q.size()){
-		int now = q.front();
-		q.pop();
-		int tfail = fail(now);
-		if(num(tfail)) num(now) = 1;
-		for(int i=0;i<26;++i){
-			int tson = son(now,i);
-			if(tson) q.push(tson);
-			else son(now,i) = son(tfail,i);
-			if(now) fail(tson) = son(tfail,i);//Root==0根 
-			dp[tson] = max(dp[now],dp[fail(tson)])+num(tson);//建树同时更新节点信息 
-			res = max(res,dp[tson]);
-		}	
-	}
-	printf("%d\n",res);
-}
-inline void Init(){
-	memset(Trie,0,sizeof(TRIE)*(cnt+1));
-	memset(dp,0,sizeof(dp));
-	cnt = 0;
-}
-int main(){
-	while(1){
-		read(n);
-		if(!n) break;
-		Init();//多测清空
-		while(n--){
-			scanf("%s",s);
-			insert(s);
-		}
-		get_fail();
-	}
-	return 0;
-}
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
     <title>施工公告</title>
     <url>/2025/07/09/%E6%96%BD%E5%B7%A5%E5%85%AC%E5%91%8A/</url>
     <content><![CDATA[
 正在边施工新博客，边搬运来自 [CNblog](https://www.cnblogs.com/Tmbcan) 的文章
 
 预计需要 INF 年才能竣工]]></content>
-  </entry>
-  <entry>
-    <title>憂い桜（忧郁樱花）</title>
-    <url>/2025/06/14/%E6%86%82%E3%81%84%E6%A1%9C%EF%BC%88%E5%BF%A7%E9%83%81%E6%A8%B1%E8%8A%B1%EF%BC%89/</url>
-    <content><![CDATA[
-### 2025.6.13
-
-当眼前的光景
-
-终有一天化为回忆时
-
-你希望记住什么呢
-
----
-
-我想记住关于你的一切
-]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
   </entry>
   <entry>
     <title>语言的魅力 // Kalthyix</title>
@@ -2364,6 +2365,30 @@ Tmbcan 将语言定义为：人类通过某种方式进行信息交换
       </tags>
   </entry>
   <entry>
+    <title>重庆森林</title>
+    <url>/2025/06/07/%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97/</url>
+    <content><![CDATA[
+### 2025.6.6
+
+每天，你都会和许多人擦肩而过，
+
+他们可能会成为你的朋友或是知己。
+
+所以我从来没有放弃和任何人擦肩而过的机会。
+
+那天晚上，我又看到了那个女人，
+
+我知道我可能不会和她成为知己或朋友。
+
+因为我们有太多的机会可以擦肩而过，
+
+衣服都擦破了，也没有看到火花。
+]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>顿感</title>
     <url>/2025/06/14/%E9%A1%BF%E6%84%9F/</url>
     <content><![CDATA[
@@ -2384,30 +2409,6 @@ Tmbcan 将语言定义为：人类通过某种方式进行信息交换
 但事实上
 
 我连一张纸都没有]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>重庆森林</title>
-    <url>/2025/06/07/%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97/</url>
-    <content><![CDATA[
-### 2025.6.6
-
-每天，你都会和许多人擦肩而过，
-
-他们可能会成为你的朋友或是知己。
-
-所以我从来没有放弃和任何人擦肩而过的机会。
-
-那天晚上，我又看到了那个女人，
-
-我知道我可能不会和她成为知己或朋友。
-
-因为我们有太多的机会可以擦肩而过，
-
-衣服都擦破了，也没有看到火花。
-]]></content>
       <tags>
         <tag>闲话</tag>
       </tags>
