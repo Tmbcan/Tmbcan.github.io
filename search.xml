@@ -250,7 +250,7 @@ int main(){
 可爱游戏是去年新上的国产姛，无 R18 但是画风和配音十分精美，本人十分喜爱
     
 奥对了，片子是 LZDQ-009，零几年的，南朋导演早期的纯爱作品，姛  
-拍的非常有感觉很美好很真实，当年这个片子在姛圈内也是顶流级别的了，  
+拍的非常有感觉很细腻很美好很真实，当年这个片子在姛圈内也是顶流级别的了，  
 喜欢舞岛明理、麻里梨夏和纯爱姛的可以无脑冲了  
 [原始种子是这个](magnet:?xt=urn:btih:E8EB5660D05C99F0AA37C8C0DC3D51FECED7CE67)，里面有后期配的字幕也有采访内容，你懒得下也可以 NOIP 找我拷
 
@@ -505,6 +505,81 @@ Lucas 再求一下 C 就行了。
       </tags>
   </entry>
   <entry>
+    <title>P3118 [USACO15JAN] Moovie Mooving G</title>
+    <url>/2024/10/22/P3118-USACO15JAN-Moovie-Mooving-G/</url>
+    <content><![CDATA[
+## 题目描述
+有 $N$ 部电影，每部时长为 $val_i$ 共放映 $num_i$ 场，且第 $i$ 部电影第 $j$ 场的开场时间为 $tim_{i,j}$。  
+每部电影只能看一次，看电影的中途可以换电影，求连续看满时长 $L$ 最少要看几部电影。
+
+<!-- more -->
+
+## 思路
+数据范围 $1\le N\le 20$，考虑状压 DP。  
+设 $dp_s$ 表示在状态 $s$ 时，可以连续看多久电影。  
+对于每个状态 $s$，暴力枚举接下来我们要看的电影。
+
+因为要求看的电影数量尽可能少，所以每次应该选择**最后一个不大于**当前时间的电影场次。这个操作可以用 `upper_bound` 解决。  
+
+然后做正常的状压 DP 就可以了，设当前选到了电影 $i$，只有 $i$ **存在**不大于当前时间的场次，才进行转移。当前状态应当与电影结束时间取最大值，即 $\max(dp_{s|(1<<(i-1))} , tim_{i,idx}+ val_i)$。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+#include<cstring>
+#include<cstdio>
+#include<cstdlib>
+using namespace std;
+template <typename T>
+inline void read(T&x){//快读
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0' || ch>'9'){
+		if(ch=='-') w = 1;
+		ch = getchar();
+	}
+	while(ch>='0' && ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+const int N = 25,INF = 0x3f3f3f3f;
+int n,L;
+int val[N],num[N],tim[N][1100];
+int ans=INF,dp[(1<<20)+10];
+int main(){
+	read(n,L);
+	for(int i=1;i<=n;++i){
+		read(val[i],num[i]);//电影时长、场次数量
+		for(int j=1;j<=num[i];++j){
+			read(tim[i][j]);//每场的开始时间
+		}
+	}
+	for(int s=0;s<1<<n;++s){
+		for(int i=1;i<=n;++i){
+			if((1<<(i-1))&s) continue;//电影已经选过
+			int idx = upper_bound(tim[i]+1,tim[i]+num[i]+1,dp[s])-(tim[i]+1);
+			if(idx>0) dp[s|(1<<(i-1))] = max(dp[s|(1<<(i-1))],tim[i][idx]+val[i]); //存在场次
+		}
+		if(dp[s]>=L) ans = min(ans,__builtin_popcount(s));//popcount非常快
+	}
+	printf("%d",ans==INF? -1 : ans);
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>P3540 [POI2012] SQU-Squarks</title>
     <url>/2024/11/01/P3540-POI2012-SQU-Squarks/</url>
     <content><![CDATA[
@@ -604,221 +679,6 @@ int main(){
 	return 0;
 }
 
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>P3118 [USACO15JAN] Moovie Mooving G</title>
-    <url>/2024/10/22/P3118-USACO15JAN-Moovie-Mooving-G/</url>
-    <content><![CDATA[
-## 题目描述
-有 $N$ 部电影，每部时长为 $val_i$ 共放映 $num_i$ 场，且第 $i$ 部电影第 $j$ 场的开场时间为 $tim_{i,j}$。  
-每部电影只能看一次，看电影的中途可以换电影，求连续看满时长 $L$ 最少要看几部电影。
-
-<!-- more -->
-
-## 思路
-数据范围 $1\le N\le 20$，考虑状压 DP。  
-设 $dp_s$ 表示在状态 $s$ 时，可以连续看多久电影。  
-对于每个状态 $s$，暴力枚举接下来我们要看的电影。
-
-因为要求看的电影数量尽可能少，所以每次应该选择**最后一个不大于**当前时间的电影场次。这个操作可以用 `upper_bound` 解决。  
-
-然后做正常的状压 DP 就可以了，设当前选到了电影 $i$，只有 $i$ **存在**不大于当前时间的场次，才进行转移。当前状态应当与电影结束时间取最大值，即 $\max(dp_{s|(1<<(i-1))} , tim_{i,idx}+ val_i)$。
-
-## 代码
-
-```cpp
-#include<iostream>
-#include<algorithm>
-#include<cmath>
-#include<cstring>
-#include<cstdio>
-#include<cstdlib>
-using namespace std;
-template <typename T>
-inline void read(T&x){//快读
-	int w=0;x=0;
-	char ch = getchar();
-	while(ch<'0' || ch>'9'){
-		if(ch=='-') w = 1;
-		ch = getchar();
-	}
-	while(ch>='0' && ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x=-x;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-const int N = 25,INF = 0x3f3f3f3f;
-int n,L;
-int val[N],num[N],tim[N][1100];
-int ans=INF,dp[(1<<20)+10];
-int main(){
-	read(n,L);
-	for(int i=1;i<=n;++i){
-		read(val[i],num[i]);//电影时长、场次数量
-		for(int j=1;j<=num[i];++j){
-			read(tim[i][j]);//每场的开始时间
-		}
-	}
-	for(int s=0;s<1<<n;++s){
-		for(int i=1;i<=n;++i){
-			if((1<<(i-1))&s) continue;//电影已经选过
-			int idx = upper_bound(tim[i]+1,tim[i]+num[i]+1,dp[s])-(tim[i]+1);
-			if(idx>0) dp[s|(1<<(i-1))] = max(dp[s|(1<<(i-1))],tim[i][idx]+val[i]); //存在场次
-		}
-		if(dp[s]>=L) ans = min(ans,__builtin_popcount(s));//popcount非常快
-	}
-	printf("%d",ans==INF? -1 : ans);
-	return 0;
-}
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>P3629 [APIO2010] 巡逻</title>
-    <url>/2025/02/27/P3629-APIO2010-%E5%B7%A1%E9%80%BB/</url>
-    <content><![CDATA[## 思路
-
-对于 $k=1$ 的情况，加上一条边时，树上出现了一条环且长为 $S$，环上的原路径都可以少走一遍，再算上新路径要走一遍。此时答案为 $2 \times (n-1) - (S-1) + 1$。  
-我们需要令 $S-1$ 尽可能大，即原路径的那条链尽可能长，那么应该取树的直径。
-
-<!-- more -->
-
-对于 $k=2$ 的情况，加上两条边会出现两条环。由于出现的每条环长度比所选链长多一，所以只考虑树上所选链的情况即可。  
-若想使总步数尽可能小，那么**选出的两条链要尽可能多的覆盖树上的路径**。且在每条环上，我们都会把环上所有边都经过一遍再走出这条环，两条链重合的部分会重复走，所以**两条链的重合部分要尽可能少**。       
-我们巡逻的策略是一但遇到不在环上的点，就优先去走它，然后再想办法走到环上。所以实际答案为 $2 \times (n-1) - S_{并}+S_{交}+2$。 
-
-贪心地取，我们取到的其中一条链一定是树的直径。  
-粗略证明：  
-对于我们选的两条链，它们分别越长一定不劣。如果两条链没有重合部分，那么其中一条上半部分选中两条链中间的部分，接到另一条的下半部分，答案不劣。由于两条链都要尽量长，那么第一条链如此操作一定能够取到直径。
-
-第二条链在取的时候我们分类讨论。  
-设第一条链选出的点共有 $m$ 个，点集为 $T$，按照深度顺序排列。  
-
-如果第二条链与第一条链没有重叠部分，那么我们对每个 $T_i$ 求其子树直径即可。  
-如果第二条链与第一条链有重叠部分，我们找到重合部分的两个端点 $T_i$、$T_j$。那么我们将这条链分为一段重合部分、和两段非重合部分。可以钦定 $i < j$，那么 $S_{重} = j-i$。  
-
-![1](P3629-APIO2010-巡逻-1.webp)
-
-
-我们需要使 $S_{并}-S_{交}$ 最大，那么分别取到 $T_i$、$T_j$ 的子树内距其最深的深度 $maxdep{T_i}$、$maxdep{T_j}$ 一定更优。  
-此时答案为 $2 \times (n-1) -(m-1)-\[ maxdep{T_1}+maxdep{T_2} - (j-i)\] +2$，
-
-找到 $\max\\{maxdep{T_1}+maxdep{T_2} - (j-i)\\}$ 即可。  
-
-令 $g_i = maxdep{T_i}+i$，$f_j = maxdep{T_j}-j$，此时转化为求 $\max \\{ g_i+f_j \\}$ （$i<j$）。  
-只需要 $O(n)$ 扫一遍 $f_j$，对于每个 $f_j$ 维护出最大的 $g_i$（在求第二条链的时候顺便维护即可）。 
-
-## 代码
-
-```cpp
-#include<iostream>
-#include<cstring>
-#include<queue>
-using namespace std;
-typedef long long ll;
-typedef unsigned long long ull;
-template <typename T>
-inline void read(T&x){ //快读
-	int w = 0;x = 0;
-	char ch = getchar();
-	while(ch<'0' || ch>'9'){
-		if(ch=='-') w = 1;
-		ch = getchar();
-	}
-	while(ch>='0' && ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x = ~x+1;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-template <typename T>
-inline T Max(T x,T y){ return (x > y ? x : y); }
-const int N = 1e5+10;
-int n,m,cnt;
-struct{
-	int to,nex;
-}edge[N<<1];
-int head[N],edge_num;
-inline void add(int x,int y){// 存边
-	edge[++edge_num].to = y;
-	edge[edge_num].nex = head[x];
-	head[x] = edge_num;
-}
-int dis[N],fa[N],vis[N];
-inline int bfs(int s,int flag){// 用来找以 s 为根最深的深度对应的点
-	memset(dis,0,sizeof(dis));
-	queue <int> q;
-	q.push(s);
-	int idx = 0;
-	if(flag) fa[s] = 0; //只有选直径的时候才标记父亲
-	while(!q.empty()){
-		int now = q.front();
-		q.pop();
-		for(int i=head[now];i;i=edge[i].nex){
-			int tto = edge[i].to;
-			if(dis[tto] || tto==s || vis[tto]) continue;
-			if(flag) fa[tto] = now;
-			dis[tto] = dis[now]+1;
-			if(dis[tto]>dis[idx]) idx = tto;
-			q.push(tto);
-		}
-	}
-	return idx;
-}
-int main(){
-	// freopen("data.out","r",stdin);
-	// freopen("put.out","w",stdout);
-
-	read(n,m);
-	for(int i=1,u,v;i<n;++i){
-		read(u,v);
-		add(u,v); add(v,u);
-	}
-	int t1 = bfs(1,1),t2 = bfs(t1,1); //求直径
-	if(m==1){// k==1
-		printf("%d",2*(n-1)-dis[t2]+1);
-		return 0;
-	}
-    // 把直径上的点标记，强制第二次找最深的深度时，只在直径上的点的子树内
-	for(int i=t2;i;i=fa[i]) vis[i] = 1;
-	int maxdis = dis[t2],maxn = 0;
-	for(int i=t2,f,g,maxg=0;i;i=fa[i]){
-		vis[i] = 0;// 防止第一个儿子可能统计不到
-		t1 = bfs(i,0);// 最大深度
-
-		++cnt;
-        // 求 g 和 f
-		g = dis[t1]+cnt;
-		f = dis[t1]-cnt;
-		// 求 max{g + f}
-		maxn = Max(maxn,f+maxg);
-		maxg = Max(maxg,g);
-
-		t2 = bfs(t1,0);// 求其子树直径
-		vis[i] = 1;// 记得加回来
-		maxn = Max(maxn,dis[t2]);// 没有重合部分的情况
-	}
-	printf("%d",2*(n-1)-maxdis-maxn+2);// 答案
-
-	fclose(stdin);
-	fclose(stdout);
-	return 0;
-}
 ```]]></content>
       <categories>
         <category>题解</category>
@@ -1129,94 +989,138 @@ int main(){
       </categories>
   </entry>
   <entry>
-    <title>P4104 [HEOI2014] 平衡</title>
-    <url>/2024/10/09/P4104-HEOI2014-%E5%B9%B3%E8%A1%A1/</url>
-    <content><![CDATA[
-## 题面
+    <title>P3629 [APIO2010] 巡逻</title>
+    <url>/2025/02/27/P3629-APIO2010-%E5%B7%A1%E9%80%BB/</url>
+    <content><![CDATA[## 思路
 
-题目描述：  
-一个杠杆上的左右两侧各有 $n$ 块质量相等的橡皮（杠杆最中间也有一块），随机从中拿走 $k$ 块橡皮，可使杠杆依然平衡。求共有多少种拿走橡皮的方案数，答案对 $p$ 取模。
-
-题目简译：  
-从 $-n\sim n$ 中共选出 $k$ 个互不相同的数，求使得正数与负数的和为零的方案数。
+对于 $k=1$ 的情况，加上一条边时，树上出现了一条环且长为 $S$，环上的原路径都可以少走一遍，再算上新路径要走一遍。此时答案为 $2 \times (n-1) - (S-1) + 1$。  
+我们需要令 $S-1$ 尽可能大，即原路径的那条链尽可能长，那么应该取树的直径。
 
 <!-- more -->
 
-## 思路
-**前置知识：**[整数划分](https://baike.baidu.com/item/%E6%95%B4%E6%95%B0%E5%88%92%E5%88%86)。
+对于 $k=2$ 的情况，加上两条边会出现两条环。由于出现的每条环长度比所选链长多一，所以只考虑树上所选链的情况即可。  
+若想使总步数尽可能小，那么**选出的两条链要尽可能多的覆盖树上的路径**。且在每条环上，我们都会把环上所有边都经过一遍再走出这条环，两条链重合的部分会重复走，所以**两条链的重合部分要尽可能少**。       
+我们巡逻的策略是一但遇到不在环上的点，就优先去走它，然后再想办法走到环上。所以实际答案为 $2 \times (n-1) - S_{并}+S_{交}+2$。 
 
-只考虑在杠杆的右侧选出 $x\in [1,k]$ 个数，题目就变成了经典的整数划分模型：  
-将 $N\in [0,n\times k]$ 划分为 $k$ 个互不相同且不大于 $n$ 的正整数的方案数。  
-显然统计答案时，右侧选出 $x$ 个数，那么左侧就选出 $k-x$ 个数，乘法原理计算得到总方案数。  
+贪心地取，我们取到的其中一条链一定是树的直径。  
+粗略证明：  
+对于我们选的两条链，它们分别越长一定不劣。如果两条链没有重合部分，那么其中一条上半部分选中两条链中间的部分，接到另一条的下半部分，答案不劣。由于两条链都要尽量长，那么第一条链如此操作一定能够取到直径。
+
+第二条链在取的时候我们分类讨论。  
+设第一条链选出的点共有 $m$ 个，点集为 $T$，按照深度顺序排列。  
+
+如果第二条链与第一条链没有重叠部分，那么我们对每个 $T_i$ 求其子树直径即可。  
+如果第二条链与第一条链有重叠部分，我们找到重合部分的两个端点 $T_i$、$T_j$。那么我们将这条链分为一段重合部分、和两段非重合部分。可以钦定 $i < j$，那么 $S_{重} = j-i$。  
+
+![1](P3629-APIO2010-巡逻-1.webp)
 
 
----
+我们需要使 $S_{并}-S_{交}$ 最大，那么分别取到 $T_i$、$T_j$ 的子树内距其最深的深度 $maxdep{T_i}$、$maxdep{T_j}$ 一定更优。  
+此时答案为 $2 \times (n-1) -(m-1)-\[ maxdep{T_1}+maxdep{T_2} - (j-i)\] +2$，
 
+找到 $\max\\{maxdep{T_1}+maxdep{T_2} - (j-i)\\}$ 即可。  
 
-对于数字有大小限制的整数划分：  
-> 令 $dp_{i,j}$ 表示把 $i$ 划分为 $j$ 个数的方案：  
-> 则有 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}$。  
-> 当 $i>n$ 时，出现的不合法方案需要减掉：  
-> 此时 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}-dp_{i-n-1,j-1}$。
-
-对于统计答案：  
-> 如上：枚举杠杆一侧选出 $x$ 个数，另一侧就选出 $k-x$ 个数，乘法原理计算。  
-> 特别注意：杠杆最中间也有一块橡皮，需要考虑是否将其拿走。
+令 $g_i = maxdep{T_i}+i$，$f_j = maxdep{T_j}-j$，此时转化为求 $\max \\{ g_i+f_j \\}$ （$i<j$）。  
+只需要 $O(n)$ 扫一遍 $f_j$，对于每个 $f_j$ 维护出最大的 $g_i$（在求第二条链的时候顺便维护即可）。 
 
 ## 代码
 
 ```cpp
 #include<iostream>
-#include<cstdio>
-#include<algorithm>
 #include<cstring>
-#include<climits>
-#include<cstdlib>
-#include<vector>
+#include<queue>
 using namespace std;
 typedef long long ll;
+typedef unsigned long long ull;
 template <typename T>
-inline void read(T&x){//快读
-	int w=0;x=0;
+inline void read(T&x){ //快读
+	int w = 0;x = 0;
 	char ch = getchar();
-	while(ch<'0'||ch>'9'){
-		if(ch=='-') w=1;
+	while(ch<'0' || ch>'9'){
+		if(ch=='-') w = 1;
 		ch = getchar();
 	}
-	while(ch>='0'&&ch<='9'){
+	while(ch>='0' && ch<='9'){
 		x = (x<<1)+(x<<3)+(ch^48);
 		ch = getchar();
 	}
-	if(w) x=-x;
+	if(w) x = ~x+1;
 }
 template <typename T,typename...Args>
 inline void read(T&t,Args&...args){
 	read(t);read(args...);
 }
-const int N = 1e4+10,K = 15;
-int n,k,p;
-ll dp[N*K][K];
-int main(){
-	int T;read(T);
-	while(T--){
-		read(n,k,p);
-		memset(dp,0,sizeof(dp));
-		dp[0][0] = 1;//初始状态
-		for(int i=0;i<=k*n;++i){//整数划分
-			for(int j=1;j<=min(i,k);++j){
-				dp[i][j] = (dp[i][j]+dp[i-j][j]+dp[i-j][j-1])%p;
-				if(i>n) dp[i][j] = (dp[i][j]-dp[i-n-1][j-1]+p)%p;
-			}
+template <typename T>
+inline T Max(T x,T y){ return (x > y ? x : y); }
+const int N = 1e5+10;
+int n,m,cnt;
+struct{
+	int to,nex;
+}edge[N<<1];
+int head[N],edge_num;
+inline void add(int x,int y){// 存边
+	edge[++edge_num].to = y;
+	edge[edge_num].nex = head[x];
+	head[x] = edge_num;
+}
+int dis[N],fa[N],vis[N];
+inline int bfs(int s,int flag){// 用来找以 s 为根最深的深度对应的点
+	memset(dis,0,sizeof(dis));
+	queue <int> q;
+	q.push(s);
+	int idx = 0;
+	if(flag) fa[s] = 0; //只有选直径的时候才标记父亲
+	while(!q.empty()){
+		int now = q.front();
+		q.pop();
+		for(int i=head[now];i;i=edge[i].nex){
+			int tto = edge[i].to;
+			if(dis[tto] || tto==s || vis[tto]) continue;
+			if(flag) fa[tto] = now;
+			dis[tto] = dis[now]+1;
+			if(dis[tto]>dis[idx]) idx = tto;
+			q.push(tto);
 		}
-		ll ans = 0;
-		for(int j=0;j<=k;++j){
-			for(int i=0;i<=n*k;++i){
-				ans = (ans+dp[i][j]*dp[i][k-j])%p;
-				if(j<k) ans = (ans+dp[i][j]*dp[i][k-j-1])%p;//最中间的橡皮要看是否选
-			}
-		}
-		printf("%lld\n",ans);
 	}
+	return idx;
+}
+int main(){
+	// freopen("data.out","r",stdin);
+	// freopen("put.out","w",stdout);
+
+	read(n,m);
+	for(int i=1,u,v;i<n;++i){
+		read(u,v);
+		add(u,v); add(v,u);
+	}
+	int t1 = bfs(1,1),t2 = bfs(t1,1); //求直径
+	if(m==1){// k==1
+		printf("%d",2*(n-1)-dis[t2]+1);
+		return 0;
+	}
+    // 把直径上的点标记，强制第二次找最深的深度时，只在直径上的点的子树内
+	for(int i=t2;i;i=fa[i]) vis[i] = 1;
+	int maxdis = dis[t2],maxn = 0;
+	for(int i=t2,f,g,maxg=0;i;i=fa[i]){
+		vis[i] = 0;// 防止第一个儿子可能统计不到
+		t1 = bfs(i,0);// 最大深度
+
+		++cnt;
+        // 求 g 和 f
+		g = dis[t1]+cnt;
+		f = dis[t1]-cnt;
+		// 求 max{g + f}
+		maxn = Max(maxn,f+maxg);
+		maxg = Max(maxg,g);
+
+		t2 = bfs(t1,0);// 求其子树直径
+		vis[i] = 1;// 记得加回来
+		maxn = Max(maxn,dis[t2]);// 没有重合部分的情况
+	}
+	printf("%d",2*(n-1)-maxdis-maxn+2);// 答案
+
+	fclose(stdin);
+	fclose(stdout);
 	return 0;
 }
 ```]]></content>
@@ -1393,6 +1297,178 @@ int main(){
       </categories>
   </entry>
   <entry>
+    <title>P4104 [HEOI2014] 平衡</title>
+    <url>/2024/10/09/P4104-HEOI2014-%E5%B9%B3%E8%A1%A1/</url>
+    <content><![CDATA[
+## 题面
+
+题目描述：  
+一个杠杆上的左右两侧各有 $n$ 块质量相等的橡皮（杠杆最中间也有一块），随机从中拿走 $k$ 块橡皮，可使杠杆依然平衡。求共有多少种拿走橡皮的方案数，答案对 $p$ 取模。
+
+题目简译：  
+从 $-n\sim n$ 中共选出 $k$ 个互不相同的数，求使得正数与负数的和为零的方案数。
+
+<!-- more -->
+
+## 思路
+**前置知识：**[整数划分](https://baike.baidu.com/item/%E6%95%B4%E6%95%B0%E5%88%92%E5%88%86)。
+
+只考虑在杠杆的右侧选出 $x\in [1,k]$ 个数，题目就变成了经典的整数划分模型：  
+将 $N\in [0,n\times k]$ 划分为 $k$ 个互不相同且不大于 $n$ 的正整数的方案数。  
+显然统计答案时，右侧选出 $x$ 个数，那么左侧就选出 $k-x$ 个数，乘法原理计算得到总方案数。  
+
+
+---
+
+
+对于数字有大小限制的整数划分：  
+> 令 $dp_{i,j}$ 表示把 $i$ 划分为 $j$ 个数的方案：  
+> 则有 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}$。  
+> 当 $i>n$ 时，出现的不合法方案需要减掉：  
+> 此时 $dp_{i,j} = dp_{i-j,j}+dp_{i-j,j-1}-dp_{i-n-1,j-1}$。
+
+对于统计答案：  
+> 如上：枚举杠杆一侧选出 $x$ 个数，另一侧就选出 $k-x$ 个数，乘法原理计算。  
+> 特别注意：杠杆最中间也有一块橡皮，需要考虑是否将其拿走。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<climits>
+#include<cstdlib>
+#include<vector>
+using namespace std;
+typedef long long ll;
+template <typename T>
+inline void read(T&x){//快读
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0'||ch>'9'){
+		if(ch=='-') w=1;
+		ch = getchar();
+	}
+	while(ch>='0'&&ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+const int N = 1e4+10,K = 15;
+int n,k,p;
+ll dp[N*K][K];
+int main(){
+	int T;read(T);
+	while(T--){
+		read(n,k,p);
+		memset(dp,0,sizeof(dp));
+		dp[0][0] = 1;//初始状态
+		for(int i=0;i<=k*n;++i){//整数划分
+			for(int j=1;j<=min(i,k);++j){
+				dp[i][j] = (dp[i][j]+dp[i-j][j]+dp[i-j][j-1])%p;
+				if(i>n) dp[i][j] = (dp[i][j]-dp[i-n-1][j-1]+p)%p;
+			}
+		}
+		ll ans = 0;
+		for(int j=0;j<=k;++j){
+			for(int i=0;i<=n*k;++i){
+				ans = (ans+dp[i][j]*dp[i][k-j])%p;
+				if(j<k) ans = (ans+dp[i][j]*dp[i][k-j-1])%p;//最中间的橡皮要看是否选
+			}
+		}
+		printf("%lld\n",ans);
+	}
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>P4484 [BJWC2018] 最长上升子序列</title>
+    <url>/2025/07/01/P4484-BJWC2018-%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/</url>
+    <content><![CDATA[
+## 思路
+
+看到排列和 LIS，所以想到了杨表。
+
+设杨图单元格数为 $n$，则其每一行的格数构成了 $n$ 的一种整数划分。
+
+<!-- more -->
+
+向一个单元格数为 $n$，划分为 $\lambda$ 的杨图 $Y_{\lambda}$ 中，插入 $1\sim n$ 的排列，我们有[钩长公式](https://www.zgbk.com/ecph/words?SiteID=1&ID=95404&SubID=61853)，得到的标准杨表的数量 $d_{\lambda}$ 为：
+
+$$
+d_{\lambda} = \frac{n!}{\Pi_{(i,j)\in Y_{\lambda}} h_{\lambda}(i,j)}
+$$
+
+此时对应排列的 LIS 长度，为杨表第一行的长度 $|S_{\lambda}|$。
+
+对于划分都为 $\lambda$ 的杨表，我们有 [Robinson-Schensted correspondence 定理](https://encyclopediaofmath.org/wiki/Robinson-Schensted_correspondence)，它们中两两会唯一对应一种排列。则 $|S_{\lambda}|$ 对答案的贡献为：
+
+$$
+(d_{\lambda})^2|S_{\lambda}|
+$$
+
+我们钦定杨图的形态，则答案为：
+
+$$
+\frac{1}{n!}\sum_{\lambda} (d_{\lambda})^2|S_{\lambda}|
+$$
+
+由于 $n \le 28$，最多也就 $3718$ 种划分，所以暴力枚举 $\lambda$ 即可。
+
+## 代码
+
+```cpp
+inline void dfs(int las,int num){
+	if(num==n){
+		ll val = mul;
+		for(int i=1;i<=cnt;++i){
+			for(int j=1;j<=Y[i];++j){
+				int num = Y[i]-j+1,t = i+1;;
+				while(t<=cnt && Y[t]>=j) ++t,++num;
+				(val *= inv[num])%=mod;
+			}
+		}
+		(val *= val*Y[1]%mod)%=mod;
+		(ans += val)%=mod;
+	}
+	for(int i=1;i<=las;++i){
+		if(num+i>n) break;
+		Y[++cnt] = i;
+		dfs(i,num+i);
+		--cnt;
+	}
+}
+int main(){
+	
+	read(n); mul = 1;
+	for(ll i=1;i<=n;++i) (mul *= i)%=mod;
+	for(int i=1;i<=n;++i){
+		Y[++cnt] = i;
+		dfs(i,i);
+		--cnt;
+	}
+	(ans *= quick_pow(mul,mod-2))%=mod;
+	printf("%lld",ans);
+
+	return 0;
+}
+```]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>P9401 [POI 2020/2021 R3] Kolekcjoner Bajtemonów 2</title>
     <url>/2024/10/06/P9401-POI-2020-2021-R3-Kolekcjoner-Bajtemonow-2/</url>
     <content><![CDATA[
@@ -1515,82 +1591,6 @@ int main(){
 	}
 	printf("%lld",gcdd);//只选b的情况
 	return 0;;
-}
-```]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>P4484 [BJWC2018] 最长上升子序列</title>
-    <url>/2025/07/01/P4484-BJWC2018-%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/</url>
-    <content><![CDATA[
-## 思路
-
-看到排列和 LIS，所以想到了杨表。
-
-设杨图单元格数为 $n$，则其每一行的格数构成了 $n$ 的一种整数划分。
-
-<!-- more -->
-
-向一个单元格数为 $n$，划分为 $\lambda$ 的杨图 $Y_{\lambda}$ 中，插入 $1\sim n$ 的排列，我们有[钩长公式](https://www.zgbk.com/ecph/words?SiteID=1&ID=95404&SubID=61853)，得到的标准杨表的数量 $d_{\lambda}$ 为：
-
-$$
-d_{\lambda} = \frac{n!}{\Pi_{(i,j)\in Y_{\lambda}} h_{\lambda}(i,j)}
-$$
-
-此时对应排列的 LIS 长度，为杨表第一行的长度 $|S_{\lambda}|$。
-
-对于划分都为 $\lambda$ 的杨表，我们有 [Robinson-Schensted correspondence 定理](https://encyclopediaofmath.org/wiki/Robinson-Schensted_correspondence)，它们中两两会唯一对应一种排列。则 $|S_{\lambda}|$ 对答案的贡献为：
-
-$$
-(d_{\lambda})^2|S_{\lambda}|
-$$
-
-我们钦定杨图的形态，则答案为：
-
-$$
-\frac{1}{n!}\sum_{\lambda} (d_{\lambda})^2|S_{\lambda}|
-$$
-
-由于 $n \le 28$，最多也就 $3718$ 种划分，所以暴力枚举 $\lambda$ 即可。
-
-## 代码
-
-```cpp
-inline void dfs(int las,int num){
-	if(num==n){
-		ll val = mul;
-		for(int i=1;i<=cnt;++i){
-			for(int j=1;j<=Y[i];++j){
-				int num = Y[i]-j+1,t = i+1;;
-				while(t<=cnt && Y[t]>=j) ++t,++num;
-				(val *= inv[num])%=mod;
-			}
-		}
-		(val *= val*Y[1]%mod)%=mod;
-		(ans += val)%=mod;
-	}
-	for(int i=1;i<=las;++i){
-		if(num+i>n) break;
-		Y[++cnt] = i;
-		dfs(i,num+i);
-		--cnt;
-	}
-}
-int main(){
-	
-	read(n); mul = 1;
-	for(ll i=1;i<=n;++i) (mul *= i)%=mod;
-	for(int i=1;i<=n;++i){
-		Y[++cnt] = i;
-		dfs(i,i);
-		--cnt;
-	}
-	(ans *= quick_pow(mul,mod-2))%=mod;
-	printf("%lld",ans);
-
-	return 0;
 }
 ```]]></content>
       <categories>
@@ -1746,94 +1746,6 @@ int main(){
 ```]]></content>
       <categories>
         <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>关于莫比乌斯函数性质的证明</title>
-    <url>/2025/05/25/%E5%85%B3%E4%BA%8E%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%87%BD%E6%95%B0%E6%80%A7%E8%B4%A8%E7%9A%84%E8%AF%81%E6%98%8E/</url>
-    <content><![CDATA[
-## $\sum_{d|n} \mu(d) = \varepsilon(n)$
-
-关于上式有人问我不卷积怎么证，真是个好问题。
-
-首先 $n=1$ 时自算该式成立，
-
-然后讨论 $n>1$ 的情况。
-
-<!-- more -->
-
----
-
-### 下证 $\sum_{i\bmod 2 = 0}^{n}C_{n}^{i} - \sum_{i\bmod 2 = 1}^{n}C_{n}^{i} = [n==0]$
-
-当 $n=0$ 显然成立。
-
-当 $n$ 为奇数，总有 $i$ 为奇数与偶数一一对应，则差为0.
-
-当 $n$ 为偶数时，
-
-令 $T_1(x)$ 表示集合大小为 $x$ 时选奇数个的情况，$T_0(x)$ 表示集合大小为 $x$ 时在其中选偶数个的情况。
-
-当 $x$ 为奇数时，$T_1(x\*2) = 2 \times T_1(x)T_0(x)$，$T_1(x\*2) = T_0^2(x)+T_0^2(x)$，
-且有 $T_0(x)  = T_1(x)$，此时 $T_1(x\*2) = T_0(x\*2)$；
-
-当 $x$ 为偶数时，二分合并即可。
-
----
-
-$n = \Pi_{i=1}^{k} p_i^{c_i}$，
-
-令 $P = {p_1 \cdots p_k}$，
-
-设 $n$ 的一个因数为 $d = \Pi_{i=1}^{k_1} S_i (S\subseteq P)$，
-
-设 $d' = \frac{n}{d}$。
-
-### 1、若 $\mu(n) = -1$
-
-其另一因数为 $d' = \Pi_{i=1}^{k-k_1} S'_i (S' = S \supset P)$，
-
-此时 $k$ 为奇数，
-
-当 $k_1$ 为奇数，$\mu(d) = -1$，$\mu(d') = 1$；
-当 $k_1$ 为偶数，$\mu(d) = 1$，$\mu(d') = -1$。
-
-$\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
-
-### 2、若 $\mu(n) = 0$
-
-将 $d$ 分为 $3$ 类:
-
-1.$\mu(d) = 0$；
-2.$\mu(d) != 0$ 且 $\mu(d') != 0$；
-3.$\mu(d) != 0$ 且 $\mu(d') = 0$；
-
-第一种放着不管。
-
-第二种情况，当且仅当 $c_i \le 2$ 存在。显然在 $d != d'$ 时，$\mu(d) = -\mu(d')$。
-
-第三种情况，只关心 $\mu(d)$ 即可。
-
-当 $k_1$ 为奇数时 $\mu(d) = -1$；当 $k_1$ 为偶数时 $\mu(d) = 1$。
-
-而总有 $k_1$ 为奇数情况比偶数情况多 $1$。
-
-即三种情况 $\mu(d)$ 和为 $-1$，最后加上 $\mu(1) = 1$。
-
-### 3、若 $\mu(n) = 1$
-
-此时 $k$ 为偶数，
-
-当 $k_1$ 为奇数时，有 $\mu(d)+\mu(d') = -2$；
-
-当 $k_1$ 为偶数时，有 $\mu(d)+\mu(d') = 2$。
-
-总有 $k_1$ 为奇数情况比偶数情况多 $1$。
-
-故 $\mu(d)+\mu(d') = -2$，最后加上 $\mu(1) + \mu(n) = 2$。
-]]></content>
-      <categories>
-        <category>数学/证明</category>
       </categories>
   </entry>
   <entry>
@@ -2212,6 +2124,94 @@ __builtin 系列用来对数的二进制表示进行一些运算，复杂度近�
       <tags>
         <tag>闲话</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>关于莫比乌斯函数性质的证明</title>
+    <url>/2025/05/25/%E5%85%B3%E4%BA%8E%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%87%BD%E6%95%B0%E6%80%A7%E8%B4%A8%E7%9A%84%E8%AF%81%E6%98%8E/</url>
+    <content><![CDATA[
+## $\sum_{d|n} \mu(d) = \varepsilon(n)$
+
+关于上式有人问我不卷积怎么证，真是个好问题。
+
+首先 $n=1$ 时自算该式成立，
+
+然后讨论 $n>1$ 的情况。
+
+<!-- more -->
+
+---
+
+### 下证 $\sum_{i\bmod 2 = 0}^{n}C_{n}^{i} - \sum_{i\bmod 2 = 1}^{n}C_{n}^{i} = [n==0]$
+
+当 $n=0$ 显然成立。
+
+当 $n$ 为奇数，总有 $i$ 为奇数与偶数一一对应，则差为0.
+
+当 $n$ 为偶数时，
+
+令 $T_1(x)$ 表示集合大小为 $x$ 时选奇数个的情况，$T_0(x)$ 表示集合大小为 $x$ 时在其中选偶数个的情况。
+
+当 $x$ 为奇数时，$T_1(x\*2) = 2 \times T_1(x)T_0(x)$，$T_1(x\*2) = T_0^2(x)+T_0^2(x)$，
+且有 $T_0(x)  = T_1(x)$，此时 $T_1(x\*2) = T_0(x\*2)$；
+
+当 $x$ 为偶数时，二分合并即可。
+
+---
+
+$n = \Pi_{i=1}^{k} p_i^{c_i}$，
+
+令 $P = {p_1 \cdots p_k}$，
+
+设 $n$ 的一个因数为 $d = \Pi_{i=1}^{k_1} S_i (S\subseteq P)$，
+
+设 $d' = \frac{n}{d}$。
+
+### 1、若 $\mu(n) = -1$
+
+其另一因数为 $d' = \Pi_{i=1}^{k-k_1} S'_i (S' = S \supset P)$，
+
+此时 $k$ 为奇数，
+
+当 $k_1$ 为奇数，$\mu(d) = -1$，$\mu(d') = 1$；
+当 $k_1$ 为偶数，$\mu(d) = 1$，$\mu(d') = -1$。
+
+$\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
+
+### 2、若 $\mu(n) = 0$
+
+将 $d$ 分为 $3$ 类:
+
+1.$\mu(d) = 0$；
+2.$\mu(d) != 0$ 且 $\mu(d') != 0$；
+3.$\mu(d) != 0$ 且 $\mu(d') = 0$；
+
+第一种放着不管。
+
+第二种情况，当且仅当 $c_i \le 2$ 存在。显然在 $d != d'$ 时，$\mu(d) = -\mu(d')$。
+
+第三种情况，只关心 $\mu(d)$ 即可。
+
+当 $k_1$ 为奇数时 $\mu(d) = -1$；当 $k_1$ 为偶数时 $\mu(d) = 1$。
+
+而总有 $k_1$ 为奇数情况比偶数情况多 $1$。
+
+即三种情况 $\mu(d)$ 和为 $-1$，最后加上 $\mu(1) = 1$。
+
+### 3、若 $\mu(n) = 1$
+
+此时 $k$ 为偶数，
+
+当 $k_1$ 为奇数时，有 $\mu(d)+\mu(d') = -2$；
+
+当 $k_1$ 为偶数时，有 $\mu(d)+\mu(d') = 2$。
+
+总有 $k_1$ 为奇数情况比偶数情况多 $1$。
+
+故 $\mu(d)+\mu(d') = -2$，最后加上 $\mu(1) + \mu(n) = 2$。
+]]></content>
+      <categories>
+        <category>数学/证明</category>
+      </categories>
   </entry>
   <entry>
     <title>憂い桜（忧郁樱花）</title>
