@@ -29,7 +29,7 @@
 <meta property="og:description" content="题目描述 给定  个数对，在每个数对中选一个数，最大化所选的  个数的最大公约数。 思路 先看数据范围  而 。 发现  比  大很多，且如果要选择一个  那么最终的答案一定 。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-10-06T12:05:00.000Z">
-<meta property="article:modified_time" content="2025-11-07T09:30:40.740Z">
+<meta property="article:modified_time" content="2025-11-21T12:20:15.264Z">
 <meta property="article:author" content="Tmbcan">
 <meta property="article:tag" content="Tmbcan">
 <meta name="twitter:card" content="summary">
@@ -304,7 +304,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -323,7 +323,7 @@ mjx-container[display="true"] + br {
     <!-- nav 里的复制一遍下来就有换行了，判断条件site.tags.length改为了>=0-->
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
 
@@ -358,6 +358,10 @@ mjx-container[display="true"] + br {
     
        
          
+          
+            
+          
+        
       
     
        
@@ -408,6 +412,26 @@ mjx-container[display="true"] + br {
     
        
          
+      
+    
+       
+         
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
       
     
        
@@ -434,14 +458,8 @@ mjx-container[display="true"] + br {
     
        
          
-      
-    
-       
-         
-      
-    
-       
-         
+          
+            
           
         
       
@@ -450,6 +468,156 @@ mjx-container[display="true"] + br {
          
           
             
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
           
         
       
@@ -465,7 +633,7 @@ mjx-container[display="true"] + br {
 
     <div class="site-state-item">
       <a href="/tags/%E9%97%B2%E8%AF%9D/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">闲话</span>
       </a>
     </div>
@@ -633,6 +801,9 @@ mjx-container[display="true"] + br {
 <p>总复杂度 <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="13.459ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 5948.7 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D442" d="M740 435Q740 320 676 213T511 42T304 -22Q207 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435ZM637 476Q637 565 591 615T476 665Q396 665 322 605Q242 542 200 428T157 216Q157 126 200 73T314 19Q404 19 485 98T608 313Q637 408 637 476Z"></path></g><g data-mml-node="mo" transform="translate(763,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(1152,0)"><path data-c="1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mi" transform="translate(1918.7,0)"><path data-c="6C" d="M42 46H56Q95 46 103 60V68Q103 77 103 91T103 124T104 167T104 217T104 272T104 329Q104 366 104 407T104 482T104 542T103 586T103 603Q100 622 89 628T44 637H26V660Q26 683 28 683L38 684Q48 685 67 686T104 688Q121 689 141 690T171 693T182 694H185V379Q185 62 186 60Q190 52 198 49Q219 46 247 46H263V0H255L232 1Q209 2 183 2T145 3T107 3T57 1L34 0H26V46H42Z"></path><path data-c="6E" d="M41 46H55Q94 46 102 60V68Q102 77 102 91T102 122T103 161T103 203Q103 234 103 269T102 328V351Q99 370 88 376T43 385H25V408Q25 431 27 431L37 432Q47 433 65 434T102 436Q119 437 138 438T167 441T178 442H181V402Q181 364 182 364T187 369T199 384T218 402T247 421T285 437Q305 442 336 442Q450 438 463 329Q464 322 464 190V104Q464 66 466 59T477 49Q498 46 526 46H542V0H534L510 1Q487 2 460 2T422 3Q319 3 310 0H302V46H318Q379 46 379 62Q380 64 380 200Q379 335 378 343Q372 371 358 385T334 402T308 404Q263 404 229 370Q202 343 195 315T187 232V168V108Q187 78 188 68T191 55T200 49Q221 46 249 46H265V0H257L234 1Q210 2 183 2T145 3Q42 3 33 0H25V46H41Z" transform="translate(278,0)"></path></g><g data-mml-node="mo" transform="translate(2752.7,0)"><path data-c="2061" d=""></path></g><g data-mml-node="TeXAtom" data-mjx-texclass="ORD" transform="translate(2919.3,0)"><g data-mml-node="mi"><path data-c="1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></g></g><g data-mml-node="mi" transform="translate(3686,0)"><path data-c="6C" d="M42 46H56Q95 46 103 60V68Q103 77 103 91T103 124T104 167T104 217T104 272T104 329Q104 366 104 407T104 482T104 542T103 586T103 603Q100 622 89 628T44 637H26V660Q26 683 28 683L38 684Q48 685 67 686T104 688Q121 689 141 690T171 693T182 694H185V379Q185 62 186 60Q190 52 198 49Q219 46 247 46H263V0H255L232 1Q209 2 183 2T145 3T107 3T57 1L34 0H26V46H42Z"></path><path data-c="6F" d="M28 214Q28 309 93 378T250 448Q340 448 405 380T471 215Q471 120 407 55T250 -10Q153 -10 91 57T28 214ZM250 30Q372 30 372 193V225V250Q372 272 371 288T364 326T348 362T317 390T268 410Q263 411 252 411Q222 411 195 399Q152 377 139 338T126 246V226Q126 130 145 91Q177 30 250 30Z" transform="translate(278,0)"></path><path data-c="67" d="M329 409Q373 453 429 453Q459 453 472 434T485 396Q485 382 476 371T449 360Q416 360 412 390Q410 404 415 411Q415 412 416 414V415Q388 412 363 393Q355 388 355 386Q355 385 359 381T368 369T379 351T388 325T392 292Q392 230 343 187T222 143Q172 143 123 171Q112 153 112 133Q112 98 138 81Q147 75 155 75T227 73Q311 72 335 67Q396 58 431 26Q470 -13 470 -72Q470 -139 392 -175Q332 -206 250 -206Q167 -206 107 -175Q29 -140 29 -75Q29 -39 50 -15T92 18L103 24Q67 55 67 108Q67 155 96 193Q52 237 52 292Q52 355 102 398T223 442Q274 442 318 416L329 409ZM299 343Q294 371 273 387T221 404Q192 404 171 388T145 343Q142 326 142 292Q142 248 149 227T179 192Q196 182 222 182Q244 182 260 189T283 207T294 227T299 242Q302 258 302 292T299 343ZM403 -75Q403 -50 389 -34T348 -11T299 -2T245 0H218Q151 0 138 -6Q118 -15 107 -34T95 -74Q95 -84 101 -97T122 -127T170 -155T250 -167Q319 -167 361 -139T403 -75Z" transform="translate(778,0)"></path></g><g data-mml-node="mo" transform="translate(4964,0)"><path data-c="2061" d=""></path></g><g data-mml-node="TeXAtom" data-mjx-texclass="ORD" transform="translate(5130.7,0)"><g data-mml-node="mi"><path data-c="1D44F" d="M73 647Q73 657 77 670T89 683Q90 683 161 688T234 694Q246 694 246 685T212 542Q204 508 195 472T180 418L176 399Q176 396 182 402Q231 442 283 442Q345 442 383 396T422 280Q422 169 343 79T173 -11Q123 -11 82 27T40 150V159Q40 180 48 217T97 414Q147 611 147 623T109 637Q104 637 101 637H96Q86 637 83 637T76 640T73 647ZM336 325V331Q336 405 275 405Q258 405 240 397T207 376T181 352T163 330L157 322L136 236Q114 150 114 114Q114 66 138 42Q154 26 178 26Q211 26 245 58Q270 81 285 114T318 219Q336 291 336 325Z"></path></g></g><g data-mml-node="mo" transform="translate(5559.7,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g></g></svg></mjx-container>。</p>
 <h2 id="代码">代码</h2>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;climits&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">read</span><span class="params">(T&amp;x)</span></span>{</span><br><span class="line">	<span class="type">int</span> w=<span class="number">0</span>;x=<span class="number">0</span>;</span><br><span class="line">	<span class="type">char</span> ch = <span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">while</span>(ch&lt;<span class="string">'0'</span>||ch&gt;<span class="string">'9'</span>){</span><br><span class="line">		<span class="keyword">if</span>(ch==<span class="string">'-'</span>) w=<span class="number">1</span>;</span><br><span class="line">		ch = <span class="built_in">getchar</span>();</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">while</span>(ch&gt;=<span class="string">'0'</span>&amp;&amp;ch&lt;=<span class="string">'9'</span>){</span><br><span class="line">		x = (x&lt;&lt;<span class="number">1</span>)+(x&lt;&lt;<span class="number">3</span>)+(ch^<span class="number">48</span>);</span><br><span class="line">		ch = <span class="built_in">getchar</span>();</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">if</span>(w) x=-x;</span><br><span class="line">}</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T,<span class="keyword">typename</span>...Args&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">read</span><span class="params">(T&amp;t,Args&amp;...args)</span></span>{</span><br><span class="line">	<span class="built_in">read</span>(t);<span class="built_in">read</span>(args...);</span><br><span class="line">}</span><br><span class="line"><span class="type">const</span> ll N = <span class="number">5e5</span>;<span class="comment">//答案最大值</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> ll <span class="title">Max</span><span class="params">(ll a,ll b)</span></span>{<span class="comment">//据说会有玄学优化</span></span><br><span class="line">	<span class="keyword">return</span> (a &gt; b ? a : b);</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">inline</span> ll <span class="title">Min</span><span class="params">(ll a,ll b)</span></span>{</span><br><span class="line">	<span class="keyword">return</span> (a &lt; b ? a : b);</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">inline</span> ll <span class="title">Abs</span><span class="params">(ll a)</span></span>{</span><br><span class="line">	<span class="keyword">return</span> (a &lt; <span class="number">0</span> ? -a : a);</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">inline</span> ll <span class="title">Gcd</span><span class="params">(ll x,ll y)</span></span>{<span class="comment">//基于二进制下位运算的GCD，常数十分的小</span></span><br><span class="line">	<span class="keyword">if</span>(!x || !y) <span class="keyword">return</span> x|y;</span><br><span class="line">	ll xz = __builtin_ctzll(x);</span><br><span class="line">	ll yz = __builtin_ctzll(y);</span><br><span class="line">	ll z = <span class="built_in">Min</span>(xz,yz),diff;</span><br><span class="line">	y &gt;&gt;= yz;</span><br><span class="line">	<span class="keyword">while</span>(x){</span><br><span class="line">		x &gt;&gt;= xz;</span><br><span class="line">		diff = x-y;</span><br><span class="line">		xz = __builtin_ctzll(diff);</span><br><span class="line">		y = <span class="built_in">Min</span>(x,y);</span><br><span class="line">		x = <span class="built_in">Abs</span>(diff);</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">return</span> y &lt;&lt; z;</span><br><span class="line">}</span><br><span class="line"><span class="type">int</span> n,lg[N<span class="number">+10</span>]={<span class="number">-1</span>};</span><br><span class="line">ll ans,gcdd,st[N<span class="number">+10</span>][<span class="number">20</span>],ai[N<span class="number">+10</span>];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> ll <span class="title">query</span><span class="params">(ll l,ll r)</span></span>{<span class="comment">//ST表查询</span></span><br><span class="line">	<span class="type">int</span> k = lg[r-l<span class="number">+1</span>];</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Gcd</span>(ans,<span class="built_in">Gcd</span>(st[l][k],st[r-(<span class="number">1</span>&lt;&lt;k)<span class="number">+1</span>][k]));</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>{</span><br><span class="line">	<span class="built_in">read</span>(n);</span><br><span class="line">	ll y;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>,x;i&lt;=n;++i){</span><br><span class="line">		<span class="built_in">read</span>(x,y);</span><br><span class="line">		ai[x] = <span class="built_in">Gcd</span>(ai[x],y);<span class="comment">//按照值域进行维护</span></span><br><span class="line">		gcdd = <span class="built_in">Gcd</span>(gcdd,y);<span class="comment">//只选b的情况</span></span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=N;++i){</span><br><span class="line">		lg[i] = lg[i&gt;&gt;<span class="number">1</span>]<span class="number">+1</span>;</span><br><span class="line">		st[i][<span class="number">0</span>] = ai[i];</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;<span class="number">20</span>;++k){</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> l=<span class="number">1</span>;l+(<span class="number">1</span>&lt;&lt;k)&lt;=N<span class="number">+1</span>;++l){</span><br><span class="line">			st[l][k] = <span class="built_in">Gcd</span>(st[l][k<span class="number">-1</span>],st[l+(<span class="number">1</span>&lt;&lt;k<span class="number">-1</span>)][k<span class="number">-1</span>]);</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">for</span>(ll i=N;i&gt;gcdd;--i){<span class="comment">//枚举所有可能的答案</span></span><br><span class="line">		ans = <span class="number">0</span>;</span><br><span class="line">		ans = <span class="built_in">query</span>(<span class="number">1</span>,i<span class="number">-1</span>);</span><br><span class="line">		<span class="keyword">if</span>(N%i) ans = <span class="built_in">query</span>(N/i*i<span class="number">+1</span>,N);</span><br><span class="line">		<span class="keyword">for</span>(ll j=<span class="number">2</span>;i*j&lt;=N &amp;&amp; !(ans%i);++j){<span class="comment">//对值域中的 i/j 个区间求GCD</span></span><br><span class="line">			ans = <span class="built_in">query</span>(i*(j<span class="number">-1</span>)<span class="number">+1</span>,i*j<span class="number">-1</span>);</span><br><span class="line">		}</span><br><span class="line">		<span class="keyword">if</span>(!(ans%i)){<span class="comment">//答案需要为全部区间的GCD的因数</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%lld"</span>,i);</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%lld"</span>,gcdd);<span class="comment">//只选b的情况</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js" data-repo="Tmbcan/Tmbcan.github.io" data-repo-id="R_kgDOPAgHYw" data-category="Announcements" data-category-id="DIC_kwDOPAgHY84CxiYc" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" crossorigin="anonymous" async="">
+</script>
     </div>
 
     
@@ -702,13 +873,13 @@ mjx-container[display="true"] + br {
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">42k</span>
+    <span title="站点总字数">46k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">53 分钟</span>
+    <span title="站点阅读时长">58 分钟</span>
   </span>
 </div>
 -->

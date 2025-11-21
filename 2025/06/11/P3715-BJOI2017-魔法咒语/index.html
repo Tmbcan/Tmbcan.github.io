@@ -29,7 +29,7 @@
 <meta property="og:description" content="题意 用  个字符串拼成一个长为  的长串，长串中不能出现另外的  个字符串，求总方案数。 思路 限制条件为忌讳词语不能匹配上拼成的长串。 所以我们把忌讳词语都扔到 AC 自动机上做 dp。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-10T22:00:00.000Z">
-<meta property="article:modified_time" content="2025-11-07T09:30:40.740Z">
+<meta property="article:modified_time" content="2025-11-21T12:19:58.647Z">
 <meta property="article:author" content="Tmbcan">
 <meta property="article:tag" content="Tmbcan">
 <meta name="twitter:card" content="summary">
@@ -304,7 +304,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -323,7 +323,7 @@ mjx-container[display="true"] + br {
     <!-- nav 里的复制一遍下来就有换行了，判断条件site.tags.length改为了>=0-->
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
 
@@ -358,6 +358,10 @@ mjx-container[display="true"] + br {
     
        
          
+          
+            
+          
+        
       
     
        
@@ -408,6 +412,26 @@ mjx-container[display="true"] + br {
     
        
          
+      
+    
+       
+         
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
       
     
        
@@ -434,14 +458,8 @@ mjx-container[display="true"] + br {
     
        
          
-      
-    
-       
-         
-      
-    
-       
-         
+          
+            
           
         
       
@@ -450,6 +468,156 @@ mjx-container[display="true"] + br {
          
           
             
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
+          
+            
+          
+        
+      
+    
+       
+         
           
         
       
@@ -465,7 +633,7 @@ mjx-container[display="true"] + br {
 
     <div class="site-state-item">
       <a href="/tags/%E9%97%B2%E8%AF%9D/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">闲话</span>
       </a>
     </div>
@@ -642,6 +810,9 @@ mjx-container[display="true"] + br {
 <p><mjx-container class="MathJax" jax="SVG" display="true"><svg style="vertical-align: -0.339ex;" xmlns="http://www.w3.org/2000/svg" width="13.233ex" height="2.366ex" role="img" focusable="false" viewBox="0 -896 5848.9 1046"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D439" d="M48 1Q31 1 31 11Q31 13 34 25Q38 41 42 43T65 46Q92 46 125 49Q139 52 144 61Q146 66 215 342T285 622Q285 629 281 629Q273 632 228 634H197Q191 640 191 642T193 659Q197 676 203 680H742Q749 676 749 669Q749 664 736 557T722 447Q720 440 702 440H690Q683 445 683 453Q683 454 686 477T689 530Q689 560 682 579T663 610T626 626T575 633T503 634H480Q398 633 393 631Q388 629 386 623Q385 622 352 492L320 363H375Q378 363 398 363T426 364T448 367T472 374T489 386Q502 398 511 419T524 457T529 475Q532 480 548 480H560Q567 475 567 470Q567 467 536 339T502 207Q500 200 482 200H470Q463 206 463 212Q463 215 468 234T473 274Q473 303 453 310T364 317H309L277 190Q245 66 245 60Q245 46 334 46H359Q365 40 365 39T363 19Q359 6 353 0H336Q295 2 185 2Q120 2 86 2T48 1Z"></path></g><g data-mml-node="mi" transform="translate(676,-150) scale(0.707)"><path data-c="1D43F" d="M228 637Q194 637 192 641Q191 643 191 649Q191 673 202 682Q204 683 217 683Q271 680 344 680Q485 680 506 683H518Q524 677 524 674T522 656Q517 641 513 637H475Q406 636 394 628Q387 624 380 600T313 336Q297 271 279 198T252 88L243 52Q243 48 252 48T311 46H328Q360 46 379 47T428 54T478 72T522 106T564 161Q580 191 594 228T611 270Q616 273 628 273H641Q647 264 647 262T627 203T583 83T557 9Q555 4 553 3T537 0T494 -1Q483 -1 418 -1T294 0H116Q32 0 32 10Q32 17 34 24Q39 43 44 45Q48 46 59 46H65Q92 46 125 49Q139 52 144 61Q147 65 216 339T285 628Q285 635 228 637Z"></path></g></g><g data-mml-node="mo" transform="translate(1485.3,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="msup" transform="translate(2541.1,0)"><g data-mml-node="mi"><path data-c="1D447" d="M40 437Q21 437 21 445Q21 450 37 501T71 602L88 651Q93 669 101 677H569H659Q691 677 697 676T704 667Q704 661 687 553T668 444Q668 437 649 437Q640 437 637 437T631 442L629 445Q629 451 635 490T641 551Q641 586 628 604T573 629Q568 630 515 631Q469 631 457 630T439 622Q438 621 368 343T298 60Q298 48 386 46Q418 46 427 45T436 36Q436 31 433 22Q429 4 424 1L422 0Q419 0 415 0Q410 0 363 1T228 2Q99 2 64 0H49Q43 6 43 9T45 27Q49 40 55 46H83H94Q174 46 189 55Q190 56 191 56Q196 59 201 76T241 233Q258 301 269 344Q339 619 339 625Q339 630 310 630H279Q212 630 191 624Q146 614 121 583T67 467Q60 445 57 441T43 437H40Z"></path></g><g data-mml-node="TeXAtom" transform="translate(793,413) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="1D43F" d="M228 637Q194 637 192 641Q191 643 191 649Q191 673 202 682Q204 683 217 683Q271 680 344 680Q485 680 506 683H518Q524 677 524 674T522 656Q517 641 513 637H475Q406 636 394 628Q387 624 380 600T313 336Q297 271 279 198T252 88L243 52Q243 48 252 48T311 46H328Q360 46 379 47T428 54T478 72T522 106T564 161Q580 191 594 228T611 270Q616 273 628 273H641Q647 264 647 262T627 203T583 83T557 9Q555 4 553 3T537 0T494 -1Q483 -1 418 -1T294 0H116Q32 0 32 10Q32 17 34 24Q39 43 44 45Q48 46 59 46H65Q92 46 125 49Q139 52 144 61Q147 65 216 339T285 628Q285 635 228 637Z"></path></g><g data-mml-node="mo" transform="translate(681,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mn" transform="translate(1459,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g><g data-mml-node="msub" transform="translate(4769.3,0)"><g data-mml-node="mi"><path data-c="1D439" d="M48 1Q31 1 31 11Q31 13 34 25Q38 41 42 43T65 46Q92 46 125 49Q139 52 144 61Q146 66 215 342T285 622Q285 629 281 629Q273 632 228 634H197Q191 640 191 642T193 659Q197 676 203 680H742Q749 676 749 669Q749 664 736 557T722 447Q720 440 702 440H690Q683 445 683 453Q683 454 686 477T689 530Q689 560 682 579T663 610T626 626T575 633T503 634H480Q398 633 393 631Q388 629 386 623Q385 622 352 492L320 363H375Q378 363 398 363T426 364T448 367T472 374T489 386Q502 398 511 419T524 457T529 475Q532 480 548 480H560Q567 475 567 470Q567 467 536 339T502 207Q500 200 482 200H470Q463 206 463 212Q463 215 468 234T473 274Q473 303 453 310T364 317H309L277 190Q245 66 245 60Q245 46 334 46H359Q365 40 365 39T363 19Q359 6 353 0H336Q295 2 185 2Q120 2 86 2T48 1Z"></path></g><g data-mml-node="mn" transform="translate(676,-150) scale(0.707)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></g></svg></mjx-container></p>
 <h2 id="代码">代码</h2>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">55</span>,M = <span class="number">105</span>;</span><br><span class="line"><span class="type">const</span> ll mod = <span class="number">1e9</span><span class="number">+7</span>;</span><br><span class="line"><span class="type">char</span> t[M],S[N][M];</span><br><span class="line"><span class="type">int</span> n,m,L,f2 = <span class="number">1</span>; ll ans;</span><br><span class="line"><span class="type">int</span> rt = <span class="number">1</span>,cnt = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">struct</span>{</span><br><span class="line">	<span class="type">int</span> son[<span class="number">26</span>],fail,trans[N];</span><br><span class="line">	<span class="type">int</span> is_ed; <span class="comment">// is_ed 是否有一个忌讳词语以该节点结尾</span></span><br><span class="line">	vector &lt;<span class="type">int</span>&gt; g; <span class="comment">// fail 树边</span></span><br><span class="line">}tr[M];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">insert</span><span class="params">()</span></span>{</span><br><span class="line">	<span class="type">int</span> now = rt;</span><br><span class="line">	<span class="type">int</span> len = <span class="built_in">strlen</span>(t<span class="number">+1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=len;++i){</span><br><span class="line">		<span class="type">int</span> c = t[i]-<span class="string">'a'</span>;</span><br><span class="line">		<span class="keyword">if</span>(!tr[now].son[c]) tr[now].son[c] = ++cnt;</span><br><span class="line">		now = tr[now].son[c];</span><br><span class="line">	}</span><br><span class="line">	tr[now].is_ed = <span class="number">1</span>;</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">get_trans</span><span class="params">(<span class="type">int</span> now,<span class="type">int</span> id)</span></span>{</span><br><span class="line">	<span class="type">int</span> len = <span class="built_in">strlen</span>(S[id]<span class="number">+1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=len;++i){</span><br><span class="line">		<span class="type">int</span> c = S[id][i]-<span class="string">'a'</span>;</span><br><span class="line">		now = tr[now].son[c];</span><br><span class="line">		<span class="keyword">if</span>(tr[now].is_ed) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">// 不能参与转移设成 0</span></span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">return</span> now;</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">get_fail</span><span class="params">()</span></span>{</span><br><span class="line">	queue &lt;<span class="type">int</span>&gt; q;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;++i) tr[<span class="number">0</span>].son[i] = <span class="number">1</span>;</span><br><span class="line">	q.<span class="built_in">push</span>(<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">while</span>(!q.<span class="built_in">empty</span>()){</span><br><span class="line">		<span class="type">int</span> now = q.<span class="built_in">front</span>();</span><br><span class="line">		q.<span class="built_in">pop</span>();</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;++i){</span><br><span class="line">			<span class="keyword">if</span>(tr[now].son[i]){</span><br><span class="line">				tr[tr[now].son[i]].fail = tr[tr[now].fail].son[i];</span><br><span class="line">				q.<span class="built_in">push</span>(tr[now].son[i]);</span><br><span class="line">				<span class="comment">// 一个节点不能转移，其子树内节点都不能参与转移</span></span><br><span class="line">				tr[tr[now].son[i]].is_ed |= tr[tr[tr[now].son[i]].fail].is_ed; </span><br><span class="line">				tr[tr[tr[now].son[i]].fail].g.<span class="built_in">push_back</span>(tr[now].son[i]);</span><br><span class="line">			}</span><br><span class="line">			<span class="keyword">else</span> tr[now].son[i] = tr[tr[now].fail].son[i];</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">	q.<span class="built_in">push</span>(<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">while</span>(!q.<span class="built_in">empty</span>()){</span><br><span class="line">		<span class="type">int</span> now = q.<span class="built_in">front</span>();</span><br><span class="line">		q.<span class="built_in">pop</span>();</span><br><span class="line">		<span class="keyword">if</span>(tr[now].is_ed) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;++i) tr[now].trans[i] = <span class="built_in">get_trans</span>(now,i);</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=tr[now].g.<span class="built_in">size</span>()<span class="number">-1</span>;i&gt;=<span class="number">0</span>;--i) q.<span class="built_in">push</span>(tr[now].g[i]);</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">solve1</span><span class="params">()</span></span>{ <span class="comment">// L&lt;=100</span></span><br><span class="line">	ll dp[M][M];</span><br><span class="line">	<span class="built_in">memset</span>(dp,<span class="number">0</span>,<span class="built_in">sizeof</span>(dp));</span><br><span class="line">	dp[<span class="number">1</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> len=<span class="number">0</span>;len&lt;L;++len){</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> now=<span class="number">1</span>;now&lt;=cnt;++now){</span><br><span class="line">			<span class="keyword">if</span>(!dp[now][len]) <span class="keyword">continue</span>;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;++i){</span><br><span class="line">				<span class="keyword">if</span>(tr[now].trans[i] &amp;&amp; len+<span class="built_in">strlen</span>(S[i]<span class="number">+1</span>)&lt;=L){</span><br><span class="line">					(dp[tr[now].trans[i]][len+<span class="built_in">strlen</span>(S[i]<span class="number">+1</span>)] += dp[now][len])%=mod;</span><br><span class="line">				}</span><br><span class="line">			}</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> now=<span class="number">1</span>;now&lt;=cnt;++now) (ans += dp[now][L])%=mod;</span><br><span class="line">}</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Matrix</span>{</span><br><span class="line">	<span class="type">int</span> row,clm;</span><br><span class="line">	ll val[M&lt;&lt;<span class="number">1</span>][M&lt;&lt;<span class="number">1</span>];</span><br><span class="line">	<span class="built_in">Matrix</span>(){</span><br><span class="line">		row = clm = <span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(val,<span class="number">0</span>,<span class="built_in">sizeof</span>(val));</span><br><span class="line">	}</span><br><span class="line">	<span class="built_in">Matrix</span>(<span class="type">int</span> f){</span><br><span class="line">		row = clm = <span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(val,<span class="number">0</span>,<span class="built_in">sizeof</span>(val));</span><br><span class="line">		<span class="keyword">if</span>(f) <span class="keyword">for</span>(<span class="type">int</span> i=(M&lt;&lt;<span class="number">1</span>)<span class="number">-1</span>;i;--i) val[i][i] = <span class="number">1</span>;</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">inline</span> Matrix <span class="keyword">operator</span> * (<span class="type">const</span> Matrix&amp;G) <span class="type">const</span>{</span><br><span class="line">		Matrix res = <span class="built_in">Matrix</span>(<span class="number">0</span>);</span><br><span class="line">		res.row = row; res.clm = G.clm;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=clm;++k){</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=row;++i){</span><br><span class="line">				<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=G.clm;++j){</span><br><span class="line">					(res.val[i][j] += val[i][k]*G.val[k][j])%=mod;</span><br><span class="line">				}</span><br><span class="line">			}</span><br><span class="line">		}</span><br><span class="line">		<span class="keyword">return</span> res;</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">inline</span> <span class="type">void</span> <span class="keyword">operator</span> *= (<span class="type">const</span> Matrix&amp;G){</span><br><span class="line">		(*<span class="keyword">this</span>) = (*<span class="keyword">this</span>)*G;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">friend</span> <span class="keyword">inline</span> Matrix <span class="title">quick_pow</span><span class="params">(Matrix x,<span class="type">int</span> y)</span></span>{</span><br><span class="line">		Matrix res = <span class="built_in">Matrix</span>(<span class="number">1</span>); </span><br><span class="line">		res.row = x.row; res.clm = x.clm;</span><br><span class="line">		<span class="keyword">while</span>(y){</span><br><span class="line">			<span class="keyword">if</span>(y&amp;<span class="number">1</span>) res *= x;</span><br><span class="line">			x *= x;</span><br><span class="line">			y &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">		}</span><br><span class="line">		<span class="keyword">return</span> res;</span><br><span class="line">	}</span><br><span class="line">}T,F;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">solve2_1</span><span class="params">()</span></span>{ <span class="comment">// |S|==1</span></span><br><span class="line">	F.row = cnt; F.clm = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;++i) F.val[tr[<span class="number">1</span>].trans[i]][<span class="number">1</span>]++;</span><br><span class="line">	T.row = cnt; T.clm = cnt;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> now=<span class="number">1</span>;now&lt;=cnt;++now){</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;++i){</span><br><span class="line">			T.val[tr[now].trans[i]][now]++;</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">	F = <span class="built_in">quick_pow</span>(T,L<span class="number">-1</span>)*F;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> now=<span class="number">1</span>;now&lt;=cnt;++now) (ans += F.val[now][<span class="number">1</span>])%=mod;</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">solve2_2</span><span class="params">()</span></span>{ <span class="comment">// |S|&lt;=2</span></span><br><span class="line">	F.row = cnt*<span class="number">2</span>; F.clm = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;++i) F.val[tr[<span class="number">1</span>].trans[i]][<span class="number">1</span>] += (<span class="built_in">strlen</span>(S[i]<span class="number">+1</span>)==<span class="number">1</span>);</span><br><span class="line">	F.val[cnt<span class="number">+1</span>][<span class="number">1</span>] = <span class="number">1</span>; <span class="comment">// dp[1][0] = 1</span></span><br><span class="line">	T.row = cnt*<span class="number">2</span>; T.clm = cnt*<span class="number">2</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> now=<span class="number">1</span>;now&lt;=cnt;++now){</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;++i){</span><br><span class="line">			<span class="keyword">if</span>(<span class="built_in">strlen</span>(S[i]<span class="number">+1</span>)==<span class="number">1</span>) T.val[tr[now].trans[i]][now]++;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">strlen</span>(S[i]<span class="number">+1</span>)==<span class="number">2</span>) T.val[tr[now].trans[i]][now+cnt]++;</span><br><span class="line">			T.val[now+cnt][now] = <span class="number">1</span>;</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">	F = <span class="built_in">quick_pow</span>(T,L<span class="number">-1</span>)*F;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> now=<span class="number">1</span>;now&lt;=cnt;++now) (ans += F.val[now][<span class="number">1</span>])%=mod;</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>{</span><br><span class="line"></span><br><span class="line">	<span class="built_in">read</span>(n,m,L);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;++i){</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%s"</span>,S[i]<span class="number">+1</span>); </span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">strlen</span>(S[i]<span class="number">+1</span>)&gt;<span class="number">1</span>) f2 = <span class="number">0</span>; <span class="comment">// Subtask 2 or 3</span></span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=m;++i){</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%s"</span>,t<span class="number">+1</span>);</span><br><span class="line">		<span class="built_in">insert</span>();</span><br><span class="line">	}</span><br><span class="line">	<span class="built_in">get_fail</span>();</span><br><span class="line">	L&lt;=<span class="number">100</span> ? <span class="built_in">solve1</span>() : f2 ? <span class="built_in">solve2_1</span>() : <span class="built_in">solve2_2</span>();	</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%lld"</span>,ans);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js" data-repo="Tmbcan/Tmbcan.github.io" data-repo-id="R_kgDOPAgHYw" data-category="Announcements" data-category-id="DIC_kwDOPAgHY84CxiYc" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" crossorigin="anonymous" async="">
+</script>
     </div>
 
     
@@ -676,8 +847,8 @@ mjx-container[display="true"] + br {
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2025/06/14/%E6%86%82%E3%81%84%E6%A1%9C%EF%BC%88%E5%BF%A7%E9%83%81%E6%A8%B1%E8%8A%B1%EF%BC%89/" rel="next" title="憂い桜（忧郁樱花）">
-                  憂い桜（忧郁樱花） <i class="fa fa-angle-right"></i>
+                <a href="/2025/06/14/%E6%86%82%E3%81%84%E6%A1%9C/" rel="next" title="憂い桜">
+                  憂い桜 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -711,13 +882,13 @@ mjx-container[display="true"] + br {
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">42k</span>
+    <span title="站点总字数">46k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">53 分钟</span>
+    <span title="站点阅读时长">58 分钟</span>
   </span>
 </div>
 -->
