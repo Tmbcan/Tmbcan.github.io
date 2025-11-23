@@ -888,6 +888,54 @@ int main(){
       </categories>
   </entry>
   <entry>
+    <title>Are You Alive.</title>
+    <url>/2025/10/06/Are-You-Alive/</url>
+    <content><![CDATA[
+## 2025.10.5 Are You Alive.
+
+世界物质生活变得越来越好，但是人却变得漫无目的。
+
+在这个竞争压力日益加剧的社会，
+
+我们背负着太多的责任和期望，被世界推搡着走。
+
+消费主义的裹挟，多元文化下的自我认同危机，
+
+我们总是觉得漫无目的，不知道活着的意义，坚持下去的意义到底是什么，
+
+像蒲公英一样风一吹就散开，而自己却无法决定要去哪里。
+
+社会认知加速前进，却把每个人都困在原地。
+
+当退出互联网的那一刻，你是否还能记得自己本来的模样。
+
+我们究竟是自己，还是社会折合的产物。
+
+你是否真正的活着。
+
+> Are You Alive.
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>BZOJ2372 music</title>
     <url>/2025/11/16/BZOJ2372-music/</url>
     <content><![CDATA[
@@ -977,32 +1025,83 @@ int main(){
       </categories>
   </entry>
   <entry>
-    <title>Are You Alive.</title>
-    <url>/2025/10/06/Are-You-Alive/</url>
+    <title>CF1662L Il Derby della Madonnina</title>
+    <url>/2025/05/13/CF1662L-Il-Derby-della-Madonnina/</url>
     <content><![CDATA[
-## 2025.10.5 Are You Alive.
+## 题目描述
 
-世界物质生活变得越来越好，但是人却变得漫无目的。
+有 $n$ 个点，第 $i$ 个点在 $t_i$ 时出现在 $a_i$ 位置然后消失。你第 $0$ 秒时在位置 $0$，速度为 $v$，问最多能赶上多少个点出现。
 
-在这个竞争压力日益加剧的社会，
+## 思路
 
-我们背负着太多的责任和期望，被世界推搡着走。
+设 $dp_i$ 表示到了第 $i$ 个点，且能赶上点 $i$ 的时候，最多能赶上多少点，
 
-消费主义的裹挟，多元文化下的自我认同危机，
+<!-- more -->
 
-我们总是觉得漫无目的，不知道活着的意义，坚持下去的意义到底是什么，
+则 $dp_j = \max_{i=0}^{j-1}\\{ dp_i \space [v \cdot (t_j-t_i) \ge \lvert x_j-x_i \rvert ]\\}+1$。
 
-像蒲公英一样风一吹就散开，而自己却无法决定要去哪里。
+当 $i<j$ 有 $t_i < t_j$，所以 $v \cdot (t_j-t_i) = \lvert v \cdot t_j - v \cdot t_i \rvert$，
 
-社会认知加速前进，却把每个人都困在原地。
+可以把限制条件看作点 $A \space (v \cdot t_i,x_i)$ 与点 $B \space (v \cdot t_j,x_j)$ 两点的切比雪夫距离为其横坐标的距离，且 $B$ 在 $A$ 右侧。画出来图像这样，蓝色区域是 $B$ 点的限制区域。
 
-当退出互联网的那一刻，你是否还能记得自己本来的模样。
+![1](CF1662L-Il-Derby-della-Madonnina-1.png)
 
-我们究竟是自己，还是社会折合的产物。
 
-你是否真正的活着。
+我们发现，$B$ 点的范围是个边缘与坐标轴夹 $\frac {\pi}{4} $ 的半平面交，这个边缘不与坐标轴垂直很烦，所以我们将坐标系顺时针旋转 $\frac {\pi}{4} $。
 
-> Are You Alive.
+![2](CF1662L-Il-Derby-della-Madonnina-2.png)
+
+
+原坐标系 $(x,y)$ 对应新坐标系 $(x\cos(- \frac {\pi}{4} )+y\sin(- \frac {\pi}{4} ),y\cos(- \frac {\pi}{4} ) - x\sin(- \frac {\pi}{4} ))$。  
+我们实际只在乎两点间的相对位置，将坐标轴整体扩大 $\cos(- \frac {\pi}{4} )$ 后不会对限制产生影响。  
+现在原坐标系的点 $(x,y)$ 对应新坐标系的 $(x-y,x+y)$。
+
+新坐标系下，$B$ 的限制变为了需在 $A$ 的右上部分。
+
+不难发现，原问题变为了求平面最长不下降链，起始点强制为 $(0,0)$，二维偏序即可。
+
+## 代码
+
+
+```cpp
+#include<iostream>
+#include<algorithm>
+using namespace std;
+typedef long long ll;
+const int N = 2e5+10;
+int n,ans,cnt;
+ll v,t[N],a[N],dp[N];
+struct node{
+	ll x,y;
+	inline int operator < (const node&G) const{
+		if(x^G.x) return x < G.x;
+		return y < G.y;
+	}
+}g[N];
+int main(){
+
+	scanf("%lld%lld",&n,&v);
+	for(int i=1;i<=n;++i) scanf("%lld",t+i);
+	for(int i=1;i<=n;++i){
+		scanf("%lld",a+i); // 求新坐标系下点的坐标
+		g[i].x = v*t[i]-a[i];
+		g[i].y = v*t[i]+a[i];
+	}
+	g[++n] = {0,0};
+	sort(g+1,g+1+n); // 排序掉第一维
+	for(int i=1;i<=n;++i){ // 只留下(0,0)能到达的点
+		if(g[i].x>=0 && g[i].y>=0) g[++cnt] = g[i];
+	}
+	for(int i=1;i<=cnt;++i){ // 第二维求最长不下降子序列
+		if(dp[ans]<=g[i].y) dp[++ans] = g[i].y;
+		else *upper_bound(dp+1,dp+1+ans,g[i].y) = g[i].y;
+	}
+	printf("%d",ans-1); // 减去强制选的(0,0)
+	
+	return 0;
+}
+
+```
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -1020,9 +1119,9 @@ int main(){
         crossorigin="anonymous"
         async>
 </script>]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
+      <categories>
+        <category>题解</category>
+      </categories>
   </entry>
   <entry>
     <title>CSP 2025 游记</title>
@@ -1217,105 +1316,6 @@ int main(){
 </script>]]></content>
       <categories>
         <category>游记</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>CF1662L Il Derby della Madonnina</title>
-    <url>/2025/05/13/CF1662L-Il-Derby-della-Madonnina/</url>
-    <content><![CDATA[
-## 题目描述
-
-有 $n$ 个点，第 $i$ 个点在 $t_i$ 时出现在 $a_i$ 位置然后消失。你第 $0$ 秒时在位置 $0$，速度为 $v$，问最多能赶上多少个点出现。
-
-## 思路
-
-设 $dp_i$ 表示到了第 $i$ 个点，且能赶上点 $i$ 的时候，最多能赶上多少点，
-
-<!-- more -->
-
-则 $dp_j = \max_{i=0}^{j-1}\\{ dp_i \space [v \cdot (t_j-t_i) \ge \lvert x_j-x_i \rvert ]\\}+1$。
-
-当 $i<j$ 有 $t_i < t_j$，所以 $v \cdot (t_j-t_i) = \lvert v \cdot t_j - v \cdot t_i \rvert$，
-
-可以把限制条件看作点 $A \space (v \cdot t_i,x_i)$ 与点 $B \space (v \cdot t_j,x_j)$ 两点的切比雪夫距离为其横坐标的距离，且 $B$ 在 $A$ 右侧。画出来图像这样，蓝色区域是 $B$ 点的限制区域。
-
-![1](CF1662L-Il-Derby-della-Madonnina-1.png)
-
-
-我们发现，$B$ 点的范围是个边缘与坐标轴夹 $\frac {\pi}{4} $ 的半平面交，这个边缘不与坐标轴垂直很烦，所以我们将坐标系顺时针旋转 $\frac {\pi}{4} $。
-
-![2](CF1662L-Il-Derby-della-Madonnina-2.png)
-
-
-原坐标系 $(x,y)$ 对应新坐标系 $(x\cos(- \frac {\pi}{4} )+y\sin(- \frac {\pi}{4} ),y\cos(- \frac {\pi}{4} ) - x\sin(- \frac {\pi}{4} ))$。  
-我们实际只在乎两点间的相对位置，将坐标轴整体扩大 $\cos(- \frac {\pi}{4} )$ 后不会对限制产生影响。  
-现在原坐标系的点 $(x,y)$ 对应新坐标系的 $(x-y,x+y)$。
-
-新坐标系下，$B$ 的限制变为了需在 $A$ 的右上部分。
-
-不难发现，原问题变为了求平面最长不下降链，起始点强制为 $(0,0)$，二维偏序即可。
-
-## 代码
-
-
-```cpp
-#include<iostream>
-#include<algorithm>
-using namespace std;
-typedef long long ll;
-const int N = 2e5+10;
-int n,ans,cnt;
-ll v,t[N],a[N],dp[N];
-struct node{
-	ll x,y;
-	inline int operator < (const node&G) const{
-		if(x^G.x) return x < G.x;
-		return y < G.y;
-	}
-}g[N];
-int main(){
-
-	scanf("%lld%lld",&n,&v);
-	for(int i=1;i<=n;++i) scanf("%lld",t+i);
-	for(int i=1;i<=n;++i){
-		scanf("%lld",a+i); // 求新坐标系下点的坐标
-		g[i].x = v*t[i]-a[i];
-		g[i].y = v*t[i]+a[i];
-	}
-	g[++n] = {0,0};
-	sort(g+1,g+1+n); // 排序掉第一维
-	for(int i=1;i<=n;++i){ // 只留下(0,0)能到达的点
-		if(g[i].x>=0 && g[i].y>=0) g[++cnt] = g[i];
-	}
-	for(int i=1;i<=cnt;++i){ // 第二维求最长不下降子序列
-		if(dp[ans]<=g[i].y) dp[++ans] = g[i].y;
-		else *upper_bound(dp+1,dp+1+ans,g[i].y) = g[i].y;
-	}
-	printf("%d",ans-1); // 减去强制选的(0,0)
-	
-	return 0;
-}
-
-```
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <categories>
-        <category>题解</category>
       </categories>
   </entry>
   <entry>
@@ -2935,6 +2935,163 @@ int main(){
       </categories>
   </entry>
   <entry>
+    <title>P3629 [APIO2010] 巡逻</title>
+    <url>/2025/02/27/P3629-APIO2010-%E5%B7%A1%E9%80%BB/</url>
+    <content><![CDATA[## 思路
+
+对于 $k=1$ 的情况，加上一条边时，树上出现了一条环且长为 $S$，环上的原路径都可以少走一遍，再算上新路径要走一遍。此时答案为 $2 \times (n-1) - (S-1) + 1$。  
+我们需要令 $S-1$ 尽可能大，即原路径的那条链尽可能长，那么应该取树的直径。
+
+<!-- more -->
+
+对于 $k=2$ 的情况，加上两条边会出现两条环。由于出现的每条环长度比所选链长多一，所以只考虑树上所选链的情况即可。  
+若想使总步数尽可能小，那么**选出的两条链要尽可能多的覆盖树上的路径**。且在每条环上，我们都会把环上所有边都经过一遍再走出这条环，两条链重合的部分会重复走，所以**两条链的重合部分要尽可能少**。       
+我们巡逻的策略是一但遇到不在环上的点，就优先去走它，然后再想办法走到环上。所以实际答案为 $2 \times (n-1) - S_{并}+S_{交}+2$。 
+
+贪心地取，我们取到的其中一条链一定是树的直径。  
+粗略证明：  
+对于我们选的两条链，它们分别越长一定不劣。如果两条链没有重合部分，那么其中一条上半部分选中两条链中间的部分，接到另一条的下半部分，答案不劣。由于两条链都要尽量长，那么第一条链如此操作一定能够取到直径。
+
+第二条链在取的时候我们分类讨论。  
+设第一条链选出的点共有 $m$ 个，点集为 $T$，按照深度顺序排列。  
+
+如果第二条链与第一条链没有重叠部分，那么我们对每个 $T_i$ 求其子树直径即可。  
+如果第二条链与第一条链有重叠部分，我们找到重合部分的两个端点 $T_i$、$T_j$。那么我们将这条链分为一段重合部分、和两段非重合部分。可以钦定 $i < j$，那么 $S_{重} = j-i$。  
+
+![1](P3629-APIO2010-巡逻-1.webp)
+
+
+我们需要使 $S_{并}-S_{交}$ 最大，那么分别取到 $T_i$、$T_j$ 的子树内距其最深的深度 $maxdep{T_i}$、$maxdep{T_j}$ 一定更优。  
+此时答案为 $2 \times (n-1) -(m-1)-\[ maxdep{T_1}+maxdep{T_2} - (j-i)\] +2$，
+
+找到 $\max\\{maxdep{T_1}+maxdep{T_2} - (j-i)\\}$ 即可。  
+
+令 $g_i = maxdep{T_i}+i$，$f_j = maxdep{T_j}-j$，此时转化为求 $\max \\{ g_i+f_j \\}$ （$i<j$）。  
+只需要 $O(n)$ 扫一遍 $f_j$，对于每个 $f_j$ 维护出最大的 $g_i$（在求第二条链的时候顺便维护即可）。 
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstring>
+#include<queue>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+template <typename T>
+inline void read(T&x){ //快读
+	int w = 0;x = 0;
+	char ch = getchar();
+	while(ch<'0' || ch>'9'){
+		if(ch=='-') w = 1;
+		ch = getchar();
+	}
+	while(ch>='0' && ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x = ~x+1;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+template <typename T>
+inline T Max(T x,T y){ return (x > y ? x : y); }
+const int N = 1e5+10;
+int n,m,cnt;
+struct{
+	int to,nex;
+}edge[N<<1];
+int head[N],edge_num;
+inline void add(int x,int y){// 存边
+	edge[++edge_num].to = y;
+	edge[edge_num].nex = head[x];
+	head[x] = edge_num;
+}
+int dis[N],fa[N],vis[N];
+inline int bfs(int s,int flag){// 用来找以 s 为根最深的深度对应的点
+	memset(dis,0,sizeof(dis));
+	queue <int> q;
+	q.push(s);
+	int idx = 0;
+	if(flag) fa[s] = 0; //只有选直径的时候才标记父亲
+	while(!q.empty()){
+		int now = q.front();
+		q.pop();
+		for(int i=head[now];i;i=edge[i].nex){
+			int tto = edge[i].to;
+			if(dis[tto] || tto==s || vis[tto]) continue;
+			if(flag) fa[tto] = now;
+			dis[tto] = dis[now]+1;
+			if(dis[tto]>dis[idx]) idx = tto;
+			q.push(tto);
+		}
+	}
+	return idx;
+}
+int main(){
+	// freopen("data.out","r",stdin);
+	// freopen("put.out","w",stdout);
+
+	read(n,m);
+	for(int i=1,u,v;i<n;++i){
+		read(u,v);
+		add(u,v); add(v,u);
+	}
+	int t1 = bfs(1,1),t2 = bfs(t1,1); //求直径
+	if(m==1){// k==1
+		printf("%d",2*(n-1)-dis[t2]+1);
+		return 0;
+	}
+    // 把直径上的点标记，强制第二次找最深的深度时，只在直径上的点的子树内
+	for(int i=t2;i;i=fa[i]) vis[i] = 1;
+	int maxdis = dis[t2],maxn = 0;
+	for(int i=t2,f,g,maxg=0;i;i=fa[i]){
+		vis[i] = 0;// 防止第一个儿子可能统计不到
+		t1 = bfs(i,0);// 最大深度
+
+		++cnt;
+        // 求 g 和 f
+		g = dis[t1]+cnt;
+		f = dis[t1]-cnt;
+		// 求 max{g + f}
+		maxn = Max(maxn,f+maxg);
+		maxg = Max(maxg,g);
+
+		t2 = bfs(t1,0);// 求其子树直径
+		vis[i] = 1;// 记得加回来
+		maxn = Max(maxn,dis[t2]);// 没有重合部分的情况
+	}
+	printf("%d",2*(n-1)-maxdis-maxn+2);// 答案
+
+	fclose(stdin);
+	fclose(stdout);
+	return 0;
+}
+```
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>P3715 [BJOI2017] 魔法咒语</title>
     <url>/2025/06/11/P3715-BJOI2017-%E9%AD%94%E6%B3%95%E5%92%92%E8%AF%AD/</url>
     <content><![CDATA[
@@ -3256,163 +3413,6 @@ int main(){
       </categories>
   </entry>
   <entry>
-    <title>P3629 [APIO2010] 巡逻</title>
-    <url>/2025/02/27/P3629-APIO2010-%E5%B7%A1%E9%80%BB/</url>
-    <content><![CDATA[## 思路
-
-对于 $k=1$ 的情况，加上一条边时，树上出现了一条环且长为 $S$，环上的原路径都可以少走一遍，再算上新路径要走一遍。此时答案为 $2 \times (n-1) - (S-1) + 1$。  
-我们需要令 $S-1$ 尽可能大，即原路径的那条链尽可能长，那么应该取树的直径。
-
-<!-- more -->
-
-对于 $k=2$ 的情况，加上两条边会出现两条环。由于出现的每条环长度比所选链长多一，所以只考虑树上所选链的情况即可。  
-若想使总步数尽可能小，那么**选出的两条链要尽可能多的覆盖树上的路径**。且在每条环上，我们都会把环上所有边都经过一遍再走出这条环，两条链重合的部分会重复走，所以**两条链的重合部分要尽可能少**。       
-我们巡逻的策略是一但遇到不在环上的点，就优先去走它，然后再想办法走到环上。所以实际答案为 $2 \times (n-1) - S_{并}+S_{交}+2$。 
-
-贪心地取，我们取到的其中一条链一定是树的直径。  
-粗略证明：  
-对于我们选的两条链，它们分别越长一定不劣。如果两条链没有重合部分，那么其中一条上半部分选中两条链中间的部分，接到另一条的下半部分，答案不劣。由于两条链都要尽量长，那么第一条链如此操作一定能够取到直径。
-
-第二条链在取的时候我们分类讨论。  
-设第一条链选出的点共有 $m$ 个，点集为 $T$，按照深度顺序排列。  
-
-如果第二条链与第一条链没有重叠部分，那么我们对每个 $T_i$ 求其子树直径即可。  
-如果第二条链与第一条链有重叠部分，我们找到重合部分的两个端点 $T_i$、$T_j$。那么我们将这条链分为一段重合部分、和两段非重合部分。可以钦定 $i < j$，那么 $S_{重} = j-i$。  
-
-![1](P3629-APIO2010-巡逻-1.webp)
-
-
-我们需要使 $S_{并}-S_{交}$ 最大，那么分别取到 $T_i$、$T_j$ 的子树内距其最深的深度 $maxdep{T_i}$、$maxdep{T_j}$ 一定更优。  
-此时答案为 $2 \times (n-1) -(m-1)-\[ maxdep{T_1}+maxdep{T_2} - (j-i)\] +2$，
-
-找到 $\max\\{maxdep{T_1}+maxdep{T_2} - (j-i)\\}$ 即可。  
-
-令 $g_i = maxdep{T_i}+i$，$f_j = maxdep{T_j}-j$，此时转化为求 $\max \\{ g_i+f_j \\}$ （$i<j$）。  
-只需要 $O(n)$ 扫一遍 $f_j$，对于每个 $f_j$ 维护出最大的 $g_i$（在求第二条链的时候顺便维护即可）。 
-
-## 代码
-
-```cpp
-#include<iostream>
-#include<cstring>
-#include<queue>
-using namespace std;
-typedef long long ll;
-typedef unsigned long long ull;
-template <typename T>
-inline void read(T&x){ //快读
-	int w = 0;x = 0;
-	char ch = getchar();
-	while(ch<'0' || ch>'9'){
-		if(ch=='-') w = 1;
-		ch = getchar();
-	}
-	while(ch>='0' && ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x = ~x+1;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-template <typename T>
-inline T Max(T x,T y){ return (x > y ? x : y); }
-const int N = 1e5+10;
-int n,m,cnt;
-struct{
-	int to,nex;
-}edge[N<<1];
-int head[N],edge_num;
-inline void add(int x,int y){// 存边
-	edge[++edge_num].to = y;
-	edge[edge_num].nex = head[x];
-	head[x] = edge_num;
-}
-int dis[N],fa[N],vis[N];
-inline int bfs(int s,int flag){// 用来找以 s 为根最深的深度对应的点
-	memset(dis,0,sizeof(dis));
-	queue <int> q;
-	q.push(s);
-	int idx = 0;
-	if(flag) fa[s] = 0; //只有选直径的时候才标记父亲
-	while(!q.empty()){
-		int now = q.front();
-		q.pop();
-		for(int i=head[now];i;i=edge[i].nex){
-			int tto = edge[i].to;
-			if(dis[tto] || tto==s || vis[tto]) continue;
-			if(flag) fa[tto] = now;
-			dis[tto] = dis[now]+1;
-			if(dis[tto]>dis[idx]) idx = tto;
-			q.push(tto);
-		}
-	}
-	return idx;
-}
-int main(){
-	// freopen("data.out","r",stdin);
-	// freopen("put.out","w",stdout);
-
-	read(n,m);
-	for(int i=1,u,v;i<n;++i){
-		read(u,v);
-		add(u,v); add(v,u);
-	}
-	int t1 = bfs(1,1),t2 = bfs(t1,1); //求直径
-	if(m==1){// k==1
-		printf("%d",2*(n-1)-dis[t2]+1);
-		return 0;
-	}
-    // 把直径上的点标记，强制第二次找最深的深度时，只在直径上的点的子树内
-	for(int i=t2;i;i=fa[i]) vis[i] = 1;
-	int maxdis = dis[t2],maxn = 0;
-	for(int i=t2,f,g,maxg=0;i;i=fa[i]){
-		vis[i] = 0;// 防止第一个儿子可能统计不到
-		t1 = bfs(i,0);// 最大深度
-
-		++cnt;
-        // 求 g 和 f
-		g = dis[t1]+cnt;
-		f = dis[t1]-cnt;
-		// 求 max{g + f}
-		maxn = Max(maxn,f+maxg);
-		maxg = Max(maxg,g);
-
-		t2 = bfs(t1,0);// 求其子树直径
-		vis[i] = 1;// 记得加回来
-		maxn = Max(maxn,dis[t2]);// 没有重合部分的情况
-	}
-	printf("%d",2*(n-1)-maxdis-maxn+2);// 答案
-
-	fclose(stdin);
-	fclose(stdout);
-	return 0;
-}
-```
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
     <title>P4104 [HEOI2014] 平衡</title>
     <url>/2024/10/09/P4104-HEOI2014-%E5%B9%B3%E8%A1%A1/</url>
     <content><![CDATA[
@@ -3649,6 +3649,99 @@ int main(){
       </categories>
   </entry>
   <entry>
+    <title>P4484 [BJWC2018] 最长上升子序列</title>
+    <url>/2025/07/01/P4484-BJWC2018-%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/</url>
+    <content><![CDATA[
+## 思路
+
+看到排列和 LIS，所以想到了杨表。
+
+设杨图单元格数为 $n$，则其每一行的格数构成了 $n$ 的一种整数划分。
+
+<!-- more -->
+
+向一个单元格数为 $n$，划分为 $\lambda$ 的杨图 $Y_{\lambda}$ 中，插入 $1\sim n$ 的排列，我们有[钩长公式](https://www.zgbk.com/ecph/words?SiteID=1&ID=95404&SubID=61853)，得到的标准杨表的数量 $d_{\lambda}$ 为：
+
+$$
+d_{\lambda} = \frac{n!}{\Pi_{(i,j)\in Y_{\lambda}} h_{\lambda}(i,j)}
+$$
+
+此时对应排列的 LIS 长度，为杨表第一行的长度 $|S_{\lambda}|$。
+
+对于划分都为 $\lambda$ 的杨表，我们有 [Robinson-Schensted correspondence 定理](https://encyclopediaofmath.org/wiki/Robinson-Schensted_correspondence)，它们中两两会唯一对应一种排列。则 $|S_{\lambda}|$ 对答案的贡献为：
+
+$$
+(d_{\lambda})^2|S_{\lambda}|
+$$
+
+我们钦定杨图的形态，则答案为：
+
+$$
+\frac{1}{n!}\sum_{\lambda} (d_{\lambda})^2|S_{\lambda}|
+$$
+
+由于 $n \le 28$，最多也就 $3718$ 种划分，所以暴力枚举 $\lambda$ 即可。
+
+## 代码
+
+```cpp
+inline void dfs(int las,int num){
+	if(num==n){
+		ll val = mul;
+		for(int i=1;i<=cnt;++i){
+			for(int j=1;j<=Y[i];++j){
+				int num = Y[i]-j+1,t = i+1;;
+				while(t<=cnt && Y[t]>=j) ++t,++num;
+				(val *= inv[num])%=mod;
+			}
+		}
+		(val *= val*Y[1]%mod)%=mod;
+		(ans += val)%=mod;
+	}
+	for(int i=1;i<=las;++i){
+		if(num+i>n) break;
+		Y[++cnt] = i;
+		dfs(i,num+i);
+		--cnt;
+	}
+}
+int main(){
+	
+	read(n); mul = 1;
+	for(ll i=1;i<=n;++i) (mul *= i)%=mod;
+	for(int i=1;i<=n;++i){
+		Y[++cnt] = i;
+		dfs(i,i);
+		--cnt;
+	}
+	(ans *= quick_pow(mul,mod-2))%=mod;
+	printf("%lld",ans);
+
+	return 0;
+}
+```
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>P4478 [BJWC2018] 上学路线</title>
     <url>/2025/03/12/P4478-BJWC2018-%E4%B8%8A%E5%AD%A6%E8%B7%AF%E7%BA%BF/</url>
     <content><![CDATA[
@@ -3811,99 +3904,6 @@ int main(){
 	return 0;
 }
 
-```
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>P4484 [BJWC2018] 最长上升子序列</title>
-    <url>/2025/07/01/P4484-BJWC2018-%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/</url>
-    <content><![CDATA[
-## 思路
-
-看到排列和 LIS，所以想到了杨表。
-
-设杨图单元格数为 $n$，则其每一行的格数构成了 $n$ 的一种整数划分。
-
-<!-- more -->
-
-向一个单元格数为 $n$，划分为 $\lambda$ 的杨图 $Y_{\lambda}$ 中，插入 $1\sim n$ 的排列，我们有[钩长公式](https://www.zgbk.com/ecph/words?SiteID=1&ID=95404&SubID=61853)，得到的标准杨表的数量 $d_{\lambda}$ 为：
-
-$$
-d_{\lambda} = \frac{n!}{\Pi_{(i,j)\in Y_{\lambda}} h_{\lambda}(i,j)}
-$$
-
-此时对应排列的 LIS 长度，为杨表第一行的长度 $|S_{\lambda}|$。
-
-对于划分都为 $\lambda$ 的杨表，我们有 [Robinson-Schensted correspondence 定理](https://encyclopediaofmath.org/wiki/Robinson-Schensted_correspondence)，它们中两两会唯一对应一种排列。则 $|S_{\lambda}|$ 对答案的贡献为：
-
-$$
-(d_{\lambda})^2|S_{\lambda}|
-$$
-
-我们钦定杨图的形态，则答案为：
-
-$$
-\frac{1}{n!}\sum_{\lambda} (d_{\lambda})^2|S_{\lambda}|
-$$
-
-由于 $n \le 28$，最多也就 $3718$ 种划分，所以暴力枚举 $\lambda$ 即可。
-
-## 代码
-
-```cpp
-inline void dfs(int las,int num){
-	if(num==n){
-		ll val = mul;
-		for(int i=1;i<=cnt;++i){
-			for(int j=1;j<=Y[i];++j){
-				int num = Y[i]-j+1,t = i+1;;
-				while(t<=cnt && Y[t]>=j) ++t,++num;
-				(val *= inv[num])%=mod;
-			}
-		}
-		(val *= val*Y[1]%mod)%=mod;
-		(ans += val)%=mod;
-	}
-	for(int i=1;i<=las;++i){
-		if(num+i>n) break;
-		Y[++cnt] = i;
-		dfs(i,num+i);
-		--cnt;
-	}
-}
-int main(){
-	
-	read(n); mul = 1;
-	for(ll i=1;i<=n;++i) (mul *= i)%=mod;
-	for(int i=1;i<=n;++i){
-		Y[++cnt] = i;
-		dfs(i,i);
-		--cnt;
-	}
-	(ans *= quick_pow(mul,mod-2))%=mod;
-	printf("%lld",ans);
-
-	return 0;
-}
 ```
 
 <!--Giscus 评论-->
@@ -4204,186 +4204,6 @@ KTT 的基本思路就是这样，将信息转换为函数进行处理，同时�
       </categories>
   </entry>
   <entry>
-    <title>P8010「Wdsr-3」令人感伤的红雨</title>
-    <url>/2025/03/09/P8010%E3%80%8CWdsr-3%E3%80%8D%E4%BB%A4%E4%BA%BA%E6%84%9F%E4%BC%A4%E7%9A%84%E7%BA%A2%E9%9B%A8/</url>
-    <content><![CDATA[
-# [P8010 「Wdsr-3」令人感伤的红雨](https://www.luogu.com.cn/problem/P8010)
-提供一个 $O(n\log{n})$ 的卡常做法。
-
-<!-- more -->
-
-## 思路
-
-我们先来看这令人头大的三堆函数。    
-
-首先我们可以发现 $A(l,r)$ 指的是 $l\sim r$ 中**最靠右的最大值**出现的**位置**。  
-令 $S_i = A(1,i)$，那么序列 $S_n$ 一定单调**不降**。  
-
-所以有：
-$$
- \begin{aligned}
-&\min\limits_{j=1}^i\{A(j,i)\} = A(1,i)\\
-&\max\limits_{j=1}^i\{A(j,i)\} = A(i,i)=i
- \end{aligned}
-$$
-那么我们可以对 $B(l,r)$ 中关于 $A(j,i)$ 的两个式子做进一步转化：
-$$
- \begin{aligned}
-&\max\limits_{i=l}^r\{\min\limits_{j=1}^i\{A(j,i)\}\} = \max\limits_{i=l}^r\{A(1,i)\} = A(1,r)\\
-&\min_{i=l}^r\{\max_{j=1}^i\{A(j,i)\}\} = \min\limits_{i=l}^r\{i\} = l
- \end{aligned}
-$$
-于是我们得到了 $B(l,r)$ 关于 $A(l,r)$ 的转化：
-$$
- \begin{aligned}
-&B(l,r) = A(1,r)-l\\
-\end{aligned}
-$$
-
-那么我们能得到 $\Omega(l,r)$ 关于 $A(i,j)$ 的转化：
-$$
- \begin{aligned}
-&\Omega(l,r) = \min\limits_{i=l}^{r}\{\min\limits_{j=i}^r\{\mid A(1,j)-i\mid \}\}
-\end{aligned}
-$$
-
-我们发现，在 $\min\limits_{j=i}^r\{\mid A(1,j)-i\mid\}$ 中，由于 $A(1,j)-i$ 单调不增且不大于零，所以我们可以得到：  
-$$
- \begin{aligned}
-&\Omega(l,r) = \mid A(1,r)-l\mid = l-A(1,r)
-\end{aligned}
-$$
-
-其实就是要维护 $l\sim r$ 中 $A(1,r)$ 到 $l$ 的距离。如果此时 $l<A(1,r)$，则**不存在答案**，应输出 0。
-
-维护**区间最大值的位置**，我们考虑用**线段树**。在左右区间合并时做分类讨论即可。  
-
-
-## 卡常
-
-由于线段树的 $\log n$ 过大，以正常的常数根本无法通过 $6\times10^6$ 的数据。  
-但是理论来讲 2.5 秒是可以通过 $2\times 10^8$ 的，所以我们需要运用一些卡常技巧。
-
-具体内容见代码。
-
-## 代码
-
-```cpp
-#include<iostream>
-#include<cstdio>
-#include<cmath>
-#include<algorithm>
-using namespace std;
-typedef long long ll;
-typedef unsigned long long ull;
-template <typename T>
-inline void read(T&x){//快读
-	int w=0;x=0;
-	char ch = getchar();
-	while(ch<'0' || ch>'9'){
-		if(ch=='-') w=1;
-		ch = getchar();
-	}
-	while(ch>='0' && ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x=-x;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-template <typename T>
-inline T Max(T x,T y){//实测手写会比自带的max、if和三目运算快
-  return (x > y ? x : y);
-}
-const int N = 6e6+10;
-int n,m;
-int P=1,DEP=0;
-struct Tree{//用结构体内存访问比较连续
-	ll mx; int pos;
-	Tree(){
-		mx = 0; pos = 0;
-	}
-	Tree(ll tmx,int tpos){
-		mx = tmx; pos = tpos;
-	}
-	inline Tree operator + (const Tree&G) const{//实测重载运算符比外层调用函数快
-		if(mx==G.mx) return Tree(mx,Max(pos,G.pos));
-		else if(mx>G.mx) return Tree(mx,pos);
-		else return G;
-	}
-}tr[N*3];
-ll tag[N*3];
-int main(){
-// 	freopen("in.in","r",stdin);
-// 	freopen("out.out","w",stdout);
-	
-	read(n,m);
-	while(P<=n+1) P<<=1;
-	for(int i=1,x;i<=n;++i){
-		read(x); tr[i+P] = Tree(1ll*x,i);//直接读入省掉建树的常数
-	}
-	for(int i=P-1;i;--i) tr[i] = tr[i<<1]+tr[i<<1|1];//用重载运算符
-	for(int i=1,opt,x,y;i<=m;++i){
-		read(opt,x,y);
-		if(opt==1){//把update内容搬到主函数里
-			int l = 1+P-1,r = x+P+1; ll k = 1ll*y;
-			while(l^1^r){
-				if(~l&1) tr[l^1].mx+=k,tag[l^1]+=k;
-				if(r&1) tr[r^1].mx+=k,tag[r^1]+=k;
-				l>>=1;r>>=1;//直接更新，实测比写push_up函数快
-				tr[l] = tr[l<<1]+tr[l<<1|1];
-				tr[l].mx += tag[l];//标记永久化要加累加标记值
-				tr[r] = tr[r<<1]+tr[r<<1|1];
-				tr[r].mx += tag[r];
-			}
-			for(l>>=1; l ;l>>=1){//更新上传
-				tr[l] = tr[l<<1]+tr[l<<1|1];
-				tr[l].mx += tag[l];
-			}
-		}
-		else{//把query内容搬到主函数里
-			int l = 1+P-1,r = y+P+1; Tree resl,resr;
-			while(l^1^r){
-				if(~l&1) resl = resl+tr[l^1];//注意左右区间合并顺序
-				if(r&1) resr = tr[r^1]+resr;
-				l>>=1;r>>=1;
-				resl.mx += tag[l];//累加标记值
-				resr.mx += tag[r];
-			}
-			printf("%d\n",Max(0,x-(resl+resr).pos));//没有答案输出0
-		}
-	}
-
-	// fclose(stdin);
- 	// fclose(stdout);
-	return 0;
-}
-```
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
     <title>P9401 [POI 2020/2021 R3] Kolekcjoner Bajtemonów 2</title>
     <url>/2024/10/06/P9401-POI-2020-2021-R3-Kolekcjoner-Bajtemonow-2/</url>
     <content><![CDATA[
@@ -4587,6 +4407,186 @@ int main(){
       </tags>
   </entry>
   <entry>
+    <title>P8010「Wdsr-3」令人感伤的红雨</title>
+    <url>/2025/03/09/P8010%E3%80%8CWdsr-3%E3%80%8D%E4%BB%A4%E4%BA%BA%E6%84%9F%E4%BC%A4%E7%9A%84%E7%BA%A2%E9%9B%A8/</url>
+    <content><![CDATA[
+# [P8010 「Wdsr-3」令人感伤的红雨](https://www.luogu.com.cn/problem/P8010)
+提供一个 $O(n\log{n})$ 的卡常做法。
+
+<!-- more -->
+
+## 思路
+
+我们先来看这令人头大的三堆函数。    
+
+首先我们可以发现 $A(l,r)$ 指的是 $l\sim r$ 中**最靠右的最大值**出现的**位置**。  
+令 $S_i = A(1,i)$，那么序列 $S_n$ 一定单调**不降**。  
+
+所以有：
+$$
+ \begin{aligned}
+&\min\limits_{j=1}^i\{A(j,i)\} = A(1,i)\\
+&\max\limits_{j=1}^i\{A(j,i)\} = A(i,i)=i
+ \end{aligned}
+$$
+那么我们可以对 $B(l,r)$ 中关于 $A(j,i)$ 的两个式子做进一步转化：
+$$
+ \begin{aligned}
+&\max\limits_{i=l}^r\{\min\limits_{j=1}^i\{A(j,i)\}\} = \max\limits_{i=l}^r\{A(1,i)\} = A(1,r)\\
+&\min_{i=l}^r\{\max_{j=1}^i\{A(j,i)\}\} = \min\limits_{i=l}^r\{i\} = l
+ \end{aligned}
+$$
+于是我们得到了 $B(l,r)$ 关于 $A(l,r)$ 的转化：
+$$
+ \begin{aligned}
+&B(l,r) = A(1,r)-l\\
+\end{aligned}
+$$
+
+那么我们能得到 $\Omega(l,r)$ 关于 $A(i,j)$ 的转化：
+$$
+ \begin{aligned}
+&\Omega(l,r) = \min\limits_{i=l}^{r}\{\min\limits_{j=i}^r\{\mid A(1,j)-i\mid \}\}
+\end{aligned}
+$$
+
+我们发现，在 $\min\limits_{j=i}^r\{\mid A(1,j)-i\mid\}$ 中，由于 $A(1,j)-i$ 单调不增且不大于零，所以我们可以得到：  
+$$
+ \begin{aligned}
+&\Omega(l,r) = \mid A(1,r)-l\mid = l-A(1,r)
+\end{aligned}
+$$
+
+其实就是要维护 $l\sim r$ 中 $A(1,r)$ 到 $l$ 的距离。如果此时 $l<A(1,r)$，则**不存在答案**，应输出 0。
+
+维护**区间最大值的位置**，我们考虑用**线段树**。在左右区间合并时做分类讨论即可。  
+
+
+## 卡常
+
+由于线段树的 $\log n$ 过大，以正常的常数根本无法通过 $6\times10^6$ 的数据。  
+但是理论来讲 2.5 秒是可以通过 $2\times 10^8$ 的，所以我们需要运用一些卡常技巧。
+
+具体内容见代码。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+template <typename T>
+inline void read(T&x){//快读
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0' || ch>'9'){
+		if(ch=='-') w=1;
+		ch = getchar();
+	}
+	while(ch>='0' && ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+template <typename T>
+inline T Max(T x,T y){//实测手写会比自带的max、if和三目运算快
+  return (x > y ? x : y);
+}
+const int N = 6e6+10;
+int n,m;
+int P=1,DEP=0;
+struct Tree{//用结构体内存访问比较连续
+	ll mx; int pos;
+	Tree(){
+		mx = 0; pos = 0;
+	}
+	Tree(ll tmx,int tpos){
+		mx = tmx; pos = tpos;
+	}
+	inline Tree operator + (const Tree&G) const{//实测重载运算符比外层调用函数快
+		if(mx==G.mx) return Tree(mx,Max(pos,G.pos));
+		else if(mx>G.mx) return Tree(mx,pos);
+		else return G;
+	}
+}tr[N*3];
+ll tag[N*3];
+int main(){
+// 	freopen("in.in","r",stdin);
+// 	freopen("out.out","w",stdout);
+	
+	read(n,m);
+	while(P<=n+1) P<<=1;
+	for(int i=1,x;i<=n;++i){
+		read(x); tr[i+P] = Tree(1ll*x,i);//直接读入省掉建树的常数
+	}
+	for(int i=P-1;i;--i) tr[i] = tr[i<<1]+tr[i<<1|1];//用重载运算符
+	for(int i=1,opt,x,y;i<=m;++i){
+		read(opt,x,y);
+		if(opt==1){//把update内容搬到主函数里
+			int l = 1+P-1,r = x+P+1; ll k = 1ll*y;
+			while(l^1^r){
+				if(~l&1) tr[l^1].mx+=k,tag[l^1]+=k;
+				if(r&1) tr[r^1].mx+=k,tag[r^1]+=k;
+				l>>=1;r>>=1;//直接更新，实测比写push_up函数快
+				tr[l] = tr[l<<1]+tr[l<<1|1];
+				tr[l].mx += tag[l];//标记永久化要加累加标记值
+				tr[r] = tr[r<<1]+tr[r<<1|1];
+				tr[r].mx += tag[r];
+			}
+			for(l>>=1; l ;l>>=1){//更新上传
+				tr[l] = tr[l<<1]+tr[l<<1|1];
+				tr[l].mx += tag[l];
+			}
+		}
+		else{//把query内容搬到主函数里
+			int l = 1+P-1,r = y+P+1; Tree resl,resr;
+			while(l^1^r){
+				if(~l&1) resl = resl+tr[l^1];//注意左右区间合并顺序
+				if(r&1) resr = tr[r^1]+resr;
+				l>>=1;r>>=1;
+				resl.mx += tag[l];//累加标记值
+				resr.mx += tag[r];
+			}
+			printf("%d\n",Max(0,x-(resl+resr).pos));//没有答案输出0
+		}
+	}
+
+	// fclose(stdin);
+ 	// fclose(stdout);
+	return 0;
+}
+```
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>UVA12244 Growing Strings</title>
     <url>/2024/09/20/UVA12244-Growing-Strings/</url>
     <content><![CDATA[
@@ -4736,6 +4736,44 @@ int main(){
       <categories>
         <category>题解</category>
       </categories>
+  </entry>
+  <entry>
+    <title>一汪蓝</title>
+    <url>/2025/10/13/%E4%B8%80%E6%B1%AA%E8%93%9D/</url>
+    <content><![CDATA[
+## 2025.10.12 一汪蓝
+
+我把那片海印成书签，
+
+夹在我走过的轨迹里。
+
+每当拿出这本书，
+
+都将你放在心海，
+
+成为我渴望的一汪蓝。
+
+> 我想去看海，可窗外一直在下着雨。
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
   </entry>
   <entry>
     <title>不会写了</title>
@@ -4889,6 +4927,68 @@ int main(){
 > 希望 下辈子还能和你遇见
 > 和你一起生活
 > 和你一起慢慢变老
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>亲爱的朋友</title>
+    <url>/2025/09/13/%E4%BA%B2%E7%88%B1%E7%9A%84%E6%9C%8B%E5%8F%8B/</url>
+    <content><![CDATA[
+## 2025.9.12 闲话摘抄
+
+亲爱的朋友:
+
+见字如晤。
+
+是啊，像你说的那样，我总觉得时间过得太过于仓促。
+
+因为记忆里亲人种的无花果结出了果实，
+
+碧绿的荷叶底下游着金红色的鱼，
+
+秋天总是被凉爽的气包围着，
+
+从此大树便开始凋零。
+
+泛黄的书，离开的人，生命中的故事都滴答着雨。
+
+沥青路面上的积水倒映着记忆深处的人，都慢慢模糊起来。
+
+我想你务必清楚。
+
+人生的道路就像带着鲜花去往无尽头的远方。
+
+花朵，一朵朵凋谢，无力回天；
+
+所以人与人之间的缘分至此，便是缘分，不必挽留。
+
+秋的雨，风的意，树的情。
+
+橘黄的灯，柔和的音乐，细腻的水顺着皮肤纹路慢慢流下。
+
+从此以后，请务必带着你的热情，
+
+笨拙，明朗，从容的活下去吧。
+
+> 再见 16 岁
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -5281,68 +5381,6 @@ __builtin 系列用来对数的二进制表示进行一些运算，复杂度近�
       </tags>
   </entry>
   <entry>
-    <title>亲爱的朋友</title>
-    <url>/2025/09/13/%E4%BA%B2%E7%88%B1%E7%9A%84%E6%9C%8B%E5%8F%8B/</url>
-    <content><![CDATA[
-## 2025.9.12 闲话摘抄
-
-亲爱的朋友:
-
-见字如晤。
-
-是啊，像你说的那样，我总觉得时间过得太过于仓促。
-
-因为记忆里亲人种的无花果结出了果实，
-
-碧绿的荷叶底下游着金红色的鱼，
-
-秋天总是被凉爽的气包围着，
-
-从此大树便开始凋零。
-
-泛黄的书，离开的人，生命中的故事都滴答着雨。
-
-沥青路面上的积水倒映着记忆深处的人，都慢慢模糊起来。
-
-我想你务必清楚。
-
-人生的道路就像带着鲜花去往无尽头的远方。
-
-花朵，一朵朵凋谢，无力回天；
-
-所以人与人之间的缘分至此，便是缘分，不必挽留。
-
-秋的雨，风的意，树的情。
-
-橘黄的灯，柔和的音乐，细腻的水顺着皮肤纹路慢慢流下。
-
-从此以后，请务必带着你的热情，
-
-笨拙，明朗，从容的活下去吧。
-
-> 再见 16 岁
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>人与人</title>
     <url>/2025/02/23/%E4%BA%BA%E4%B8%8E%E4%BA%BA/</url>
     <content><![CDATA[
@@ -5653,6 +5691,54 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </tags>
   </entry>
   <entry>
+    <title>凛冬</title>
+    <url>/2025/10/25/%E5%87%9B%E5%86%AC/</url>
+    <content><![CDATA[
+## 2025.10.24 凛冬
+
+拘泥只遮住雨滴
+
+流浪和孤寂一览无余
+
+并非坚不可摧
+
+直面狂傲的愧怍
+
+高处太冰冷
+
+乌鸦无意中飞过
+
+不如坠落
+
+像透明的深渊
+
+凛冬路过尘埃
+
+相信永远不会枯燃
+
+> 荒芜才是本来
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>午后</title>
     <url>/2025/08/26/%E5%8D%88%E5%90%8E/</url>
     <content><![CDATA[
@@ -5701,32 +5787,74 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </tags>
   </entry>
   <entry>
-    <title>凛冬</title>
-    <url>/2025/10/25/%E5%87%9B%E5%86%AC/</url>
+    <title>卫星</title>
+    <url>/2025/11/09/%E5%8D%AB%E6%98%9F/</url>
     <content><![CDATA[
-## 2025.10.24 凛冬
+## 2025.11.8 卫星
 
-拘泥只遮住雨滴
+在久远的天空 蜷缩起来的时间和夜晚
 
-流浪和孤寂一览无余
+如果有另一个时空 我想就这样生活下去
 
-并非坚不可摧
+如果可以 请在我的阴影下暂且休息再走
 
-直面狂傲的愧怍
+不用想太多 我不需要一切的答案
 
-高处太冰冷
+跟随内心指引的那条路
 
-乌鸦无意中飞过
+在深邃的清晨 围绕着你静静运行
 
-不如坠落
+响彻云层的雨 沉浸在梦境里
 
-像透明的深渊
+另一个时空 仿佛将要触及
 
-凛冬路过尘埃
+度过漫长的夜晚 沿着漫天的繁星
 
-相信永远不会枯燃
+在记忆的那一边 是远处的灯塔
 
-> 荒芜才是本来
+从现在开始重新呼吸
+
+从现在开始重新出发
+
+和你一起度过没有云层的黑夜
+
+在时间的尽头 做你忠诚的卫星
+
+> 始终守护在你的轨道上
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>可以吗</title>
+    <url>/2025/03/31/%E5%8F%AF%E4%BB%A5%E5%90%97/</url>
+    <content><![CDATA[
+## 2025.3.30 可以吗
+
+空腹可以吃饭吗 
+
+困了可以睡觉吗 
+
+喜欢你可以在一起吗 
+
+想你可以马上见到你吗
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -6054,62 +6182,6 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </tags>
   </entry>
   <entry>
-    <title>卫星</title>
-    <url>/2025/11/09/%E5%8D%AB%E6%98%9F/</url>
-    <content><![CDATA[
-## 2025.11.8 卫星
-
-在久远的天空 蜷缩起来的时间和夜晚
-
-如果有另一个时空 我想就这样生活下去
-
-如果可以 请在我的阴影下暂且休息再走
-
-不用想太多 我不需要一切的答案
-
-跟随内心指引的那条路
-
-在深邃的清晨 围绕着你静静运行
-
-响彻云层的雨 沉浸在梦境里
-
-另一个时空 仿佛将要触及
-
-度过漫长的夜晚 沿着漫天的繁星
-
-在记忆的那一边 是远处的灯塔
-
-从现在开始重新呼吸
-
-从现在开始重新出发
-
-和你一起度过没有云层的黑夜
-
-在时间的尽头 做你忠诚的卫星
-
-> 始终守护在你的轨道上
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>夏夜</title>
     <url>/2025/08/21/%E5%A4%8F%E5%A4%9C/</url>
     <content><![CDATA[
@@ -6228,6 +6300,60 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
 我必须像这样守护自己
 
 > 为什么相信我是我
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>寻找你的旅途</title>
+    <url>/2025/10/30/%E5%AF%BB%E6%89%BE%E4%BD%A0%E7%9A%84%E6%97%85%E9%80%94/</url>
+    <content><![CDATA[
+## 2025.10.29 寻找你的旅途
+
+> あなたを見つける旅
+
+阳光下
+
+闭上眼睛歌唱
+
+为了能再次呼吸
+
+我踏上寻找你的旅途
+
+什么时候才会见到
+
+金黄色的蝴蝶展开翅膀
+
+从哪吹来的风
+
+擦干你没有谎言的眼泪
+
+倚在摇晃的窗边
+
+融入在消失的天空里
+
+在这个将我抛弃的地方
+
+成为自由的灵魂
+
+> 溺毙在名为回忆的汪洋中
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -6392,94 +6518,6 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </tags>
   </entry>
   <entry>
-    <title>寻找你的旅途</title>
-    <url>/2025/10/30/%E5%AF%BB%E6%89%BE%E4%BD%A0%E7%9A%84%E6%97%85%E9%80%94/</url>
-    <content><![CDATA[
-## 2025.10.29 寻找你的旅途
-
-> あなたを見つける旅
-
-阳光下
-
-闭上眼睛歌唱
-
-为了能再次呼吸
-
-我踏上寻找你的旅途
-
-什么时候才会见到
-
-金黄色的蝴蝶展开翅膀
-
-从哪吹来的风
-
-擦干你没有谎言的眼泪
-
-倚在摇晃的窗边
-
-融入在消失的天空里
-
-在这个将我抛弃的地方
-
-成为自由的灵魂
-
-> 溺毙在名为回忆的汪洋中
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>可以吗</title>
-    <url>/2025/03/31/%E5%8F%AF%E4%BB%A5%E5%90%97/</url>
-    <content><![CDATA[
-## 2025.3.30 可以吗
-
-空腹可以吃饭吗 
-
-困了可以睡觉吗 
-
-喜欢你可以在一起吗 
-
-想你可以马上见到你吗
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>幻听</title>
     <url>/2025/08/28/%E5%B9%BB%E5%90%AC/</url>
     <content><![CDATA[
@@ -6532,42 +6570,6 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </tags>
   </entry>
   <entry>
-    <title>憂い桜</title>
-    <url>/2025/06/14/%E6%86%82%E3%81%84%E6%A1%9C/</url>
-    <content><![CDATA[
-## 2025.6.13
-
-当眼前的光景
-
-终有一天化为回忆时
-
-你希望记住什么呢
-
----
-
-我想记住关于你的一切
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>忘却时间</title>
     <url>/2025/11/22/%E5%BF%98%E5%8D%B4%E6%97%B6%E9%97%B4/</url>
     <content><![CDATA[
@@ -6592,6 +6594,42 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
 感受浪潮席卷 现在就来和我起舞
 
 无需用语言表达 如果再播放一遍 那就放肆狂欢 
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>憂い桜</title>
+    <url>/2025/06/14/%E6%86%82%E3%81%84%E6%A1%9C/</url>
+    <content><![CDATA[
+## 2025.6.13
+
+当眼前的光景
+
+终有一天化为回忆时
+
+你希望记住什么呢
+
+---
+
+我想记住关于你的一切
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -6752,18 +6790,36 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </tags>
   </entry>
   <entry>
-    <title>无聊的话</title>
-    <url>/2025/05/27/%E6%97%A0%E8%81%8A%E7%9A%84%E8%AF%9D/</url>
+    <title>摇曳荷</title>
+    <url>/2025/11/24/%E6%91%87%E6%9B%B3%E8%8D%B7/</url>
     <content><![CDATA[
-## 2025.5.26 无聊的话
+## 2025.11.23 摇曳荷
 
-我买了两瓶悦鲜活鲜牛奶，一瓶450毫升，加一元多一件，总共16.8元，
+推开窗 风吹过的那一刻 划过身侧
 
-“悦鲜活”这三个字远处看起来很像“说脏话”，所以我一般叫它脏话牛奶，
+清晨的阳光 氤氲的水汽
 
-好无聊的流水账和好糟糕的笑话，我平时会把这些说给你听，
+载着丰沛的潮意 望向你沉默的泪滴
 
-这么看我确实很无趣。
+不太擅长告别 就继续沉浸在梦里
+
+岸边长青的树 露珠里光彩绚烂的荷
+
+摇曳着 对你说
+
+无声了秘密 甘守思念的琥珀
+
+只是一颗滴落 
+
+> 即使明天不会离开我
+
+<audio controls height="100" width="100">
+	 
+  <source src="howyoulie. (feat. HYE) - Luss & HYE.mp3" type="audio/mpeg">
+  <source src="howyoulie. (feat. HYE) - Luss & HYE.mp3" type="audio/ogg">
+	 
+	<embed height="50" width="100" src="howyoulie. (feat. HYE) - Luss & HYE.mp3">
+</audio>
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -6817,34 +6873,18 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
 </script>]]></content>
   </entry>
   <entry>
-    <title>摇曳荷</title>
-    <url>/2025/11/24/%E6%91%87%E6%9B%B3%E8%8D%B7/</url>
+    <title>无聊的话</title>
+    <url>/2025/05/27/%E6%97%A0%E8%81%8A%E7%9A%84%E8%AF%9D/</url>
     <content><![CDATA[
-## 2025.11.23 摇曳荷
+## 2025.5.26 无聊的话
 
-推开窗 风吹过的那一刻 划过身侧
+我买了两瓶悦鲜活鲜牛奶，一瓶450毫升，加一元多一件，总共16.8元，
 
-清晨的阳光 氤氲的水汽
+“悦鲜活”这三个字远处看起来很像“说脏话”，所以我一般叫它脏话牛奶，
 
-载着丰沛的潮意 望向你沉默的泪滴
+好无聊的流水账和好糟糕的笑话，我平时会把这些说给你听，
 
-露珠里光彩绚烂的荷
-
-摇曳着 对你说
-
-无声了秘密 甘守思念的琥珀
-
-只是一颗滴落 
-
-> 即使明天不会离开我
-
-<audio controls height="100" width="100">
-	 
-  <source src="howyoulie. (feat. HYE) - Luss & HYE.mp3" type="audio/mpeg">
-  <source src="howyoulie. (feat. HYE) - Luss & HYE.mp3" type="audio/ogg">
-	 
-	<embed height="50" width="100" src="howyoulie. (feat. HYE) - Luss & HYE.mp3">
-</audio>
+这么看我确实很无趣。
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -6937,28 +6977,22 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </tags>
   </entry>
   <entry>
-    <title>萤火虫</title>
-    <url>/2025/11/13/%E8%90%A4%E7%81%AB%E8%99%AB/</url>
+    <title>自在的时光</title>
+    <url>/2025/09/17/%E8%87%AA%E5%9C%A8%E7%9A%84%E6%97%B6%E5%85%89/</url>
     <content><![CDATA[
-## 2025.11.12 萤火虫
+## 2025.9.16 自在的时光
 
-最终那悠长的阳光也落山
+海风，沙滩，
 
-漫长的日子 尘封的故事
+慢跑时的发丝和裙角，
 
-渴望飞向你身边
+某一刻如同接住了洒下的云。
 
-你是月光 我是你光辉下的萤火虫
+自在的时光，
 
-即使无法将四季全部战胜
+又或许像是安静的夜晚，
 
-将你的姓名镌刻在鳞片上
-
-天空隐藏起光芒 
-
-展开翅膀 飞向你
-
-> 月色与雪色之间 是第三种绝色
+路灯下迟迟没有挥手告别的我们。
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -6981,22 +7015,28 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </tags>
   </entry>
   <entry>
-    <title>自在的时光</title>
-    <url>/2025/09/17/%E8%87%AA%E5%9C%A8%E7%9A%84%E6%97%B6%E5%85%89/</url>
+    <title>萤火虫</title>
+    <url>/2025/11/13/%E8%90%A4%E7%81%AB%E8%99%AB/</url>
     <content><![CDATA[
-## 2025.9.16 自在的时光
+## 2025.11.12 萤火虫
 
-海风，沙滩，
+最终那悠长的阳光也落山
 
-慢跑时的发丝和裙角，
+漫长的日子 尘封的故事
 
-某一刻如同接住了洒下的云。
+渴望飞向你身边
 
-自在的时光，
+你是月光 我是你光辉下的萤火虫
 
-又或许像是安静的夜晚，
+即使无法将四季全部战胜
 
-路灯下迟迟没有挥手告别的我们。
+将你的姓名镌刻在鳞片上
+
+天空隐藏起光芒 
+
+展开翅膀 飞向你
+
+> 月色与雪色之间 是第三种绝色
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -7211,44 +7251,6 @@ Tmbcan 将语言定义为：人类通过某种方式进行信息交换
 > 我的热爱不是过错，那是我还活着的证明
 
 > 本篇前情提要：[2025.11.18 记事](https://www.cnblogs.com/Tmbcan/articles/19239317)
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一汪蓝</title>
-    <url>/2025/10/13/%E4%B8%80%E6%B1%AA%E8%93%9D/</url>
-    <content><![CDATA[
-## 2025.10.12 一汪蓝
-
-我把那片海印成书签，
-
-夹在我走过的轨迹里。
-
-每当拿出这本书，
-
-都将你放在心海，
-
-成为我渴望的一汪蓝。
-
-> 我想去看海，可窗外一直在下着雨。
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
