@@ -27,6 +27,67 @@
       </tags>
   </entry>
   <entry>
+    <title>2025.11.13 记事</title>
+    <url>/2025/11/18/2025-11-13-%E8%AE%B0%E4%BA%8B/</url>
+    <content><![CDATA[
+## 2025.11.16 记事
+
+### [前情提要](https://www.cnblogs.com/Tmbcan/articles/19218288)
+
+手表显示我一共睡了 20 个小时，深睡比例较高，睡眠质量为 90 分
+
+我一天的安排大致是：  
+00 : 00 ~ 14 : 00 美美睡觉  
+14 : 00 ~ 16 : 00 美美追剧  
+16 : 00 ~ 21 : 00 美美睡觉  
+21 : 00 ~ 21 : 30 美美吃饭  
+21 : 30 ~ 22 : 30 美美剃头、美美洗澡  
+22 : 30 ~ 23 : 00 不美美收拾背包
+23 : 00 美美睡觉 
+
+如此充实可靠的假期，此乃救赎之道
+
+事情发生在我收拾包的时候
+
+我爹给我收防风服，他说感觉我的防风服摸起来有点硌手
+
+于是我直接对我的防风服进行了解剖  
+
+发现它的兜漏了个小口，就是这个口，联通了兜和防风服夹层 
+
+而我的项链就在夹层之中
+
+于是我通过我的手法把我的项链解救了出来
+
+拷，都怪这破校服，以后再也不穿了
+
+兄弟们，项链没丢，被我找回了，如此激动人心
+
+收拾完我直接美美睡觉了
+
+我最近在追 Queendom 差两集看完了，有没有和我爱好一样的，可以私信找我聊天 ( •̀ ω •́ )y
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2025.10.21 记梦</title>
     <url>/2025/10/21/2025-10-21-%E8%AE%B0%E6%A2%A6/</url>
     <content><![CDATA[
@@ -171,67 +232,6 @@
 小 B 长得像黄景瑜。
 
 # 感谢大脑的馈赠！！！
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2025.11.13 记事</title>
-    <url>/2025/11/18/2025-11-13-%E8%AE%B0%E4%BA%8B/</url>
-    <content><![CDATA[
-## 2025.11.16 记事
-
-### [前情提要](https://www.cnblogs.com/Tmbcan/articles/19218288)
-
-手表显示我一共睡了 20 个小时，深睡比例较高，睡眠质量为 90 分
-
-我一天的安排大致是：  
-00 : 00 ~ 14 : 00 美美睡觉  
-14 : 00 ~ 16 : 00 美美追剧  
-16 : 00 ~ 21 : 00 美美睡觉  
-21 : 00 ~ 21 : 30 美美吃饭  
-21 : 30 ~ 22 : 30 美美剃头、美美洗澡  
-22 : 30 ~ 23 : 00 不美美收拾背包
-23 : 00 美美睡觉 
-
-如此充实可靠的假期，此乃救赎之道
-
-事情发生在我收拾包的时候
-
-我爹给我收防风服，他说感觉我的防风服摸起来有点硌手
-
-于是我直接对我的防风服进行了解剖  
-
-发现它的兜漏了个小口，就是这个口，联通了兜和防风服夹层 
-
-而我的项链就在夹层之中
-
-于是我通过我的手法把我的项链解救了出来
-
-拷，都怪这破校服，以后再也不穿了
-
-兄弟们，项链没丢，被我找回了，如此激动人心
-
-收拾完我直接美美睡觉了
-
-我最近在追 Queendom 差两集看完了，有没有和我爱好一样的，可以私信找我聊天 ( •̀ ω •́ )y
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -799,95 +799,6 @@ int main(){
       </categories>
   </entry>
   <entry>
-    <title>ARC181D Prefix Bubble Sort</title>
-    <url>/2025/07/26/ARC181D-Prefix-Bubble-Sort/</url>
-    <content><![CDATA[
-## 思路
-
-发现如果直接维护序列的话需要支持：序列插入删除，动态前缀最大值，然后再维护答案。  
-这个东西根本没法弄。所以我们考虑逆序对的性质。
-
-<!-- more -->
-
-先考虑 $\forall i,a_i=n$ 的怎么做。  
-发现一次操作最多使一个数向前移动一个位置，并且一共可以移动的次数，为其左侧比它大的数字的个数，设为 $c_j$。
-
-所以我们可以考虑维护 $c_j$，因为其和即为逆序对个数。  
-每次操作会使 $c_j$ 减一，减到零之后就对答案没有贡献了，所以 $c_j$ 在时间轴上对答案的贡献是：首项为 $c_j$，末项为 $0$，公差为 $1$ 的等差数列。
-
-现在我们考虑原问题。  
-因为 $a_i$ 单调不降，所以对于 $j \in (a_i,n]$ 的 $c_j$，其在 $time \in [1,i)$ 会对答案一直产生 $c_j$ 的贡献；在 $time \in [i,i+c_j]$ 才会对答案产生等差数列的贡献。
-
-这相当于对于时间轴 $time \in [1,i)$ 前缀加 $c_j$，$time \in [i,i+c_j]$ 区间加等差数列，最后前缀查询。
-
-线段树或者差分维护一下就可以了。
-
-## 代码
-
-```cpp
-const int N = 2e5+10;
-int n,m,a[N],c[N],r[N];
-ll ans,sum[N];
-int tr[N];
-inline void add(int x){ 
-	for(int i=x;i<=n;i+=i&(~i+1)) ++tr[i];
-}
-inline int query(int x){
-	int res = 0;
-	for(int i=x;i;i-=i&(~i+1)) res += tr[i];
-	return res;
-}
-int main(){
-	// freopen("in.in","r",stdin);
-    // freopen("out.out","w",stdout);
-
-	read(n);
-	for(int i=1;i<=n;++i){
-		read(a[i]);
-		c[i] = query(n)-query(a[i]);
-		ans += c[i];
-		add(a[i]);
-	}
-	read(m);
-	for(int i=1;i<=m;++i) read(r[i]);
-	for(int i=1;i<=n;++i){
-		int l = lower_bound(r+1,r+1+m,i)-r;
-		++sum[l];
-		--sum[Min(l+c[i],m+1)];
-	}
-	for(int i=1;i<=m;++i) sum[i] += sum[i-1];
-	for(int i=1;i<=m;++i){
-		ans -= sum[i];
-		printf("%lld\n",ans);
-	}
-
-	fclose(stdin);
-	fclose(stdout);
-	return 0;
-}
-```
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Are You Alive.</title>
     <url>/2025/10/06/Are-You-Alive/</url>
     <content><![CDATA[
@@ -1000,6 +911,95 @@ int main(){
 
 	// fclose(stdin);
 	// fclose(stdout);
+	return 0;
+}
+```
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>ARC181D Prefix Bubble Sort</title>
+    <url>/2025/07/26/ARC181D-Prefix-Bubble-Sort/</url>
+    <content><![CDATA[
+## 思路
+
+发现如果直接维护序列的话需要支持：序列插入删除，动态前缀最大值，然后再维护答案。  
+这个东西根本没法弄。所以我们考虑逆序对的性质。
+
+<!-- more -->
+
+先考虑 $\forall i,a_i=n$ 的怎么做。  
+发现一次操作最多使一个数向前移动一个位置，并且一共可以移动的次数，为其左侧比它大的数字的个数，设为 $c_j$。
+
+所以我们可以考虑维护 $c_j$，因为其和即为逆序对个数。  
+每次操作会使 $c_j$ 减一，减到零之后就对答案没有贡献了，所以 $c_j$ 在时间轴上对答案的贡献是：首项为 $c_j$，末项为 $0$，公差为 $1$ 的等差数列。
+
+现在我们考虑原问题。  
+因为 $a_i$ 单调不降，所以对于 $j \in (a_i,n]$ 的 $c_j$，其在 $time \in [1,i)$ 会对答案一直产生 $c_j$ 的贡献；在 $time \in [i,i+c_j]$ 才会对答案产生等差数列的贡献。
+
+这相当于对于时间轴 $time \in [1,i)$ 前缀加 $c_j$，$time \in [i,i+c_j]$ 区间加等差数列，最后前缀查询。
+
+线段树或者差分维护一下就可以了。
+
+## 代码
+
+```cpp
+const int N = 2e5+10;
+int n,m,a[N],c[N],r[N];
+ll ans,sum[N];
+int tr[N];
+inline void add(int x){ 
+	for(int i=x;i<=n;i+=i&(~i+1)) ++tr[i];
+}
+inline int query(int x){
+	int res = 0;
+	for(int i=x;i;i-=i&(~i+1)) res += tr[i];
+	return res;
+}
+int main(){
+	// freopen("in.in","r",stdin);
+    // freopen("out.out","w",stdout);
+
+	read(n);
+	for(int i=1;i<=n;++i){
+		read(a[i]);
+		c[i] = query(n)-query(a[i]);
+		ans += c[i];
+		add(a[i]);
+	}
+	read(m);
+	for(int i=1;i<=m;++i) read(r[i]);
+	for(int i=1;i<=n;++i){
+		int l = lower_bound(r+1,r+1+m,i)-r;
+		++sum[l];
+		--sum[Min(l+c[i],m+1)];
+	}
+	for(int i=1;i<=m;++i) sum[i] += sum[i-1];
+	for(int i=1;i<=m;++i){
+		ans -= sum[i];
+		printf("%lld\n",ans);
+	}
+
+	fclose(stdin);
+	fclose(stdout);
 	return 0;
 }
 ```
@@ -1319,56 +1319,6 @@ int main(){
       </categories>
   </entry>
   <entry>
-    <title>Dream</title>
-    <url>/2025/10/27/Dream/</url>
-    <content><![CDATA[
-## 2025.10.26
-
-我曾许下承诺 
-
-永远不会逃避
-
-现在我终于找到自己的翅膀
-
-将往事尽数放下
-
-我决定跟从自己的内心
-
-终于能够畅快呼吸
-
-终于清楚明白
-
-我生来应该成为怎样的人
-
-我曾幻想心中描绘的那幅图景
-
-抬起头 展开翅膀 我要飞往高空
-
-无须将我唤醒
-
-我正从梦中醒来
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>(EX)Lucas&amp;CRT // Kalthyix</title>
     <url>/2025/05/30/Ex-Lucas-CRT-Kalthyix/</url>
     <content><![CDATA[
@@ -1612,6 +1562,56 @@ Lucas 再求一下 C 就行了。
       </categories>
       <tags>
         <tag>团队周刊</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dream</title>
+    <url>/2025/10/27/Dream/</url>
+    <content><![CDATA[
+## 2025.10.26
+
+我曾许下承诺 
+
+永远不会逃避
+
+现在我终于找到自己的翅膀
+
+将往事尽数放下
+
+我决定跟从自己的内心
+
+终于能够畅快呼吸
+
+终于清楚明白
+
+我生来应该成为怎样的人
+
+我曾幻想心中描绘的那幅图景
+
+抬起头 展开翅膀 我要飞往高空
+
+无须将我唤醒
+
+我正从梦中醒来
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <tags>
+        <tag>闲话</tag>
       </tags>
   </entry>
   <entry>
@@ -3649,99 +3649,6 @@ int main(){
       </categories>
   </entry>
   <entry>
-    <title>P4484 [BJWC2018] 最长上升子序列</title>
-    <url>/2025/07/01/P4484-BJWC2018-%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/</url>
-    <content><![CDATA[
-## 思路
-
-看到排列和 LIS，所以想到了杨表。
-
-设杨图单元格数为 $n$，则其每一行的格数构成了 $n$ 的一种整数划分。
-
-<!-- more -->
-
-向一个单元格数为 $n$，划分为 $\lambda$ 的杨图 $Y_{\lambda}$ 中，插入 $1\sim n$ 的排列，我们有[钩长公式](https://www.zgbk.com/ecph/words?SiteID=1&ID=95404&SubID=61853)，得到的标准杨表的数量 $d_{\lambda}$ 为：
-
-$$
-d_{\lambda} = \frac{n!}{\Pi_{(i,j)\in Y_{\lambda}} h_{\lambda}(i,j)}
-$$
-
-此时对应排列的 LIS 长度，为杨表第一行的长度 $|S_{\lambda}|$。
-
-对于划分都为 $\lambda$ 的杨表，我们有 [Robinson-Schensted correspondence 定理](https://encyclopediaofmath.org/wiki/Robinson-Schensted_correspondence)，它们中两两会唯一对应一种排列。则 $|S_{\lambda}|$ 对答案的贡献为：
-
-$$
-(d_{\lambda})^2|S_{\lambda}|
-$$
-
-我们钦定杨图的形态，则答案为：
-
-$$
-\frac{1}{n!}\sum_{\lambda} (d_{\lambda})^2|S_{\lambda}|
-$$
-
-由于 $n \le 28$，最多也就 $3718$ 种划分，所以暴力枚举 $\lambda$ 即可。
-
-## 代码
-
-```cpp
-inline void dfs(int las,int num){
-	if(num==n){
-		ll val = mul;
-		for(int i=1;i<=cnt;++i){
-			for(int j=1;j<=Y[i];++j){
-				int num = Y[i]-j+1,t = i+1;;
-				while(t<=cnt && Y[t]>=j) ++t,++num;
-				(val *= inv[num])%=mod;
-			}
-		}
-		(val *= val*Y[1]%mod)%=mod;
-		(ans += val)%=mod;
-	}
-	for(int i=1;i<=las;++i){
-		if(num+i>n) break;
-		Y[++cnt] = i;
-		dfs(i,num+i);
-		--cnt;
-	}
-}
-int main(){
-	
-	read(n); mul = 1;
-	for(ll i=1;i<=n;++i) (mul *= i)%=mod;
-	for(int i=1;i<=n;++i){
-		Y[++cnt] = i;
-		dfs(i,i);
-		--cnt;
-	}
-	(ans *= quick_pow(mul,mod-2))%=mod;
-	printf("%lld",ans);
-
-	return 0;
-}
-```
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-  </entry>
-  <entry>
     <title>P4478 [BJWC2018] 上学路线</title>
     <url>/2025/03/12/P4478-BJWC2018-%E4%B8%8A%E5%AD%A6%E8%B7%AF%E7%BA%BF/</url>
     <content><![CDATA[
@@ -3904,6 +3811,99 @@ int main(){
 	return 0;
 }
 
+```
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>P4484 [BJWC2018] 最长上升子序列</title>
+    <url>/2025/07/01/P4484-BJWC2018-%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/</url>
+    <content><![CDATA[
+## 思路
+
+看到排列和 LIS，所以想到了杨表。
+
+设杨图单元格数为 $n$，则其每一行的格数构成了 $n$ 的一种整数划分。
+
+<!-- more -->
+
+向一个单元格数为 $n$，划分为 $\lambda$ 的杨图 $Y_{\lambda}$ 中，插入 $1\sim n$ 的排列，我们有[钩长公式](https://www.zgbk.com/ecph/words?SiteID=1&ID=95404&SubID=61853)，得到的标准杨表的数量 $d_{\lambda}$ 为：
+
+$$
+d_{\lambda} = \frac{n!}{\Pi_{(i,j)\in Y_{\lambda}} h_{\lambda}(i,j)}
+$$
+
+此时对应排列的 LIS 长度，为杨表第一行的长度 $|S_{\lambda}|$。
+
+对于划分都为 $\lambda$ 的杨表，我们有 [Robinson-Schensted correspondence 定理](https://encyclopediaofmath.org/wiki/Robinson-Schensted_correspondence)，它们中两两会唯一对应一种排列。则 $|S_{\lambda}|$ 对答案的贡献为：
+
+$$
+(d_{\lambda})^2|S_{\lambda}|
+$$
+
+我们钦定杨图的形态，则答案为：
+
+$$
+\frac{1}{n!}\sum_{\lambda} (d_{\lambda})^2|S_{\lambda}|
+$$
+
+由于 $n \le 28$，最多也就 $3718$ 种划分，所以暴力枚举 $\lambda$ 即可。
+
+## 代码
+
+```cpp
+inline void dfs(int las,int num){
+	if(num==n){
+		ll val = mul;
+		for(int i=1;i<=cnt;++i){
+			for(int j=1;j<=Y[i];++j){
+				int num = Y[i]-j+1,t = i+1;;
+				while(t<=cnt && Y[t]>=j) ++t,++num;
+				(val *= inv[num])%=mod;
+			}
+		}
+		(val *= val*Y[1]%mod)%=mod;
+		(ans += val)%=mod;
+	}
+	for(int i=1;i<=las;++i){
+		if(num+i>n) break;
+		Y[++cnt] = i;
+		dfs(i,num+i);
+		--cnt;
+	}
+}
+int main(){
+	
+	read(n); mul = 1;
+	for(ll i=1;i<=n;++i) (mul *= i)%=mod;
+	for(int i=1;i<=n;++i){
+		Y[++cnt] = i;
+		dfs(i,i);
+		--cnt;
+	}
+	(ans *= quick_pow(mul,mod-2))%=mod;
+	printf("%lld",ans);
+
+	return 0;
+}
 ```
 
 <!--Giscus 评论-->
@@ -4204,6 +4204,186 @@ KTT 的基本思路就是这样，将信息转换为函数进行处理，同时�
       </categories>
   </entry>
   <entry>
+    <title>P8010「Wdsr-3」令人感伤的红雨</title>
+    <url>/2025/03/09/P8010%E3%80%8CWdsr-3%E3%80%8D%E4%BB%A4%E4%BA%BA%E6%84%9F%E4%BC%A4%E7%9A%84%E7%BA%A2%E9%9B%A8/</url>
+    <content><![CDATA[
+# [P8010 「Wdsr-3」令人感伤的红雨](https://www.luogu.com.cn/problem/P8010)
+提供一个 $O(n\log{n})$ 的卡常做法。
+
+<!-- more -->
+
+## 思路
+
+我们先来看这令人头大的三堆函数。    
+
+首先我们可以发现 $A(l,r)$ 指的是 $l\sim r$ 中**最靠右的最大值**出现的**位置**。  
+令 $S_i = A(1,i)$，那么序列 $S_n$ 一定单调**不降**。  
+
+所以有：
+$$
+ \begin{aligned}
+&\min\limits_{j=1}^i\{A(j,i)\} = A(1,i)\\
+&\max\limits_{j=1}^i\{A(j,i)\} = A(i,i)=i
+ \end{aligned}
+$$
+那么我们可以对 $B(l,r)$ 中关于 $A(j,i)$ 的两个式子做进一步转化：
+$$
+ \begin{aligned}
+&\max\limits_{i=l}^r\{\min\limits_{j=1}^i\{A(j,i)\}\} = \max\limits_{i=l}^r\{A(1,i)\} = A(1,r)\\
+&\min_{i=l}^r\{\max_{j=1}^i\{A(j,i)\}\} = \min\limits_{i=l}^r\{i\} = l
+ \end{aligned}
+$$
+于是我们得到了 $B(l,r)$ 关于 $A(l,r)$ 的转化：
+$$
+ \begin{aligned}
+&B(l,r) = A(1,r)-l\\
+\end{aligned}
+$$
+
+那么我们能得到 $\Omega(l,r)$ 关于 $A(i,j)$ 的转化：
+$$
+ \begin{aligned}
+&\Omega(l,r) = \min\limits_{i=l}^{r}\{\min\limits_{j=i}^r\{\mid A(1,j)-i\mid \}\}
+\end{aligned}
+$$
+
+我们发现，在 $\min\limits_{j=i}^r\{\mid A(1,j)-i\mid\}$ 中，由于 $A(1,j)-i$ 单调不增且不大于零，所以我们可以得到：  
+$$
+ \begin{aligned}
+&\Omega(l,r) = \mid A(1,r)-l\mid = l-A(1,r)
+\end{aligned}
+$$
+
+其实就是要维护 $l\sim r$ 中 $A(1,r)$ 到 $l$ 的距离。如果此时 $l<A(1,r)$，则**不存在答案**，应输出 0。
+
+维护**区间最大值的位置**，我们考虑用**线段树**。在左右区间合并时做分类讨论即可。  
+
+
+## 卡常
+
+由于线段树的 $\log n$ 过大，以正常的常数根本无法通过 $6\times10^6$ 的数据。  
+但是理论来讲 2.5 秒是可以通过 $2\times 10^8$ 的，所以我们需要运用一些卡常技巧。
+
+具体内容见代码。
+
+## 代码
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+template <typename T>
+inline void read(T&x){//快读
+	int w=0;x=0;
+	char ch = getchar();
+	while(ch<'0' || ch>'9'){
+		if(ch=='-') w=1;
+		ch = getchar();
+	}
+	while(ch>='0' && ch<='9'){
+		x = (x<<1)+(x<<3)+(ch^48);
+		ch = getchar();
+	}
+	if(w) x=-x;
+}
+template <typename T,typename...Args>
+inline void read(T&t,Args&...args){
+	read(t);read(args...);
+}
+template <typename T>
+inline T Max(T x,T y){//实测手写会比自带的max、if和三目运算快
+  return (x > y ? x : y);
+}
+const int N = 6e6+10;
+int n,m;
+int P=1,DEP=0;
+struct Tree{//用结构体内存访问比较连续
+	ll mx; int pos;
+	Tree(){
+		mx = 0; pos = 0;
+	}
+	Tree(ll tmx,int tpos){
+		mx = tmx; pos = tpos;
+	}
+	inline Tree operator + (const Tree&G) const{//实测重载运算符比外层调用函数快
+		if(mx==G.mx) return Tree(mx,Max(pos,G.pos));
+		else if(mx>G.mx) return Tree(mx,pos);
+		else return G;
+	}
+}tr[N*3];
+ll tag[N*3];
+int main(){
+// 	freopen("in.in","r",stdin);
+// 	freopen("out.out","w",stdout);
+	
+	read(n,m);
+	while(P<=n+1) P<<=1;
+	for(int i=1,x;i<=n;++i){
+		read(x); tr[i+P] = Tree(1ll*x,i);//直接读入省掉建树的常数
+	}
+	for(int i=P-1;i;--i) tr[i] = tr[i<<1]+tr[i<<1|1];//用重载运算符
+	for(int i=1,opt,x,y;i<=m;++i){
+		read(opt,x,y);
+		if(opt==1){//把update内容搬到主函数里
+			int l = 1+P-1,r = x+P+1; ll k = 1ll*y;
+			while(l^1^r){
+				if(~l&1) tr[l^1].mx+=k,tag[l^1]+=k;
+				if(r&1) tr[r^1].mx+=k,tag[r^1]+=k;
+				l>>=1;r>>=1;//直接更新，实测比写push_up函数快
+				tr[l] = tr[l<<1]+tr[l<<1|1];
+				tr[l].mx += tag[l];//标记永久化要加累加标记值
+				tr[r] = tr[r<<1]+tr[r<<1|1];
+				tr[r].mx += tag[r];
+			}
+			for(l>>=1; l ;l>>=1){//更新上传
+				tr[l] = tr[l<<1]+tr[l<<1|1];
+				tr[l].mx += tag[l];
+			}
+		}
+		else{//把query内容搬到主函数里
+			int l = 1+P-1,r = y+P+1; Tree resl,resr;
+			while(l^1^r){
+				if(~l&1) resl = resl+tr[l^1];//注意左右区间合并顺序
+				if(r&1) resr = tr[r^1]+resr;
+				l>>=1;r>>=1;
+				resl.mx += tag[l];//累加标记值
+				resr.mx += tag[r];
+			}
+			printf("%d\n",Max(0,x-(resl+resr).pos));//没有答案输出0
+		}
+	}
+
+	// fclose(stdin);
+ 	// fclose(stdout);
+	return 0;
+}
+```
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+  </entry>
+  <entry>
     <title>P9401 [POI 2020/2021 R3] Kolekcjoner Bajtemonów 2</title>
     <url>/2024/10/06/P9401-POI-2020-2021-R3-Kolekcjoner-Bajtemonow-2/</url>
     <content><![CDATA[
@@ -4405,186 +4585,6 @@ int main(){
       <tags>
         <tag>闲话</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>P8010「Wdsr-3」令人感伤的红雨</title>
-    <url>/2025/03/09/P8010%E3%80%8CWdsr-3%E3%80%8D%E4%BB%A4%E4%BA%BA%E6%84%9F%E4%BC%A4%E7%9A%84%E7%BA%A2%E9%9B%A8/</url>
-    <content><![CDATA[
-# [P8010 「Wdsr-3」令人感伤的红雨](https://www.luogu.com.cn/problem/P8010)
-提供一个 $O(n\log{n})$ 的卡常做法。
-
-<!-- more -->
-
-## 思路
-
-我们先来看这令人头大的三堆函数。    
-
-首先我们可以发现 $A(l,r)$ 指的是 $l\sim r$ 中**最靠右的最大值**出现的**位置**。  
-令 $S_i = A(1,i)$，那么序列 $S_n$ 一定单调**不降**。  
-
-所以有：
-$$
- \begin{aligned}
-&\min\limits_{j=1}^i\{A(j,i)\} = A(1,i)\\
-&\max\limits_{j=1}^i\{A(j,i)\} = A(i,i)=i
- \end{aligned}
-$$
-那么我们可以对 $B(l,r)$ 中关于 $A(j,i)$ 的两个式子做进一步转化：
-$$
- \begin{aligned}
-&\max\limits_{i=l}^r\{\min\limits_{j=1}^i\{A(j,i)\}\} = \max\limits_{i=l}^r\{A(1,i)\} = A(1,r)\\
-&\min_{i=l}^r\{\max_{j=1}^i\{A(j,i)\}\} = \min\limits_{i=l}^r\{i\} = l
- \end{aligned}
-$$
-于是我们得到了 $B(l,r)$ 关于 $A(l,r)$ 的转化：
-$$
- \begin{aligned}
-&B(l,r) = A(1,r)-l\\
-\end{aligned}
-$$
-
-那么我们能得到 $\Omega(l,r)$ 关于 $A(i,j)$ 的转化：
-$$
- \begin{aligned}
-&\Omega(l,r) = \min\limits_{i=l}^{r}\{\min\limits_{j=i}^r\{\mid A(1,j)-i\mid \}\}
-\end{aligned}
-$$
-
-我们发现，在 $\min\limits_{j=i}^r\{\mid A(1,j)-i\mid\}$ 中，由于 $A(1,j)-i$ 单调不增且不大于零，所以我们可以得到：  
-$$
- \begin{aligned}
-&\Omega(l,r) = \mid A(1,r)-l\mid = l-A(1,r)
-\end{aligned}
-$$
-
-其实就是要维护 $l\sim r$ 中 $A(1,r)$ 到 $l$ 的距离。如果此时 $l<A(1,r)$，则**不存在答案**，应输出 0。
-
-维护**区间最大值的位置**，我们考虑用**线段树**。在左右区间合并时做分类讨论即可。  
-
-
-## 卡常
-
-由于线段树的 $\log n$ 过大，以正常的常数根本无法通过 $6\times10^6$ 的数据。  
-但是理论来讲 2.5 秒是可以通过 $2\times 10^8$ 的，所以我们需要运用一些卡常技巧。
-
-具体内容见代码。
-
-## 代码
-
-```cpp
-#include<iostream>
-#include<cstdio>
-#include<cmath>
-#include<algorithm>
-using namespace std;
-typedef long long ll;
-typedef unsigned long long ull;
-template <typename T>
-inline void read(T&x){//快读
-	int w=0;x=0;
-	char ch = getchar();
-	while(ch<'0' || ch>'9'){
-		if(ch=='-') w=1;
-		ch = getchar();
-	}
-	while(ch>='0' && ch<='9'){
-		x = (x<<1)+(x<<3)+(ch^48);
-		ch = getchar();
-	}
-	if(w) x=-x;
-}
-template <typename T,typename...Args>
-inline void read(T&t,Args&...args){
-	read(t);read(args...);
-}
-template <typename T>
-inline T Max(T x,T y){//实测手写会比自带的max、if和三目运算快
-  return (x > y ? x : y);
-}
-const int N = 6e6+10;
-int n,m;
-int P=1,DEP=0;
-struct Tree{//用结构体内存访问比较连续
-	ll mx; int pos;
-	Tree(){
-		mx = 0; pos = 0;
-	}
-	Tree(ll tmx,int tpos){
-		mx = tmx; pos = tpos;
-	}
-	inline Tree operator + (const Tree&G) const{//实测重载运算符比外层调用函数快
-		if(mx==G.mx) return Tree(mx,Max(pos,G.pos));
-		else if(mx>G.mx) return Tree(mx,pos);
-		else return G;
-	}
-}tr[N*3];
-ll tag[N*3];
-int main(){
-// 	freopen("in.in","r",stdin);
-// 	freopen("out.out","w",stdout);
-	
-	read(n,m);
-	while(P<=n+1) P<<=1;
-	for(int i=1,x;i<=n;++i){
-		read(x); tr[i+P] = Tree(1ll*x,i);//直接读入省掉建树的常数
-	}
-	for(int i=P-1;i;--i) tr[i] = tr[i<<1]+tr[i<<1|1];//用重载运算符
-	for(int i=1,opt,x,y;i<=m;++i){
-		read(opt,x,y);
-		if(opt==1){//把update内容搬到主函数里
-			int l = 1+P-1,r = x+P+1; ll k = 1ll*y;
-			while(l^1^r){
-				if(~l&1) tr[l^1].mx+=k,tag[l^1]+=k;
-				if(r&1) tr[r^1].mx+=k,tag[r^1]+=k;
-				l>>=1;r>>=1;//直接更新，实测比写push_up函数快
-				tr[l] = tr[l<<1]+tr[l<<1|1];
-				tr[l].mx += tag[l];//标记永久化要加累加标记值
-				tr[r] = tr[r<<1]+tr[r<<1|1];
-				tr[r].mx += tag[r];
-			}
-			for(l>>=1; l ;l>>=1){//更新上传
-				tr[l] = tr[l<<1]+tr[l<<1|1];
-				tr[l].mx += tag[l];
-			}
-		}
-		else{//把query内容搬到主函数里
-			int l = 1+P-1,r = y+P+1; Tree resl,resr;
-			while(l^1^r){
-				if(~l&1) resl = resl+tr[l^1];//注意左右区间合并顺序
-				if(r&1) resr = tr[r^1]+resr;
-				l>>=1;r>>=1;
-				resl.mx += tag[l];//累加标记值
-				resr.mx += tag[r];
-			}
-			printf("%d\n",Max(0,x-(resl+resr).pos));//没有答案输出0
-		}
-	}
-
-	// fclose(stdin);
- 	// fclose(stdout);
-	return 0;
-}
-```
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
   </entry>
   <entry>
     <title>UVA12244 Growing Strings</title>
@@ -4927,68 +4927,6 @@ int main(){
 > 希望 下辈子还能和你遇见
 > 和你一起生活
 > 和你一起慢慢变老
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>亲爱的朋友</title>
-    <url>/2025/09/13/%E4%BA%B2%E7%88%B1%E7%9A%84%E6%9C%8B%E5%8F%8B/</url>
-    <content><![CDATA[
-## 2025.9.12 闲话摘抄
-
-亲爱的朋友:
-
-见字如晤。
-
-是啊，像你说的那样，我总觉得时间过得太过于仓促。
-
-因为记忆里亲人种的无花果结出了果实，
-
-碧绿的荷叶底下游着金红色的鱼，
-
-秋天总是被凉爽的气包围着，
-
-从此大树便开始凋零。
-
-泛黄的书，离开的人，生命中的故事都滴答着雨。
-
-沥青路面上的积水倒映着记忆深处的人，都慢慢模糊起来。
-
-我想你务必清楚。
-
-人生的道路就像带着鲜花去往无尽头的远方。
-
-花朵，一朵朵凋谢，无力回天；
-
-所以人与人之间的缘分至此，便是缘分，不必挽留。
-
-秋的雨，风的意，树的情。
-
-橘黄的灯，柔和的音乐，细腻的水顺着皮肤纹路慢慢流下。
-
-从此以后，请务必带着你的热情，
-
-笨拙，明朗，从容的活下去吧。
-
-> 再见 16 岁
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -5381,6 +5319,68 @@ __builtin 系列用来对数的二进制表示进行一些运算，复杂度近�
       </tags>
   </entry>
   <entry>
+    <title>亲爱的朋友</title>
+    <url>/2025/09/13/%E4%BA%B2%E7%88%B1%E7%9A%84%E6%9C%8B%E5%8F%8B/</url>
+    <content><![CDATA[
+## 2025.9.12 闲话摘抄
+
+亲爱的朋友:
+
+见字如晤。
+
+是啊，像你说的那样，我总觉得时间过得太过于仓促。
+
+因为记忆里亲人种的无花果结出了果实，
+
+碧绿的荷叶底下游着金红色的鱼，
+
+秋天总是被凉爽的气包围着，
+
+从此大树便开始凋零。
+
+泛黄的书，离开的人，生命中的故事都滴答着雨。
+
+沥青路面上的积水倒映着记忆深处的人，都慢慢模糊起来。
+
+我想你务必清楚。
+
+人生的道路就像带着鲜花去往无尽头的远方。
+
+花朵，一朵朵凋谢，无力回天；
+
+所以人与人之间的缘分至此，便是缘分，不必挽留。
+
+秋的雨，风的意，树的情。
+
+橘黄的灯，柔和的音乐，细腻的水顺着皮肤纹路慢慢流下。
+
+从此以后，请务必带着你的热情，
+
+笨拙，明朗，从容的活下去吧。
+
+> 再见 16 岁
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>人与人</title>
     <url>/2025/02/23/%E4%BA%BA%E4%B8%8E%E4%BA%BA/</url>
     <content><![CDATA[
@@ -5496,6 +5496,78 @@ __builtin 系列用来对数的二进制表示进行一些运算，复杂度近�
 待我变成21克，
 
 飞鸟会带我回家。
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>八音盒</title>
+    <url>/2025/11/26/%E5%85%AB%E9%9F%B3%E7%9B%92/</url>
+    <content><![CDATA[
+## 2025.11.26 八音盒
+
+我好像被困在这个冬天
+
+在被人遗忘的角落化作一缕风
+
+自由自在的在天空中生活
+
+突然有人喊我的名字
+
+我回头 看到一个模糊的身影
+
+他站在原地 朝我微笑
+
+太久未见我已经记不住他的脸
+
+花园里腐朽的八音盒 一顿一顿地跳动
+
+连同他的声音回荡耳边 汇聚成希望的金
+
+每个音符都是一片零碎的记忆 拼在一起组成完整的我
+
+他转过身 微弱的光芒一闪而过 
+
+我伸开手奋力地抓 却都从指尖消散
+
+他好像只是站在原地 
+
+我拼命追赶 却始终触及不到
+
+他离开了
+
+只留下我一个人 
+
+八音盒不知疲倦地跳动
+
+阳光织成的蛛网 把我困在冬的尽头
+
+> 我突然意识到 拼命追赶 只为了最后的斑驳
+
+<audio controls height="100" width="100">
+	 
+  <source src="thirsty - demon gummies.mp3" type="audio/mpeg">
+  <source src="thirsty - demon gummies.mp3" type="audio/ogg">
+	 
+	<embed height="50" width="100" src="thirsty - demon gummies.mp3">
+</audio>
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -5877,64 +5949,6 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </tags>
   </entry>
   <entry>
-    <title>向海</title>
-    <url>/2025/08/23/%E5%90%91%E6%B5%B7/</url>
-    <content><![CDATA[
-## 2025.8.22 向海
-
-她说
-
-想要走向深空，然后消失在我的双眸。
-
-如鲸落般湮灭，在屿间的呼啸澎湃中。
-
-漫步于白色浪花的航迹，
-
-蔚蓝是她的衣缕裙衫 旋转；
-
-浪花是她的泪眼婆娑 萦绕。
-
-向前是她的自由，向后是她的救赎。
-
-流连 徘徊 仿徨 迷惘。
-
-我给予拥抱 呢喃；
-
-她不置可否 自语。
-
-海风弥漫着人潮汹涌的霓虹，
-
-滩石崎岖着氤氲腥臊的末路，
-
-黑暗吞噬着目之所及的微芒。
-
-"所以，你看清了什么？"
-
-"Nothing except you."
-
-> 本是红颜，却终成陌路
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-      <tags>
-        <tag>闲话</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>向阳而生</title>
     <url>/2025/08/30/%E5%90%91%E9%98%B3%E8%80%8C%E7%94%9F/</url>
     <content><![CDATA[
@@ -5993,6 +6007,64 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
 你口中的唯一太轻，像呼吸。
 
 我心中的唯一太重，压碎了所有期许。
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
+      <tags>
+        <tag>闲话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>向海</title>
+    <url>/2025/08/23/%E5%90%91%E6%B5%B7/</url>
+    <content><![CDATA[
+## 2025.8.22 向海
+
+她说
+
+想要走向深空，然后消失在我的双眸。
+
+如鲸落般湮灭，在屿间的呼啸澎湃中。
+
+漫步于白色浪花的航迹，
+
+蔚蓝是她的衣缕裙衫 旋转；
+
+浪花是她的泪眼婆娑 萦绕。
+
+向前是她的自由，向后是她的救赎。
+
+流连 徘徊 仿徨 迷惘。
+
+我给予拥抱 呢喃；
+
+她不置可否 自语。
+
+海风弥漫着人潮汹涌的霓虹，
+
+滩石崎岖着氤氲腥臊的末路，
+
+黑暗吞噬着目之所及的微芒。
+
+"所以，你看清了什么？"
+
+"Nothing except you."
+
+> 本是红颜，却终成陌路
 
 <!--Giscus 评论-->
 <script src="https://giscus.app/client.js"
@@ -6842,37 +6914,6 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       </tags>
   </entry>
   <entry>
-    <title>施工公告</title>
-    <url>/2025/07/09/%E6%96%BD%E5%B7%A5%E5%85%AC%E5%91%8A/</url>
-    <content><![CDATA[
-正在边施工新博客，边搬运来自 [CNblog](https://www.cnblogs.com/Tmbcan) 的文章
-
-预计需要 INF 年才能竣工
-
-近期主要解决问题：
-1. 私密文章页面
-2. 闲话等隐藏后导致的首页文章数量显示问题
-
-<!-- more -->
-
-<!--Giscus 评论-->
-<script src="https://giscus.app/client.js"
-        data-repo="Tmbcan/Tmbcan.github.io"
-        data-repo-id="R_kgDOPAgHYw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPAgHY84CxiYc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>]]></content>
-  </entry>
-  <entry>
     <title>无聊的话</title>
     <url>/2025/05/27/%E6%97%A0%E8%81%8A%E7%9A%84%E8%AF%9D/</url>
     <content><![CDATA[
@@ -6941,6 +6982,37 @@ $\sum_{d|n} \mu(d)= \sum_{d|n}^{d \le \sqrt{n}}\mu(d)+\mu(\frac{d}{n}) = 0$。
       <tags>
         <tag>闲话</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>施工公告</title>
+    <url>/2025/07/09/%E6%96%BD%E5%B7%A5%E5%85%AC%E5%91%8A/</url>
+    <content><![CDATA[
+正在边施工新博客，边搬运来自 [CNblog](https://www.cnblogs.com/Tmbcan) 的文章
+
+预计需要 INF 年才能竣工
+
+近期主要解决问题：
+1. 私密文章页面
+2. 闲话等隐藏后导致的首页文章数量显示问题
+
+<!-- more -->
+
+<!--Giscus 评论-->
+<script src="https://giscus.app/client.js"
+        data-repo="Tmbcan/Tmbcan.github.io"
+        data-repo-id="R_kgDOPAgHYw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPAgHY84CxiYc"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>]]></content>
   </entry>
   <entry>
     <title>纵横交错</title>
